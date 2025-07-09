@@ -1,29 +1,53 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { useFonts } from 'expo-font';
+import React, { useEffect, useState } from 'react';
+
+import { SafeAreaView, View } from 'react-native';
+
 import { Stack } from 'expo-router';
+
+import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
-import 'react-native-reanimated';
+import { useFonts } from 'expo-font';
+import "../global.css";
 
-import { useColorScheme } from '@/hooks/useColorScheme';
+import { useTheme, ThemeProviderWrapper } from '@/context/ThemeContext';
 
-export default function RootLayout() {
-  const colorScheme = useColorScheme();
-  const [loaded] = useFonts({
+function InnerRootLayout() {
+  const { theme, loading } = useTheme();
+  const [fontsLoaded] = useFonts({
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
   });
 
-  if (!loaded) {
-    // Async font loading only occurs in development.
-    return null;
-  }
+  const [isAppReady, setIsAppReady] = useState(false);
+
+  useEffect(() => {
+    if (fontsLoaded && theme !== null && !loading) {
+      setIsAppReady(true);
+    }
+  }, [fontsLoaded, theme, loading]);
+
+
+  if (!isAppReady) return null;
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
-      </Stack>
-      <StatusBar style="auto" />
-    </ThemeProvider>
+    <SafeAreaView style={{ flex: 1 }}>
+      <ThemeProvider value={theme === 'dark' ? DarkTheme : DefaultTheme}>
+        {/* Theme toggle button */}
+        <Stack>
+          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen name="+not-found" />
+          <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+          <Stack.Screen name="quiz/[id]" options={{ headerShown: false }} />
+        </Stack>
+        <StatusBar style={theme === 'dark' ? 'light' : 'dark'} />
+      </ThemeProvider>
+    </SafeAreaView>
+  );
+}
+
+export default function RootLayout() {
+  return (
+    <ThemeProviderWrapper>
+      <InnerRootLayout />
+    </ThemeProviderWrapper>
   );
 }

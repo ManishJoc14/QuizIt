@@ -6,6 +6,7 @@ import * as Haptics from "expo-haptics";
 import { clsx } from "clsx";
 import { cva, type VariantProps } from "class-variance-authority";
 import { twMerge } from "tailwind-merge";
+
 import { useTheme } from "@/context/ThemeContext";
 
 type ITheme = "light" | "dark";
@@ -302,7 +303,7 @@ export function Button({
                         {leftIcon && <View>{leftIcon}</View>}
                         <Text
                             className={clsx(
-                                "font-medium transition-colors text-center",
+                                "font-medium transition-colors text-center tracking-wide",
                                 variant && color
                                     ? textColorVariants[variant as keyof typeof textColorVariants]?.[
                                     color as keyof typeof textColorVariants[typeof variant]

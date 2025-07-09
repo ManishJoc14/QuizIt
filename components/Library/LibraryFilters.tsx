@@ -1,6 +1,9 @@
 import React from 'react';
+
 import { View, Text, TouchableOpacity } from 'react-native';
+
 import { IconSymbol } from '@/components/ui/IconSymbol';
+
 import { IOrder } from './types';
 
 const filters = ['Newest', 'Ratings', 'Plays'];

@@ -1,7 +1,9 @@
 import React from 'react';
+
 import { ScrollView } from 'react-native';
-import { LibraryQuizCard } from './LibraryQuizCard';
+
 import { ILibraryQuiz } from './types';
+import { LibraryQuizCard } from './LibraryQuizCard';
 
 export function LibraryList({ data }: { data: ILibraryQuiz[] }) {
   return (

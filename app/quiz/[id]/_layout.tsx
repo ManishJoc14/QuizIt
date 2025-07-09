@@ -4,17 +4,17 @@ import { Stack } from 'expo-router';
 
 import { StatusBar } from 'expo-status-bar';
 
-export default function AuthLayout() {
+export default function QuizDetailedLayout() {
     return (
         <View style={{ flex: 1 }}>
             <Stack
                 screenOptions={{
                     headerShown: false,
+
                 }}
             >
-                <Stack.Screen name="signin" />
-                <Stack.Screen name="signup" />
-                <Stack.Screen name="forgetpassword" />
+                <Stack.Screen name="index" />
+                <Stack.Screen name="invite" />
             </Stack>
             <StatusBar style="auto" />
         </View>

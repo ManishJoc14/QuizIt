@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { Button } from '@/components/ui/Button';
 
 interface Props {
@@ -10,7 +11,8 @@ export function JoinButton({ onPress }: Props) {
         <Button
             title="Join"
             size="lg"
-            className="rounded-full py-4"
+            radius="full"
+            className="py-4"
             onPress={onPress}
         />
     );

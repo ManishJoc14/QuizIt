@@ -1,10 +1,10 @@
 import { ScrollView, Text, View } from "react-native"
 
+import { QuizCard } from "@/components/Home/HomeQuizCard";
 import { useTheme } from "@/context/ThemeContext"
 
 import { Button } from "../ui/Button"
 import { IconSymbol } from "../ui/IconSymbol"
-import { QuizCard } from "../ui/QuizCard"
 
 export function TrendingSection() {
     const { theme } = useTheme();

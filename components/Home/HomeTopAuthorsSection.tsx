@@ -1,8 +1,10 @@
 import { ScrollView, Text, View } from "react-native"
+
+import { useTheme } from "@/context/ThemeContext"
+
 import { AuthorAvatar } from "../ui/AuthorAvatar"
 import { Button } from "../ui/Button"
 import { IconSymbol } from "../ui/IconSymbol"
-import { useTheme } from "@/context/ThemeContext"
 
 export function TopAuthorsSection() {
     const { theme } = useTheme();

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import { SafeAreaView, View } from 'react-native';
+import { SafeAreaView } from 'react-native';
 
 import { Stack } from 'expo-router';
 
@@ -10,6 +10,7 @@ import { useFonts } from 'expo-font';
 import "../global.css";
 
 import { useTheme, ThemeProviderWrapper } from '@/context/ThemeContext';
+
 
 function InnerRootLayout() {
   const { theme, loading } = useTheme();
@@ -36,7 +37,7 @@ function InnerRootLayout() {
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
           <Stack.Screen name="+not-found" />
           <Stack.Screen name="(auth)" options={{ headerShown: false }} />
-          <Stack.Screen name="quiz/[id]" options={{ headerShown: false }} />
+          <Stack.Screen name="quiz" options={{ headerShown: false }} />
         </Stack>
         <StatusBar style={theme === 'dark' ? 'light' : 'dark'} />
       </ThemeProvider>

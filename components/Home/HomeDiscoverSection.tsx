@@ -1,6 +1,6 @@
 import { View, Text, ScrollView } from "react-native";
 
-import { QuizCard } from "@/components/ui/QuizCard";
+import { QuizCard } from "@/components/Home/HomeQuizCard";
 import { useTheme } from "@/context/ThemeContext";
 
 import { Button } from "../ui/Button";

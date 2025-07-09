@@ -1,10 +1,10 @@
 import { ScrollView, View } from "react-native"
 
-import { DiscoverSection } from "@/components/Home/DiscoverSection"
-import { Header } from "@/components/Home/Header"
-import { Hero } from "@/components/Home/HeroComponent"
-import { TopAuthorsSection } from "@/components/Home/TopAuthorsSection"
-import { TrendingSection } from "@/components/Home/TrendingSection"
+import { DiscoverSection } from "@/components/Home/HomeDiscoverSection"
+import { Header } from "@/components/Home/HomeHeader"
+import { Hero } from "@/components/Home/HomeHeroComponent"
+import { TopAuthorsSection } from "@/components/Home/HomeTopAuthorsSection"
+import { TrendingSection } from "@/components/Home/HomeTrendingSection"
 
 
 export default function HomeScreen() {

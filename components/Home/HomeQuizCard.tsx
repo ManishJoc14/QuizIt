@@ -4,7 +4,6 @@ import { useRouter } from "expo-router";
 
 import getRandomPersonsImage, { getRandomImage } from "@/utils/functions/getRandomImage";
 
-
 interface QuizCardProps {
     id: number;
     title: string;

@@ -49,17 +49,17 @@ export function QuizHeader({ isThisMyQuiz }: { isThisMyQuiz?: boolean }) {
     ];
 
     return (
-        <View>
+        <View className='mb-6'>
             {/* Header Row */}
-            <View className="flex-row items-center justify-between mb-6">
+            <View className="flex-row justify-between items-center">
                 <TouchableOpacity onPress={() => router.back()}>
-                    <View className="flex-row items-center">
+                    <View className="flex-row items-center gap-2">
                         <IconSymbol
                             name="chevron.left"
                             size={28}
                             color={theme === 'dark' ? '#6B7280' : '#111827'}
                         />
-                        <Text className="text-2xl tracking-wider font-semibold text-gray-900 dark:text-white ml-2">
+                        <Text className="text-2xl tracking-wider font-semibold text-gray-900 dark:text-white">
                             Library
                         </Text>
                     </View>

@@ -11,7 +11,7 @@ import { Button } from '@/components/ui/Button';
 
 export default function LoginScreen() {
     return (
-        <View className="flex-1 bg-gray-50 dark:bg-gray-900">
+        <View className="flex-1 pt-safe-offset-4 bg-gray-50 dark:bg-gray-900">
             <ScrollView
                 className="px-6"
                 contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', alignItems: 'center' }}

@@ -38,11 +38,11 @@ export default function LoginScreen() {
                         placeholder="Enter password"
                         secureTextEntry
                         placeholderTextColor="#9CA3AF"
-                        className="px-4 py-4 mb-4 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white"
+                        className="px-4 py-4 mb-2 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white"
                     />
 
-                    <Link href="/forgetpassword" className="text-right mb-6 text-blue-600 dark:text-blue-300">
-                        Forget password?
+                    <Link href="/forgetpassword" asChild className="mb-4 self-end">
+                        <Button variant="link" color="primary" title="Forget password?" />
                     </Link>
 
                     {/* Sign In Button */}
@@ -72,9 +72,9 @@ export default function LoginScreen() {
                     {/* Bottom Sign-up Prompt */}
                     <View className="flex-row items-center justify-center pt-10">
                         <Text className="text-sm text-gray-600 dark:text-gray-400">{`Don't`} have an account? </Text>
-                        <Button variant="link" color="primary">
-                            <Link href="/signup">Sign up</Link>
-                        </Button>
+                        <Link href="/signup" asChild>
+                            <Button variant="link" color="primary" title="Sign up" />
+                        </Link>
                     </View>
                 </View>
             </ScrollView>

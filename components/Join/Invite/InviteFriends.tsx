@@ -1,10 +1,12 @@
 import React from 'react';
+
 import { View, Text, ScrollView } from 'react-native';
+
+import getRandomPersonsImage from '@/utils/functions/getRandomImage';
 import { AuthorAvatar, UserAvatar } from '@/components/ui/AuthorAvatar';
 import { Button } from '@/components/ui/Button';
-import getRandomPersonsImage from '@/utils/functions/getRandomImage';
 
-export function InviteInvited() {
+export function InviteFriends({ id }: { id: string }) {
     const users = [
         { name: 'Ava Thompson', username: '@ava_thompson', image: getRandomPersonsImage(), isInvited: false },
         { name: 'Harper Evans', username: '@harper_evans', image: getRandomPersonsImage(), isInvited: true },
@@ -32,7 +34,7 @@ export function InviteInvited() {
             <View className="pt-4">
                 <View className="flex-row items-center mb-2">
                     <Text className="text-2xl font-medium text-gray-900 dark:text-white">
-                        Friends Invited
+                        Invited Friends
                     </Text>
                     <Text className="text-2xl font-medium text-indigo-500 ml-1">
                         ({invitedUsers.length})
@@ -43,23 +45,15 @@ export function InviteInvited() {
                 horizontal
                 showsHorizontalScrollIndicator={false}
                 contentContainerStyle={{ paddingRight: 60 }}
-                className="py-8 border-b border-gray-200 dark:border-gray-800"
+                className="py-6 border-b border-gray-200 dark:border-gray-800"
             >
                 {invitedUsers.map((user, index) => (
                     <AuthorAvatar key={index} name={user.name} avatar={user.image} />
                 ))}
             </ScrollView>
 
-            <Button
-                title="Done, Go to Lobby"
-                size="lg"
-                className='my-6'
-                accessibilityLabel="Navigate to Lobby"
-                accessibilityRole="button"
-            />
-
-            <View className="pt-4">
-                <View className="flex-row items-center mb-2">
+            <View className="pt-6">
+                <View className="flex-row items-center">
                     <Text className="text-2xl font-medium text-gray-900 dark:text-white">
                         All Friends
                     </Text>
@@ -93,7 +87,6 @@ export function InviteInvited() {
                     </View>
                 ))}
             </ScrollView>
-
         </ScrollView>
     );
 }

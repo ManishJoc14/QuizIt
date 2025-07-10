@@ -41,9 +41,9 @@ export default function ForgotPasswordScreen() {
                         <Text className="text-sm text-gray-600 dark:text-gray-400">
                             Remember your password?{" "}
                         </Text>
-                        <Button variant="link" color="primary">
-                            <Link href="/signin">Sign in</Link>
-                        </Button>
+                        <Link href="/signin" asChild>
+                            <Button variant="link" color="primary" title="Sign in" />
+                        </Link>
                     </View>
                 </View>
             </ScrollView>

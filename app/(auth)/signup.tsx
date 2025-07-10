@@ -85,9 +85,9 @@ export default function SignupScreen() {
                     {/* Bottom Sign-in Prompt */}
                     <View className="flex-row items-center justify-center pt-10">
                         <Text className="text-sm text-gray-600 dark:text-gray-400">Already have an account? </Text>
-                        <Button variant="link" color="primary">
-                            <Link href="/signin">Sign in</Link>
-                        </Button>
+                        <Link href="/signin" asChild>
+                            <Button variant="link" color="primary" title="Sign in" />
+                        </Link>
                     </View>
                 </View>
             </ScrollView>

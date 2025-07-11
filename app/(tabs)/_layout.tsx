@@ -48,7 +48,7 @@ export default function TabLayout() {
         options={{
           title: 'Library',
           tabBarIcon: ({ color }) => (
-            <IconSymbol size={28} name="folder" color={color} />
+            <IconSymbol size={28} name="square.grid.2x2.fill" color={color} />
           ),
         }}
       />

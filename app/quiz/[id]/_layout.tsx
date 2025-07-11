@@ -16,7 +16,8 @@ export default function QuizDetailedLayout() {
                 <Stack.Screen name="index" />
                 <Stack.Screen name="invite" />
                 <Stack.Screen name="waiting" />
-                <Stack.Screen name="start" />
+                <Stack.Screen name="quiz" />
+                <Stack.Screen name="result" />
             </Stack>
             <StatusBar style="auto" />
         </View>

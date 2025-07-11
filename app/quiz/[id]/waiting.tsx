@@ -80,7 +80,7 @@ export default function WaitingScreen() {
                     className='mb-16'
                     accessibilityLabel="Start Quiz"
                     accessibilityRole="button"
-                    onPress={() => router.push({ pathname: `/quiz/[id]/start`, params: { id } })}
+                    onPress={() => router.push({ pathname: `/quiz/[id]/quiz`, params: { id: String(id) } })}
                 />
             }
         </View>

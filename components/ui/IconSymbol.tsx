@@ -14,24 +14,27 @@ export type IconSymbolName = keyof typeof MAPPING;
  * - see SF Symbols in the [SF Symbols](https://developer.apple.com/sf-symbols/) app.
  */
 const MAPPING = {
-  'house.fill': 'home',
-  'paperplane.fill': 'send',
-  'chevron.left.forwardslash.chevron.right': 'code',
-  'chevron.right': 'chevron-right',
-  'chevron.left': 'chevron-left',
-  'chevron.up': 'arrow-upward',
-  'chevron.down': 'arrow-downward',
-  'arrow.up.and.down': 'import-export',
-  'sun.max': 'wb-sunny',
-  'moon': 'brightness-2',
-  'magnifyingglass': 'search',
-  'bell': 'notifications',
-  'folder': 'folder',
-  'gamecontroller': 'videogame-asset',
-  'ellipsis': 'more-horiz',
-  'trash.fill': 'delete',
-  'square.and.pencil': 'mode-edit',
-  'square.and.arrow.up': 'share',
+  'house.fill': 'home', // Home icon
+  'paperplane.fill': 'send',  // Send icon
+  'chevron.left.forwardslash.chevron.right': 'code',  // Code icon
+  'chevron.right': 'chevron-right',   // Right chevron icon
+  'chevron.left': 'chevron-left',    // Left chevron icon
+  'chevron.up': 'arrow-upward',      // Up chevron icon
+  'chevron.down': 'arrow-downward',  // Down chevron icon
+  'arrow.up.and.down': 'import-export', // Import-export icon
+  'sun.max': 'wb-sunny',  // Sunny icon
+  'moon': 'brightness-2', // Moon icon
+  'magnifyingglass': 'search', // Search icon
+  'bell': 'notifications', // Bell icon
+  'folder': 'folder', // Folder icon
+  'square.grid.2x2.fill': 'widgets', // Grid icon
+  'gamecontroller': 'gamepad',  // Game controller icon
+  'ellipsis': 'more-horiz', // Ellipsis icon
+  'trash.fill': 'delete',  // Trash icon
+  'square.and.pencil': 'mode-edit', // Edit icon
+  'square.and.arrow.up': 'share', // Share icon
+  'checkmark.circle': 'check-circle', // Checkmark icon
+  'multiply.circle': 'cancel' // Cancel icon
 } as IconMapping;
 
 /**

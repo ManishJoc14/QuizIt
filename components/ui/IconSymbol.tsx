@@ -19,8 +19,8 @@ const MAPPING = {
   'chevron.left.forwardslash.chevron.right': 'code',  // Code icon
   'chevron.right': 'chevron-right',   // Right chevron icon
   'chevron.left': 'chevron-left',    // Left chevron icon
-  'chevron.up': 'arrow-upward',      // Up chevron icon
-  'chevron.down': 'arrow-downward',  // Down chevron icon
+  'chevron.up': 'keyboard-arrow-up',      // Up chevron icon
+  'chevron.down': 'keyboard-arrow-down',  // Down chevron icon 
   'arrow.up.and.down': 'import-export', // Import-export icon
   'sun.max': 'wb-sunny',  // Sunny icon
   'moon': 'brightness-2', // Moon icon

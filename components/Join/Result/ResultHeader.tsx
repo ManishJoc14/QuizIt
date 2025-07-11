@@ -6,13 +6,13 @@ import { IconSymbol } from '@/components/ui/IconSymbol';
 
 export function ResultHeader() {
     return (
-        <View className="flex-row gap-3 items-center px-6 mb-6">
-            <Link href="/" asChild>
+        <View className="px-6 mb-6">
+            <Link href="/" asChild className='flex-row items-center'>
                 <TouchableOpacity>
-                    <IconSymbol name="multiply.circle" size={28} color="#f9fafb" />
+                    <IconSymbol name="chevron.left" size={28} color='#f9fafb' />
+                    <Text className="text-gray-50 text-2xl font-medium">Home</Text>
                 </TouchableOpacity>
             </Link>
-            <Text className="text-gray-50 text-2xl font-semibold">My Results</Text>
         </View>
     );
 }

@@ -5,6 +5,7 @@ import { useLocalSearchParams } from 'expo-router';
 import { ResultHeader } from '@/components/Join/Result/ResultHeader';
 import { ResultSummary } from '@/components/Join/Result/ResultSummary';
 import { ResultQuestionCard } from '@/components/Join/Result/ResultQuestionCard';
+import { Button } from '@/components/ui/Button';
 
 type QuestionResult = {
     id: number;
@@ -47,10 +48,9 @@ export default function ResultsScreen() {
     }
 
     return (
-        <View className="flex-1 bg-indigo-600 pt-safe-offset-4">
+        <View className="flex-1 bg-violet-800 pt-safe-offset-4">
             <ResultHeader />
             <ScrollView contentContainerStyle={{ paddingBottom: 80 }}>
-
                 <ResultSummary
                     name={parsed.summary.name}
                     image={parsed.summary.image}
@@ -58,21 +58,23 @@ export default function ResultsScreen() {
                     totalPoints={parsed.summary.totalPoints}
                 />
 
-                {parsed.questions.map((q, index) => (
-                    <ResultQuestionCard
-                        key={q.id}
-                        index={index + 1}
-                        question={q.question}
-                        correctIndex={q.correctIndex}
-                        selectedIndex={q.selectedIndex}
-                        options={q.options}
-                        points={q.pointsEarned}
-                        timeTaken={q.timeTaken ?? 0}
-                    />
-                ))}
+                <View className='mx-4 bg-white rounded-t-3xl rounded-b-none pt-6 pb-2'>
+                    {parsed.questions.map((q, index) => (
+                        <ResultQuestionCard
+                            key={q.id}
+                            index={index + 1}
+                            question={q.question}
+                            correctIndex={q.correctIndex}
+                            selectedIndex={q.selectedIndex}
+                            options={q.options}
+                            points={q.pointsEarned}
+                            timeTaken={q.timeTaken ?? 0}
+                        />
+                    ))}
+                </View>
 
-                <View className="mx-4 mt-6 bg-green-100 rounded-xl py-3 items-center">
-                    <Text className="text-green-700 font-medium text-base">Download Results</Text>
+                <View className="mx-4 my-6 bg-green-100 rounded-xl">
+                    <Button title="Download Results" variant="ghost" color="success" size="lg" fullWidth />
                 </View>
             </ScrollView>
         </View>

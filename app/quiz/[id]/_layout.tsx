@@ -18,6 +18,7 @@ export default function QuizDetailedLayout() {
                 <Stack.Screen name="waiting" />
                 <Stack.Screen name="quiz" />
                 <Stack.Screen name="result" />
+                <Stack.Screen name="scoreboard" />
             </Stack>
             <StatusBar style="auto" />
         </View>

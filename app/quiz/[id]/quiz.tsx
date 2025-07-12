@@ -57,24 +57,24 @@ const questions: Question[] = [
         points: 10,
         time: 20, // 20 seconds
     },
-    {
-        id: 4,
-        index: 4,
-        question: 'Who wrote "To Kill a Mockingbird"?',
-        options: ['Harper Lee', 'Mark Twain', 'Ernest Hemingway', 'F. Scott Fitzgerald'],
-        correctAnswer: 'Harper Lee',
-        points: 10,
-        time: 15, // 15 seconds (fixed)
-    },
-    {
-        id: 5,
-        index: 5,
-        question: 'What is the chemical symbol for gold?',
-        options: ['Au', 'Ag', 'Pb', 'Fe'],
-        correctAnswer: 'Au',
-        points: 10,
-        time: 10, // 10 seconds 
-    },
+    // {
+    //     id: 4,
+    //     index: 4,
+    //     question: 'Who wrote "To Kill a Mockingbird"?',
+    //     options: ['Harper Lee', 'Mark Twain', 'Ernest Hemingway', 'F. Scott Fitzgerald'],
+    //     correctAnswer: 'Harper Lee',
+    //     points: 10,
+    //     time: 15, // 15 seconds (fixed)
+    // },
+    // {
+    //     id: 5,
+    //     index: 5,
+    //     question: 'What is the chemical symbol for gold?',
+    //     options: ['Au', 'Ag', 'Pb', 'Fe'],
+    //     correctAnswer: 'Au',
+    //     points: 10,
+    //     time: 10, // 10 seconds 
+    // },
 ];
 
 export default function QuizScreen() {
@@ -94,7 +94,7 @@ export default function QuizScreen() {
     useEffect(() => {
         if (!current && results.length === questions.length) {
             router.replace({
-                pathname: '/quiz/[id]/result',
+                pathname: '/quiz/[id]/scoreboard',
                 params: {
                     id: quizId.toString(),
                     result: JSON.stringify({

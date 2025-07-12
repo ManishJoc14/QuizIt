@@ -21,7 +21,7 @@ export default function InviteScreen() {
                 className='mb-16'
                 accessibilityLabel="Navigate to Lobby"
                 accessibilityRole="button"
-                onPress={() => router.push({ pathname: `/quiz/[id]/waiting`, params: { id } })}
+                onPress={() => router.push({ pathname: `/quiz/[id]/waiting`, params: { id: String(id) } })}
             />
         </View>
     );

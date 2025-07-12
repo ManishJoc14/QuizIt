@@ -1,23 +1,34 @@
 import { View, Text } from 'react-native';
 
+import { IconSymbol, IconSymbolName } from '@/components/ui/IconSymbol';
+
 export function ResultQuestionOption({
     index,
-    text,
-    isCorrect,
-    isSelected,
+    textStyle,
+    bgStyle,
+    option,
+    icon,
 }: {
     index: number;
-    text: string;
-    isCorrect: boolean;
-    isSelected: boolean;
+    textStyle: string;
+    bgStyle: string;
+    option: string;
+    icon: IconSymbolName | null;
 }) {
-    const correct = isCorrect ? 'text-green-600 font-semibold' : '';
-    const wrong = isSelected && !isCorrect ? 'text-red-600 font-semibold' : '';
     return (
-        <View className="flex-row items-center mx-2 py-1">
-            <Text className={`text-sm ${correct || wrong}`}>
-                {index + 1}. {text}
+        <View
+            className={`flex-row justify-between items-center rounded-xl px-4 py-4 ${bgStyle}`}
+        >
+            <Text className={`text-base ${textStyle}`}>
+                {index + 1}. {option}
             </Text>
+            {icon && (
+                <IconSymbol
+                    size={20}
+                    name={icon}
+                    color={icon === 'checkmark.circle' ? '#16a34a' : '#dc2626'}
+                />
+            )}
         </View>
     );
 }

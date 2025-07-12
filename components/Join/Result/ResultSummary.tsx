@@ -1,32 +1,24 @@
+import React from 'react';
+
 import { View, Text, Image } from 'react-native';
 
-export function ResultSummary({
-    name,
-    image,
-    rank,
-    totalPoints,
-}: {
-    name: string;
-    image: string;
-    rank: number;
-    totalPoints: number;
-}) {
-    const getRankColor = (rank: number) => {
-        if (rank === 1) return 'bg-yellow-500 dark:bg-yellow-400';
-        if (rank === 2) return 'bg-gray-400 dark:bg-gray-300';
-        if (rank === 3) return 'bg-stone-500 dark:bg-stone-400';
-        return 'bg-orange-500 dark:bg-orange-400';
-    };
+import getRandomPersonsImage from '@/utils/functions/getRandomImage';
+import { getImageBorderColor, getRankColor } from '@/utils/functions/getRankColor';
+import { Summary } from '../types';
 
+export function ResultSummary({ name, image, rank, totalPoints }: Summary) {
     return (
         <View className="items-center mb-4 bg-violet-800">
             {/* Profile Image + Rank Badge */}
             <View className="relative">
-                <Image source={{ uri: image }} className="w-32 h-32 rounded-full" />
+                <Image
+                    source={{ uri: image ? image : getRandomPersonsImage() }}
+                    className={`w-32 h-32 rounded-full border-4 ${getImageBorderColor(rank)}`}
+                />
                 <View
-                    className={`absolute bottom-0 right-2 ${getRankColor(
+                    className={`absolute -top-2 -right-2 ${getRankColor(
                         rank
-                    )} h-8 w-8 items-center justify-center rounded-full`}
+                    )} h-10 w-10 items-center justify-center rounded-full border-2`}
                 >
                     <Text className="text-white text-lg font-bold">{rank}</Text>
                 </View>

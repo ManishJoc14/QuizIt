@@ -3,7 +3,14 @@ import React from 'react';
 import { View, Text } from 'react-native';
 
 import { Accordion } from '@/components/ui/Accordion';
-import { IconSymbol, IconSymbolName } from '@/components/ui/IconSymbol';
+import { getOptionStyle } from '@/utils/functions/getOptionStyle';
+
+import { ResultQuestionOption } from './ResultQuestionOption';
+import { QuestionResult } from '../types';
+
+interface ResultQuestionCardProps extends QuestionResult {
+    index: number;
+}
 
 export function ResultQuestionCard({
     index,
@@ -13,38 +20,8 @@ export function ResultQuestionCard({
     options,
     points,
     timeTaken,
-}: {
-    index: number;
-    question: string;
-    correctIndex: number;
-    selectedIndex: number | null;
-    options: string[];
-    points: number;
-    timeTaken: number | null;
-}) {
+}: ResultQuestionCardProps) {
     const isCorrect = selectedIndex === correctIndex;
-
-    // Helper function to determine the styling for each option based on correctness and selection.
-    const getOptionStyle = (i: number) => {
-        const isOptionCorrect = i === correctIndex;
-        const isOptionSelected = i === selectedIndex;
-
-        let bg = 'bg-white';
-        let text = 'text-gray-800';
-        let icon: IconSymbolName | null = null;
-
-        if (isOptionCorrect) {
-            bg = 'bg-green-200';
-            text = 'text-green-800';
-            icon = 'checkmark.circle';
-        } else if (isOptionSelected) {
-            bg = 'bg-red-200';
-            text = 'text-red-800';
-            icon = 'multiply.circle';
-        }
-
-        return { bg, text, icon };
-    };
 
     return (
         <View
@@ -61,23 +38,9 @@ export function ResultQuestionCard({
                 <View className="gap-2 pb-3">
                     {/* Render each option */}
                     {options.map((option, i) => {
-                        const { bg, text, icon } = getOptionStyle(i);
+                        const { bg, text, icon } = getOptionStyle(i, correctIndex, selectedIndex);
                         return (
-                            <View
-                                key={i}
-                                className={`flex-row justify-between items-center rounded-xl px-4 py-4 ${bg}`}
-                            >
-                                <Text className={`text-base ${text}`}>
-                                    {i + 1}. {option}
-                                </Text>
-                                {icon && (
-                                    <IconSymbol
-                                        size={20}
-                                        name={icon}
-                                        color={icon === 'checkmark.circle' ? '#16a34a' : '#dc2626'}
-                                    />
-                                )}
-                            </View>
+                            <ResultQuestionOption key={i} index={i} textStyle={text} bgStyle={bg} option={option} icon={icon} />
                         );
                     })}
 

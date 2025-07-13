@@ -2,6 +2,8 @@ import React from 'react';
 
 import { View, Text, TouchableOpacity } from 'react-native';
 
+import { Link } from 'expo-router';
+
 import { IconSymbol } from '@/components/ui/IconSymbol';
 import { useTheme } from '@/context/ThemeContext';
 
@@ -15,9 +17,11 @@ export function ProfileHeader() {
                     Profile
                 </Text>
             </View>
-            <TouchableOpacity>
-                <IconSymbol name="gear" size={28} color="#6B7280" />
-            </TouchableOpacity>
+            <Link href="/settings" asChild>
+                <TouchableOpacity>
+                    <IconSymbol name="gear" size={28} color={theme === "dark" ? "#6B7280" : "#111827"} />
+                </TouchableOpacity>
+            </Link>
         </View>
     );
 }

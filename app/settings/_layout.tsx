@@ -4,7 +4,7 @@ import { Stack } from 'expo-router';
 
 import { StatusBar } from 'expo-status-bar';
 
-export default function QuizLayout() {
+export default function SettingsLayout() {
     return (
         <View style={{ flex: 1 }}>
             <Stack
@@ -12,8 +12,8 @@ export default function QuizLayout() {
                     headerShown: false,
                 }}
             >
-                <Stack.Screen name="[id]" />
                 <Stack.Screen name="index" />
+                <Stack.Screen name="personalinfo" />
             </Stack>
             <StatusBar style="auto" />
         </View>

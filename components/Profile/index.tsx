@@ -5,7 +5,6 @@ import { ProfileAuthor } from '@/components/Profile/ProfileAuthor';
 import { ProfileHeader } from '@/components/Profile/ProfileHeader';
 import { ProfileMeta } from '@/components/Profile/ProfileMeta';
 import { ProfileData } from '@/components/Profile/types';
-import ThemeToggleBtn from '@/components/ThemeToggleBtn';
 import { ProfileQuizzes } from '@/components/Profile/ProfileQuizzes';
 
 type ProfileProps = {
@@ -26,7 +25,6 @@ export default function Profile({ data }: ProfileProps) {
                 <ProfileAuthor {...data.user} />
                 <ProfileMeta {...data.meta} />
                 <ProfileQuizzes />
-                <ThemeToggleBtn />
             </ScrollView>
         </View>
     );

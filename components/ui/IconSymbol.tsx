@@ -37,6 +37,12 @@ const MAPPING = {
   'checkmark.circle': 'check-circle', // Checkmark icon
   'multiply.circle': 'cancel', // Cancel icon
   'gear': 'settings', // Settings icon
+  'envelope': 'email', // Envelope icon
+  'questionmark': 'help', // Question mark icon
+  'info.circle.fill': 'info', // Info icon
+  'power': 'power-settings-new',  // logout icon
+  'lock.fill': 'lock', // Lock icon
+  'camera.fill': 'photo-camera', // Camera icon
 } as IconMapping;
 
 /**

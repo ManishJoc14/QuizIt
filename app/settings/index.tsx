@@ -80,7 +80,7 @@ export default function SettingsScreen() {
         {
             iconName: "info.circle.fill",
             title: "About Us",
-            onPress: () => console.log('Navigate to About Us'),
+            onPress: () => navigateTo('/settings/aboutus'),
             iconBgColor: "bg-pink-100 dark:bg-pink-700",
             iconColorLight: "#EC4899",
             iconColorDark: "#FBCFE8",

@@ -1,25 +1,26 @@
 import { ScrollView, Text, View } from "react-native"
 
+import { Link } from "expo-router"
+
 import { useTheme } from "@/context/ThemeContext"
 
 import { AuthorAvatar } from "../ui/AuthorAvatar"
 import { Button } from "../ui/Button"
 import { IconSymbol } from "../ui/IconSymbol"
-import { Link } from "expo-router"
 
 export function TopAuthorsSection() {
     const { theme } = useTheme();
 
     const authors = [
-        { name: "Ava Thompson" },
-        { name: "Liam Patel" },
-        { name: "Sofia Kim" },
-        { name: "Jackson Lee" },
-        { name: "Maya Chen" },
-        { name: "Noah Garcia" },
-        { name: "Ella Nguyen" },
-        { name: "Benjamin Smith" },
-        { name: "Olivia Martinez" },
+        { id: 1, name: "Ava Thompson" },
+        { id: 2, name: "Liam Patel" },
+        { id: 3, name: "Sofia Kim" },
+        { id: 4, name: "Jackson Lee" },
+        { id: 5, name: "Maya Chen" },
+        { id: 6, name: "Noah Garcia" },
+        { id: 7, name: "Ella Nguyen" },
+        { id: 8, name: "Benjamin Smith" },
+        { id: 9, name: "Olivia Martinez" },
     ]
 
     return (

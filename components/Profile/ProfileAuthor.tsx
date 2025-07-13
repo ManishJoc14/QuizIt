@@ -3,14 +3,20 @@ import React from 'react'
 import { View } from 'react-native'
 
 import getRandomPersonsImage from '@/utils/functions/getRandomImage'
-import { Button } from '@/components/ui/Button'
 import { UserAvatar } from '@/components/ui/AuthorAvatar';
+import { Button } from '@/components/ui/Button'
 import { User } from './types';
 
-export function ProfileAuthor({ name, username, image, isThisMe, isFollowed }: User) {
+type ProfileAuthorProps = User & {
+    isThisMe?: boolean;
+};
+
+export function ProfileAuthor({ id, name, username, image, isThisMe, isFollowed }: ProfileAuthorProps) {
     return (
         <View className="flex-row items-center justify-between mb-8" >
-            <UserAvatar name={name}
+            <UserAvatar
+                id={id}
+                name={name}
                 username={username}
                 image={image ? image : getRandomPersonsImage()} />
 

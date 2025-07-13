@@ -7,10 +7,11 @@ import { Button } from '@/components/ui/Button'
 import { UserAvatar } from '@/components/ui/AuthorAvatar';
 import { QuizData } from '@/components/Join/types';
 
-export function QuizAuthor({ name, username, image, isThisMe, isFollowed }: QuizData['user']) {
+export function QuizAuthor({ id, name, username, image, isThisMe, isFollowed }: QuizData['user']) {
     return (
         <View className="flex-row items-center justify-between mb-8" >
             <UserAvatar name={name}
+                id={id}
                 username={username}
                 image={image ? image : getRandomPersonsImage()} />
 

@@ -17,6 +17,7 @@ export default function QuizDetailScreen() {
 
     const response: QuizData = {
         user: {
+            id: 2,
             name: 'John Doe',
             username: 'johndoe',
             image: getRandomPersonsImage(),

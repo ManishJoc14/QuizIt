@@ -32,6 +32,8 @@ export default function QuizDetailScreen() {
         },
     };
 
+    console.log({ ...response.user })
+
     return (
         <View className="flex-1 px-4 pt-safe-offset-4 bg-gray-50 dark:bg-gray-950 border">
             <QuizHeader isThisMe={response.user.isThisMe} />

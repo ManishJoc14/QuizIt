@@ -11,12 +11,12 @@ export const getOptionStyle = (i: number, correctIndex: number, selectedIndex?: 
     let icon: IconSymbolName | null = null;
 
     if (isOptionCorrect) {
-        bg = 'bg-green-100 dark:bg-green-600 border border-green-400 dark:border-green-800';
+        bg = 'bg-green-200 dark:bg-green-600 border border-green-400 dark:border-green-800';
         text = 'text-green-800 dark:text-gray-200';
         icon = 'checkmark.circle';
     }
     if (isOptionSelectedFalse) {
-        bg = 'bg-red-100 dark:bg-red-600 border border-red-400 dark:border-red-800';
+        bg = 'bg-red-200 dark:bg-red-600 border border-red-400 dark:border-red-800';
         text = 'text-red-800 dark:text-gray-200';
         icon = 'multiply.circle';
     }

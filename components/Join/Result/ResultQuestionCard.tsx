@@ -35,7 +35,7 @@ export function ResultQuestionCard({
             <Accordion
                 title={`${index}. ${question}`}
                 titleClassName="text-lg text-gray-900 dark:text-white leading-6"
-                bodyClassName="mt-3"
+                bodyClassName="mt-2"
                 iconColor={theme === 'dark' ? '#E5E7EB' : '#4B5563'}
             >
                 {/* Collapsible content */}

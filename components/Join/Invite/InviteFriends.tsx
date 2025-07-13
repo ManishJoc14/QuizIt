@@ -8,20 +8,20 @@ import { Button } from '@/components/ui/Button';
 
 export function InviteFriends({ id }: { id: string }) {
     const users = [
-        { name: 'Ava Thompson', username: '@ava_thompson', image: getRandomPersonsImage(), isInvited: false },
-        { name: 'Harper Evans', username: '@harper_evans', image: getRandomPersonsImage(), isInvited: true },
-        { name: 'Maya Chen', username: '@maya_chen', image: getRandomPersonsImage(), isInvited: true },
-        { name: 'Elijah Murphy', username: '@elijah_murphy', image: getRandomPersonsImage(), isInvited: true },
-        { name: 'Liam Patel', username: '@liam_patel', image: getRandomPersonsImage(), isInvited: false },
-        { name: 'Chloe Brooks', username: '@chloe_brooks', image: getRandomPersonsImage(), isInvited: true },
-        { name: 'Sofia Kim', username: '@sofia_kim', image: getRandomPersonsImage(), isInvited: false },
-        { name: 'Amelia Flores', username: '@amelia_flores', image: getRandomPersonsImage(), isInvited: true },
-        { name: 'Jackson Lee', username: '@jackson_lee', image: getRandomPersonsImage(), isInvited: false },
-        { name: 'Noah Garcia', username: '@noah_garcia', image: getRandomPersonsImage(), isInvited: false },
-        { name: 'Ella Nguyen', username: '@ella_nguyen', image: getRandomPersonsImage(), isInvited: false },
-        { name: 'Benjamin Smith', username: '@benjamin_smith', image: getRandomPersonsImage(), isInvited: false },
-        { name: 'Mason Rivera', username: '@mason_rivera', image: getRandomPersonsImage(), isInvited: true },
-        { name: 'Olivia Martinez', username: '@olivia_martinez', image: getRandomPersonsImage(), isInvited: false },
+        { id: 1, name: 'Ava Thompson', username: '@ava_thompson', image: getRandomPersonsImage(), isInvited: false },
+        { id: 2, name: 'Harper Evans', username: '@harper_evans', image: getRandomPersonsImage(), isInvited: true },
+        { id: 3, name: 'Maya Chen', username: '@maya_chen', image: getRandomPersonsImage(), isInvited: true },
+        { id: 4, name: 'Elijah Murphy', username: '@elijah_murphy', image: getRandomPersonsImage(), isInvited: true },
+        { id: 5, name: 'Liam Patel', username: '@liam_patel', image: getRandomPersonsImage(), isInvited: false },
+        { id: 6, name: 'Chloe Brooks', username: '@chloe_brooks', image: getRandomPersonsImage(), isInvited: true },
+        { id: 7, name: 'Sofia Kim', username: '@sofia_kim', image: getRandomPersonsImage(), isInvited: false },
+        { id: 8, name: 'Amelia Flores', username: '@amelia_flores', image: getRandomPersonsImage(), isInvited: true },
+        { id: 9, name: 'Jackson Lee', username: '@jackson_lee', image: getRandomPersonsImage(), isInvited: false },
+        { id: 10, name: 'Noah Garcia', username: '@noah_garcia', image: getRandomPersonsImage(), isInvited: false },
+        { id: 11, name: 'Ella Nguyen', username: '@ella_nguyen', image: getRandomPersonsImage(), isInvited: false },
+        { id: 12, name: 'Benjamin Smith', username: '@benjamin_smith', image: getRandomPersonsImage(), isInvited: false },
+        { id: 13, name: 'Mason Rivera', username: '@mason_rivera', image: getRandomPersonsImage(), isInvited: true },
+        { id: 14, name: 'Olivia Martinez', username: '@olivia_martinez', image: getRandomPersonsImage(), isInvited: false },
     ];
 
     const invitedUsers = users.filter((u) => u.isInvited);
@@ -48,7 +48,7 @@ export function InviteFriends({ id }: { id: string }) {
                 className="py-6 border-b border-gray-200 dark:border-gray-800"
             >
                 {invitedUsers.map((user, index) => (
-                    <AuthorAvatar key={index} name={user.name} avatar={user.image} />
+                    <AuthorAvatar key={index} id={user.id} name={user.name} avatar={user.image} />
                 ))}
             </ScrollView>
 
@@ -75,6 +75,7 @@ export function InviteFriends({ id }: { id: string }) {
                         className="flex-row items-center justify-between py-4 border-b border-gray-200 dark:border-gray-800"
                     >
                         <UserAvatar
+                            id={user.id}
                             name={user.name}
                             username={user.username}
                             image={user.image}

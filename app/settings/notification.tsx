@@ -11,7 +11,7 @@ export default function NotificationScreen() {
     const [appUpdatesEnabled, setAppUpdatesEnabled] = useState(false);
 
     return (
-        <View className="flex-1 bg-gray-100 dark:bg-gray-950">
+        <View className="flex-1 bg-white dark:bg-gray-950">
             <NotificationHeader />
             <ScrollView contentContainerStyle={{ paddingHorizontal: 16, paddingBottom: 40 }}>
                 <SettingsSection title="NOTIFICATION">

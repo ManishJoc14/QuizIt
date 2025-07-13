@@ -43,6 +43,9 @@ const MAPPING = {
   'power': 'power-settings-new',  // logout icon
   'lock.fill': 'lock', // Lock icon
   'camera.fill': 'photo-camera', // Camera icon
+  'face.smiling.fill': 'sentiment-satisfied', // Happy face icon
+  'face.smiling.inverse': 'sentiment-very-dissatisfied', // Inverse happy face icon
+  'face.dashed': 'sentiment-neutral', // Neutral face icon
 } as IconMapping;
 
 /**

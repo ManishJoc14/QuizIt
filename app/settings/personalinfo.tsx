@@ -16,7 +16,7 @@ export default function PersonalInfoScreen() {
     };
 
     return (
-        <View className="flex-1 bg-gray-100 dark:bg-gray-950">
+        <View className="flex-1 bg-white dark:bg-gray-950">
             <PersonalInfoHeader />
             <ScrollView contentContainerStyle={{ paddingBottom: 40 }}>
                 <PersonalInfoForm

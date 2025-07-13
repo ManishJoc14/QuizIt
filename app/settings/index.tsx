@@ -64,7 +64,7 @@ export default function SettingsScreen() {
         {
             iconName: "envelope",
             title: "Feedback",
-            onPress: () => console.log('Navigate to Feedback'),
+            onPress: () => navigateTo('/settings/feedback'),
             iconBgColor: "bg-green-100 dark:bg-green-700",
             iconColorLight: "#16A34A",
             iconColorDark: "#86EFAC",

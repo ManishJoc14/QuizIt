@@ -11,9 +11,11 @@ interface PersonalInfoFormProps {
     name: string;
     email: string;
     image: string;
+    password: string;
     onNameChange: (text: string) => void;
     onEmailChange: (text: string) => void;
     onImageChange: (image: string) => void;
+    onPasswordChange: (text: string) => void;
     onSaveChanges: () => void;
 }
 
@@ -21,15 +23,19 @@ export function PersonalInfoForm({
     name,
     email,
     image,
+    password,
     onNameChange,
     onEmailChange,
+    onPasswordChange,
     onSaveChanges,
 }: PersonalInfoFormProps) {
     const { theme } = useTheme();
+
     const inputBg = theme === 'dark' ? 'bg-gray-700' : 'bg-gray-100';
-    const inputTextColor = theme === 'dark' ? 'text-gray-50' : 'text-gray-800';
-    const inputPlaceholderColor = theme === 'dark' ? 'text-gray-100' : 'text-gray-500';
-    const iconColor = theme === 'dark' ? '#9CA3AF' : '#6B7280'; // Gray for dark, darker gray for light
+    const inputTextColor = theme === 'dark' ? 'text-gray-100' : 'text-gray-800';
+
+    const inputPlaceholderColor = theme === 'dark' ? '#e5e7eb' : '#374151';
+    const iconColor = theme === 'dark' ? '#9CA3AF' : '#6B7280';
 
     return (
         <>
@@ -73,6 +79,8 @@ export function PersonalInfoForm({
                         <TextInput
                             className={`flex-1 ml-3 text-base ${inputTextColor}`}
                             placeholder="Enter password"
+                            value={password}
+                            onChangeText={onPasswordChange}
                             placeholderTextColor={inputPlaceholderColor}
                             secureTextEntry
                         />

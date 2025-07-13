@@ -7,6 +7,7 @@ import { PersonalInfoForm } from '@/components/Profile/Settings/PersonalInfo/Per
 export default function PersonalInfoScreen() {
     const [name, setName] = useState('Manish Joshi');
     const [email, setEmail] = useState('manishjoc14@email.com');
+    const [password, setPassword] = useState('password123');
     const [image, setImage] = useState(getRandomPersonsImage());
 
     const handleSaveChanges = () => {
@@ -22,9 +23,11 @@ export default function PersonalInfoScreen() {
                     name={name}
                     email={email}
                     image={image}
+                    password={password}
                     onNameChange={setName}
                     onEmailChange={setEmail}
                     onImageChange={setImage}
+                    onPasswordChange={setPassword}
                     onSaveChanges={handleSaveChanges}
                 />
             </ScrollView>

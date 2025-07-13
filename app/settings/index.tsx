@@ -56,7 +56,7 @@ export default function SettingsScreen() {
         {
             iconName: "bell",
             title: "Notification",
-            onPress: () => console.log('Navigate to Notification Settings'),
+            onPress: () => navigateTo('/settings/notification'),
             iconBgColor: "bg-yellow-100 dark:bg-yellow-700",
             iconColorLight: "#CA8A04",
             iconColorDark: "#FDE68A",

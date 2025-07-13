@@ -5,6 +5,7 @@ import { useTheme } from "@/context/ThemeContext"
 import { AuthorAvatar } from "../ui/AuthorAvatar"
 import { Button } from "../ui/Button"
 import { IconSymbol } from "../ui/IconSymbol"
+import { Link } from "expo-router"
 
 export function TopAuthorsSection() {
     const { theme } = useTheme();
@@ -27,8 +28,10 @@ export function TopAuthorsSection() {
                 <Text className="text-2xl tracking-wider font-semibold text-gray-900 dark:text-white">
                     Top Authors
                 </Text>
-                <Button title='View all' variant="link" className="p-0 no-underline"
-                    rightIcon={<IconSymbol size={28} name="chevron.right" color={theme === 'dark' ? "#93c5fd" : "#60a5fa"} />} />
+                <Link href="/authors" asChild>
+                    <Button title='View all' variant="link" className="p-0 no-underline"
+                        rightIcon={<IconSymbol size={28} name="chevron.right" color={theme === 'dark' ? "#93c5fd" : "#60a5fa"} />} />
+                </Link>
             </View>
             <ScrollView
                 horizontal

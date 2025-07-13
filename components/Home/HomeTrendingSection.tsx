@@ -1,5 +1,7 @@
 import { ScrollView, Text, View } from "react-native"
 
+import { Link } from "expo-router";
+
 import { QuizCard } from "@/components/Home/HomeQuizCard";
 import { useTheme } from "@/context/ThemeContext"
 
@@ -79,8 +81,10 @@ export function TrendingSection() {
                 <Text className="text-2xl tracking-wider font-semibold text-gray-900 dark:text-white">
                     Trending Quiz
                 </Text>
-                <Button title='View all' variant="link" className="p-0 no-underline"
-                    rightIcon={<IconSymbol size={28} name="chevron.right" color={theme === 'dark' ? "#93c5fd" : "#60a5fa"} />} />
+                <Link href="/trending" asChild>
+                    <Button title='View all' variant="link" className="no-underline"
+                        rightIcon={<IconSymbol size={28} name="chevron.right" color={theme === 'dark' ? "#93c5fd" : "#60a5fa"} />} />
+                </Link>
             </View>
             <ScrollView
                 horizontal

@@ -38,7 +38,7 @@ export default function ScoreboardScreen() {
     // Create a mutable copy of the mock data to update
     let currentScoreboardData: Summary[] = [...MOCK_SCOREBOARD_DATA];
 
-    let currentUserResult: ResultData['summary'] | null = null;
+    let currentUserResult: Summary | null = null;
 
     if (parsedResult) {
         currentUserResult = parsedResult.summary;

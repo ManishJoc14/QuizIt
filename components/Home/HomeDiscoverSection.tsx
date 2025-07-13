@@ -5,6 +5,7 @@ import { useTheme } from "@/context/ThemeContext";
 
 import { Button } from "../ui/Button";
 import { IconSymbol } from "../ui/IconSymbol";
+import { Link } from "expo-router";
 
 export function DiscoverSection() {
 
@@ -75,8 +76,10 @@ export function DiscoverSection() {
                 <Text className="text-2xl tracking-wider font-semibold text-gray-900 dark:text-white">
                     Discover
                 </Text>
-                <Button title='View all' variant="link" className="no-underline"
-                    rightIcon={<IconSymbol size={28} name="chevron.right" color={theme === 'dark' ? "#93c5fd" : "#60a5fa"} />} />
+                <Link href="/discover" asChild>
+                    <Button title='View all' variant="link" className="no-underline"
+                        rightIcon={<IconSymbol size={28} name="chevron.right" color={theme === 'dark' ? "#93c5fd" : "#60a5fa"} />} />
+                </Link>
             </View>
 
             {/* Scrollable Quiz Cards */}

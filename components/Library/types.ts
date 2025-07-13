@@ -6,7 +6,7 @@ export interface ILibraryQuiz {
     author: string;
     plays: number;
     date: string;
-    count: string;
+    count: number;
 }
 
 export type IOrder = 'asc' | 'desc'

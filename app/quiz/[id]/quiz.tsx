@@ -15,7 +15,7 @@ type Question = {
     options: string[];
     correctAnswer: string;
     points: number;
-    time: number; // in milliseconds
+    time: number;
 };
 
 type ResultItem = {

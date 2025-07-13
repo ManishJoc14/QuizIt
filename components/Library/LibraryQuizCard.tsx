@@ -42,7 +42,7 @@ export function LibraryQuizCard({
                     <Text className="text-sm text-gray-500 mx-2">•</Text>
                     <Text className="text-sm text-gray-500">{quiz.date}</Text>
                     <Text className="text-sm text-gray-500 mx-2">•</Text>
-                    <Text className="text-sm text-gray-500">{quiz.count}</Text>
+                    <Text className="text-sm text-gray-500">{quiz.count}Qns</Text>
                 </View>
             </View>
             <View className="bg-indigo-600 absolute bottom-2 left-20 px-2 py-1 rounded-lg ml-2">

@@ -16,7 +16,7 @@ const quizzes: ILibraryQuiz[] = new Array(8).fill(null).map((_, i) => ({
   author: 'Manish Joshi',
   plays: 20,
   date: 'Today',
-  count: '16 Qns',
+  count: 16,
 }));
 
 export default function Library() {

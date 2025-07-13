@@ -17,6 +17,8 @@ interface AccordionProps {
     titleClassName?: string;
     // Optional: Custom body styling
     bodyClassName?: string;
+    // Optional: Custom header styling
+    headerClassName?: string;
 }
 
 export function Accordion({
@@ -29,6 +31,7 @@ export function Accordion({
     animationDuration = 300,
     titleClassName = "text-lg font-semibold text-gray-900 dark:text-white leading-6",
     bodyClassName = "mt-3",
+    headerClassName = "flex-row justify-between items-start pt-1",
 }: AccordionProps) {
 
 
@@ -106,7 +109,7 @@ export function Accordion({
     return (
         <View>
             {/* Header section, which acts as the toggle button for expansion/collapse */}
-            <Pressable onPress={toggleAccordion} className="flex-row justify-between items-start pt-1">
+            <Pressable onPress={toggleAccordion} className={headerClassName}>
                 <View className="flex-1 pr-2">
                     {typeof title === 'string' ? (
                         <Text className={titleClassName}>

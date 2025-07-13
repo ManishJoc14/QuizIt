@@ -16,6 +16,7 @@ export default function SettingsLayout() {
                 <Stack.Screen name="personalinfo" />
                 <Stack.Screen name="notification" />
                 <Stack.Screen name="feedback" />
+                <Stack.Screen name="helpcenter" />
             </Stack>
             <StatusBar style="auto" />
         </View>

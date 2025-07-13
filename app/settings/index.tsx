@@ -72,7 +72,7 @@ export default function SettingsScreen() {
         {
             iconName: "questionmark",
             title: "Help Center",
-            onPress: () => console.log('Navigate to Help Center'),
+            onPress: () => navigateTo('/settings/helpcenter'),
             iconBgColor: "bg-purple-100 dark:bg-purple-700",
             iconColorLight: "#8B5CF6",
             iconColorDark: "#DDD6FE",

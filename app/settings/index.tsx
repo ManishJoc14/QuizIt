@@ -1,12 +1,15 @@
-import React from 'react';
+import { useState } from 'react';
+
 import { ScrollView, View } from 'react-native';
+
+import { Href, useRouter } from 'expo-router';
 
 import { useTheme } from '@/context/ThemeContext';
 import { IconSymbolName } from '@/components/ui/IconSymbol';
 import { SettingsHeader } from '@/components/Profile/Settings/SettingsHeader';
 import { SettingsSection } from '@/components/Profile/Settings/SettingsSection';
 import { SettingsListItem } from '@/components/Profile/Settings/SettingsListItem';
-import { Href, useRouter } from 'expo-router';
+import { LogoutConfirmationModal } from '@/components/Profile/Settings/Logout/LogoutModal';
 
 type SettingsItem = {
     iconName: IconSymbolName;
@@ -22,10 +25,22 @@ type SettingsItem = {
 
 export default function SettingsScreen() {
     const { theme, toggleTheme } = useTheme();
+    const [isLogoutModalVisible, setIsLogoutModalVisible] = useState(false);
     const router = useRouter();
 
     const navigateTo = (href: Href) => {
         router.push(href);
+    };
+
+    const handleLogoutConfirm = () => {
+        console.log('User confirmed logout. Performing logout action...');
+        setIsLogoutModalVisible(false);
+        router.replace('/signin');
+    };
+
+    const handleLogoutCancel = () => {
+        console.log('Logout cancelled.');
+        setIsLogoutModalVisible(false);
     };
 
     const accountSettings: SettingsItem[] = [
@@ -88,10 +103,11 @@ export default function SettingsScreen() {
         {
             iconName: "power",
             title: "Logout",
-            onPress: () => console.log('Handle Logout'),
+            onPress: () => setIsLogoutModalVisible(true),
             iconBgColor: "bg-red-100 dark:bg-red-700",
             iconColorLight: "#DC2626",
             iconColorDark: "#FCA5A5",
+            rightContent: ''
         },
     ];
 
@@ -130,6 +146,13 @@ export default function SettingsScreen() {
                     ))}
                 </SettingsSection>
             </ScrollView>
+
+            {/* Logout Confirmation Modal */}
+            <LogoutConfirmationModal
+                isVisible={isLogoutModalVisible}
+                onCancel={handleLogoutCancel}
+                onConfirm={handleLogoutConfirm}
+            />
         </View>
     );
 }

@@ -5,7 +5,6 @@ import React from 'react';
 import { Platform } from 'react-native';
 
 // THIRD PARTY IMPORTS
-import { Ionicons } from '@expo/vector-icons';
 import { Tabs } from 'expo-router';
 
 // PROJECT IMPORTS
@@ -68,7 +67,7 @@ export default function TabLayout() {
         options={{
           title: 'Profile',
           tabBarIcon: ({ color }) => (
-            <Ionicons name="person" size={26} color={color} />
+            <IconSymbol name="person.fill" size={28} color={color} />
           ),
         }}
       />

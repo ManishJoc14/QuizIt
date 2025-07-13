@@ -12,7 +12,7 @@ import { useRouter } from 'expo-router';
 import { useTheme } from '@/context/ThemeContext';
 import { IconSymbol, IconSymbolName } from '@/components/ui/IconSymbol';
 
-export function QuizHeader({ isThisMyQuiz }: { isThisMyQuiz?: boolean }) {
+export function QuizHeader({ isThisMe }: { isThisMe?: boolean }) {
     const router = useRouter();
     const { theme } = useTheme();
 
@@ -22,7 +22,7 @@ export function QuizHeader({ isThisMyQuiz }: { isThisMyQuiz?: boolean }) {
         {
             name: 'Edit',
             icon: 'square.and.pencil',
-            show: isThisMyQuiz,
+            show: isThisMe,
             onPress: async () => {
                 await Haptics.selectionAsync();
                 console.log('Edit clicked');
@@ -31,7 +31,7 @@ export function QuizHeader({ isThisMyQuiz }: { isThisMyQuiz?: boolean }) {
         {
             name: 'Delete',
             icon: 'trash.fill',
-            show: isThisMyQuiz,
+            show: isThisMe,
             onPress: async () => {
                 await Haptics.selectionAsync();
                 console.log('Delete clicked');

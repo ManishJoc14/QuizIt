@@ -1,12 +1,12 @@
-import { View, Text, Image, ScrollView } from 'react-native';
+import { View, Text } from 'react-native';
 
 import { useLocalSearchParams, useRouter } from 'expo-router';
 
-import { WaitingHeader } from '@/components/Join/Waiting/WaitingHeader';
-import { getRandomImage } from '@/utils/functions/getRandomImage';
-import WaitingRoomCode from '@/components/Join/Waiting/WaitingRoomCode';
-import { Button } from '@/components/ui/Button';
 import { WaitingPlayers } from '@/components/Join/Waiting/WaitingPlayers';
+import { WaitingHeader } from '@/components/Join/Waiting/WaitingHeader';
+import { WaitingRoomCode } from '@/components/Join/Waiting/WaitingRoomCode';
+import { getRandomImage } from '@/utils/functions/getRandomImage';
+import { Button } from '@/components/ui/Button';
 
 export default function WaitingScreen() {
     const { id } = useLocalSearchParams();
@@ -47,7 +47,6 @@ export default function WaitingScreen() {
         { name: 'Mike', image: 'https://randomuser.me/api/portraits/men/13.jpg' },
         { name: 'Nina', image: 'https://randomuser.me/api/portraits/women/14.jpg' },
     ];
-
 
     return (
         <View className="flex-1 px-6 pt-safe-offset-4 bg-violet-600 dark:bg-violet-950">

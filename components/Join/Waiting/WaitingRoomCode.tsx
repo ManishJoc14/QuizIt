@@ -4,7 +4,7 @@ import { View, Text, ImageBackground } from 'react-native'
 
 import { getRandomImage } from '@/utils/functions/getRandomImage'
 
-export default function WaitingRoomCode({ roomCode, quizTitle, image }: {
+export function WaitingRoomCode({ roomCode, quizTitle, image }: {
     roomCode: string,
     quizTitle: string,
     image?: string

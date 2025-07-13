@@ -30,6 +30,8 @@ export function Accordion({
     titleClassName = "text-lg font-semibold text-gray-900 dark:text-white leading-6",
     bodyClassName = "mt-3",
 }: AccordionProps) {
+
+
     // State to control the expanded/collapsed visual state.
     const [open, setOpen] = useState(false);
 

@@ -22,18 +22,18 @@ export default function ResultsScreen() {
 
     if (!parsed) {
         return (
-            <View className="flex-1 items-center justify-center bg-white">
-                <Text className="text-gray-800 text-lg">Invalid result data</Text>
+            <View className="flex-1 items-center justify-center bg-white dark:bg-gray-900">
+                <Text className="text-gray-800 dark:text-gray-100 text-lg">Invalid result data</Text>
             </View>
         );
     }
 
     return (
-        <View className="flex-1 bg-violet-800 pt-safe-offset-4">
+        <View className="flex-1 bg-violet-950 pt-safe-offset-4">
             <ResultHeader />
             <ScrollView contentContainerStyle={{ paddingBottom: 80 }}>
                 <ResultSummary {...parsed.summary} />
-                <View className='mx-6 bg-white rounded-t-3xl rounded-b-none pt-6 pb-2'>
+                <View className='mx-6 bg-white dark:bg-gray-900 rounded-t-3xl rounded-b-none pt-6 pb-2'>
                     {parsed.questions.map((q, index) => (
                         <ResultQuestionCard
                             key={q.id}
@@ -49,8 +49,8 @@ export default function ResultsScreen() {
                     ))}
                 </View>
 
-                <View className="mx-6 my-6 bg-green-100 rounded-xl">
-                    <Button title="Download Results" variant="ghost" color="success" size="lg" fullWidth />
+                <View className="mx-6 my-6 rounded-xl">
+                    <Button title="Download Results" variant="solid" color="primary" size="lg" fullWidth />
                 </View>
             </ScrollView>
         </View>

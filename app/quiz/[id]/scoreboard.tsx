@@ -95,7 +95,7 @@ export default function ScoreboardScreen() {
     };
 
     return (
-        <View className="flex-1 bg-violet-800">
+        <View className="flex-1 bg-violet-950">
             {/* Scoreboard Header */}
             <ScoreboardHeader />
 
@@ -104,7 +104,7 @@ export default function ScoreboardScreen() {
                 <TopRankers players={top3Players} />
 
                 {/* List of Other Players */}
-                <View className='mx-6 bg-white dark:bg-gray-900 rounded-t-3xl rounded-b-none pt-6 pb-2 px-2'>
+                <View className='mx-6 bg-white dark:bg-gray-900 rounded-t-3xl rounded-b-none pt-4 pb-2 px-4'>
                     {otherPlayers.map((player) => (
                         <PlayerListItem
                             key={player.id}
@@ -118,11 +118,11 @@ export default function ScoreboardScreen() {
                 </View>
 
                 {/* Button at the bottom */}
-                <View className="mx-6 my-6 bg-green-100 rounded-xl">
+                <View className="mx-6 my-6 rounded-xl">
                     <Button
                         title="View My Results"
-                        variant="ghost"
-                        color="success"
+                        variant="solid"
+                        color="primary"
                         size="lg"
                         fullWidth
                         onPress={handleViewMyResults}

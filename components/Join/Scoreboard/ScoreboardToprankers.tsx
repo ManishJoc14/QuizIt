@@ -2,12 +2,25 @@ import React from 'react';
 import { Image, Text, View } from 'react-native';
 
 import getRandomPersonsImage from '@/utils/functions/getRandomImage';
-import { getImageBorderColor, getRankColor } from '@/utils/functions/getRankColor';
 import { Summary } from '../types';
 
 export function TopRankers({ players }: { players: Summary[] }) {
     // Sort players by rank to ensure correct display order (1st, 2nd, 3rd)
     const sortedPlayers = [...players].sort((a, b) => a.rank - b.rank);
+
+    const getRankColor = (rank: number) => {
+        if (rank === 1) return 'bg-yellow-500 border-yellow-600';
+        if (rank === 2) return 'bg-gray-400 border-gray-500';
+        if (rank === 3) return 'bg-stone-500 border-stone-600';
+        return 'bg-violet-400 border-violet-500'; // Default for other ranks
+    };
+
+    const getImageBorderColor = (rank: number) => {
+        if (rank === 1) return 'border-yellow-500';
+        if (rank === 2) return 'border-gray-400';
+        if (rank === 3) return 'border-stone-500';
+        return 'border-blue-500'; // Default for other ranks
+    };
 
     return (
         <View className="flex-row justify-center items-end mb-8 px-4 mt-2">

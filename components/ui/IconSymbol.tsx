@@ -17,6 +17,7 @@ const MAPPING = {
   'house.fill': 'home', // Home icon
   'paperplane.fill': 'send',  // Send icon
   'chevron.left.forwardslash.chevron.right': 'code',  // Code icon
+  'person.fill': 'person', // Person icon
   'chevron.right': 'chevron-right',   // Right chevron icon
   'chevron.left': 'chevron-left',    // Left chevron icon
   'chevron.up': 'keyboard-arrow-up',      // Up chevron icon
@@ -34,7 +35,8 @@ const MAPPING = {
   'square.and.pencil': 'mode-edit', // Edit icon
   'square.and.arrow.up': 'share', // Share icon
   'checkmark.circle': 'check-circle', // Checkmark icon
-  'multiply.circle': 'cancel' // Cancel icon
+  'multiply.circle': 'cancel', // Cancel icon
+  'gear': 'settings', // Settings icon
 } as IconMapping;
 
 /**

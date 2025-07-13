@@ -7,27 +7,8 @@ import { QuizTimer } from '@/components/Join/Quiz/QuizTimer';
 import { QuizQuestion } from '@/components/Join/Quiz/QuizQuestion';
 import { QuizFeedback } from '@/components/Join/Quiz/QuizFeedback';
 import getRandomPersonsImage from '@/utils/functions/getRandomImage';
+import { Question, ResultItem } from '@/components/Library/types';
 
-type Question = {
-    id: number;
-    index: number;
-    question: string;
-    options: string[];
-    correctAnswer: string;
-    points: number;
-    time: number;
-};
-
-type ResultItem = {
-    id: number;
-    question: string;
-    options: string[];
-    correctIndex: number;
-    selectedIndex: number | null;
-    isCorrect: boolean;
-    pointsEarned: number;
-    timeTaken: number;
-};
 
 const questions: Question[] = [
     {
@@ -101,7 +82,7 @@ export default function QuizScreen() {
                         summary: {
                             name: 'Ujjwal',
                             image: getRandomPersonsImage(),
-                            totalPoints: results.reduce((sum, q) => sum + q.pointsEarned, 0),
+                            totalPoints: results.reduce((sum, q) => sum + q.points, 0),
                             rank: 4,
                         },
                         questions: results,
@@ -150,7 +131,7 @@ export default function QuizScreen() {
             correctIndex: correctIdx,
             selectedIndex: selected,
             isCorrect,
-            pointsEarned: isCorrect ? questionData.points : 0,
+            points: isCorrect ? questionData.points : 0,
             timeTaken: usedTime,
         };
 

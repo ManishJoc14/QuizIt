@@ -21,3 +21,23 @@ export type ResultData = {
     summary: Summary;
     questions: QuestionResult[];
 };
+
+export interface User {
+    name: string;
+    username: string;
+    image?: string;
+    isThisMe: boolean;
+    isFollowed: boolean;
+}
+
+export interface QuizMetaData {
+    questions: number;
+    played: number;
+    favorited: number;
+    description: string;
+}
+
+export interface QuizData {
+    user: User;
+    meta: QuizMetaData;
+}

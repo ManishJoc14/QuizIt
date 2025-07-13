@@ -1,28 +1,39 @@
-import { Image, Text, View } from 'react-native';
+import { View } from 'react-native';
 
-import { Link } from 'expo-router';
-
-import ThemeToggleBtn from '@/components/ThemeToggleBtn';
+import { ProfileCoverImage } from '@/components/Profile/ProfileCoverImage';
 import getRandomPersonsImage from '@/utils/functions/getRandomImage';
-import { Button } from '@/components/ui/Button';
+import { ProfileAuthor } from '@/components/Profile/ProfileAuthor';
+import { ProfileHeader } from '@/components/Profile/ProfileHeader';
+import { ProfileMeta } from '@/components/Profile/ProfileMeta';
+import { ProfileData } from '@/components/Profile/types';
+import ThemeToggleBtn from '@/components/ThemeToggleBtn';
 
 export default function Profile() {
+
+    const response: ProfileData = {
+        user: {
+            name: 'John Doe',
+            username: 'johndoe',
+            image: getRandomPersonsImage(),
+            isThisMe: true,
+            isFollowed: false,
+        },
+        meta: {
+            quizzes: 10,
+            played: 50,
+            players: 200,
+            rank: 5,
+            followers: 100,
+            following: 75,
+        },
+    }
+
     return (
-        <View className="items-center flex-1 px-6 pt-20 bg-gray-50 dark:bg-gray-950">
-            {/* Profile Photo */}
-            <Image
-                source={{ uri: getRandomPersonsImage(150, 6) }}
-                className="w-32 h-32 mb-4 rounded-full"
-            />
-
-            {/* Username */}
-            <Text className="text-2xl font-bold text-gray-800 dark:text-gray-100 ">Ujjwal</Text>
-            <Text className="mb-6 text-gray-500 dark:text-gray-200">@johndoe</Text>
-
-            <Link href="/signin" asChild>
-                <Button variant="link" title="Sign in" />
-            </Link>
-
+        <View className="flex-1 bg-white dark:bg-gray-950 px-4 pt-safe-offset-5 pb-2">
+            <ProfileHeader />
+            <ProfileCoverImage />
+            <ProfileAuthor {...response.user} />
+            <ProfileMeta {...response.meta} />
             <ThemeToggleBtn />
         </View>
     );

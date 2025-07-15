@@ -10,6 +10,8 @@ import { useFonts } from 'expo-font';
 import "../global.css";
 
 import { useTheme, ThemeProviderWrapper } from '@/context/ThemeContext';
+import { Provider } from 'react-redux';
+import { store } from '@/utils/libs/store';
 
 
 function InnerRootLayout() {
@@ -49,8 +51,10 @@ function InnerRootLayout() {
 
 export default function RootLayout() {
   return (
-    <ThemeProviderWrapper>
-      <InnerRootLayout />
-    </ThemeProviderWrapper>
+    <Provider store={store}>
+      <ThemeProviderWrapper>
+        <InnerRootLayout />
+      </ThemeProviderWrapper>
+    </Provider>
   );
 }

@@ -10,6 +10,7 @@ import { SettingsHeader } from '@/components/Profile/Settings/SettingsHeader';
 import { SettingsSection } from '@/components/Profile/Settings/SettingsSection';
 import { SettingsListItem } from '@/components/Profile/Settings/SettingsListItem';
 import { LogoutConfirmationModal } from '@/components/Profile/Settings/Logout/LogoutModal';
+import { useLogout } from '@/hooks/useLogout';
 
 type SettingsItem = {
     iconName: IconSymbolName;
@@ -27,15 +28,14 @@ export default function SettingsScreen() {
     const { theme, toggleTheme } = useTheme();
     const [isLogoutModalVisible, setIsLogoutModalVisible] = useState(false);
     const router = useRouter();
+    const logout = useLogout();
 
     const navigateTo = (href: Href) => {
         router.push(href);
     };
 
     const handleLogoutConfirm = () => {
-        console.log('User confirmed logout. Performing logout action...');
-        setIsLogoutModalVisible(false);
-        router.replace('/signin');
+        logout();
     };
 
     const handleLogoutCancel = () => {

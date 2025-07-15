@@ -1,6 +1,6 @@
 import React from "react";
 
-import { TouchableOpacity, Text, View, ActivityIndicator, Pressable } from "react-native";
+import { Text, View, ActivityIndicator, Pressable, PressableProps } from "react-native";
 
 import * as Haptics from "expo-haptics";
 import { clsx } from "clsx";
@@ -232,25 +232,20 @@ function getRadius(radius: VariantProps<typeof buttonVariants>["radius"]): numbe
 
 
 export interface ButtonProps
-    extends React.ComponentProps<typeof TouchableOpacity>,
-    VariantProps<typeof buttonVariants> {
+    extends PressableProps, VariantProps<typeof buttonVariants> {
     title?: React.ReactNode;
     isLoading?: boolean;
-    disabled?: boolean;
+    isDisabled?: boolean;
     leftIcon?: React.ReactNode;
     rightIcon?: React.ReactNode;
     className?: string;
     fullWidth?: boolean;
-    variant?: VariantProps<typeof buttonVariants>["variant"];
-    color?: VariantProps<typeof buttonVariants>["color"];
-    size?: VariantProps<typeof buttonVariants>["size"];
-    radius?: VariantProps<typeof buttonVariants>["radius"];
 }
 
 export function Button({
     title,
-    isLoading,
-    disabled,
+    isLoading = false,
+    isDisabled = false,
     leftIcon,
     rightIcon,
     className,
@@ -260,55 +255,53 @@ export function Button({
     radius,
     children,
     fullWidth = false,
-    ...props
+    onPress,
+    ...rest
 }: ButtonProps) {
-
     const { theme } = useTheme();
+    const isBtnDisabled = isDisabled || isLoading;
+    const rippleColor = getRippleColor(variant, color, theme);
+
+    const baseClass = buttonVariants({ variant, color, size, radius });
     const btnClass = twMerge(
-        clsx("group", buttonVariants({ variant, color, size, radius }), className)
+        clsx(
+            "group",
+            baseClass,
+            className,
+        )
     );
-    const isDisabled = disabled || isLoading;
-    const rippleColor = getRippleColor(variant || 'solid', color || 'primary', theme || 'light');
 
     const handlePress = async (e: any) => {
-        if (!isDisabled) {
-            await Haptics.selectionAsync(); // feedback
-            props.onPress?.(e); // Call original
-        }
+        if (isBtnDisabled) return;
+        await Haptics.selectionAsync();
+        onPress?.(e);
     };
 
     return (
-        <View style={{
-            borderRadius: getRadius(radius || 'md'),
-            overflow: 'hidden',
-            ...(fullWidth ? { flex: 1 } : {})
-        }}>
+        <View
+            style={{
+                borderRadius: getRadius(radius || "md"),
+                overflow: "hidden",
+                ...(fullWidth ? { flex: 1 } : {}),
+            }}
+        >
             <Pressable
-                className={btnClass}
-                disabled={isDisabled}
+                key={isBtnDisabled ? 'disabled' : 'enabled'}
                 onPress={handlePress}
-                android_ripple={{ color: rippleColor }}
-                style={({ pressed }) => [
-                    {
-                        opacity: isDisabled ? 0.5 : 1,
-                    },
-                    ...(pressed ? [{ backgroundColor: rippleColor }] : []),
-                ]}
-                {...props}
+                disabled={isBtnDisabled}
+                android_ripple={isBtnDisabled ? undefined : { color: rippleColor }}
+                className={btnClass}
+                {...rest}
             >
                 {isLoading ? (
-                    <ActivityIndicator size="small" color="#fff" />
+                    <ActivityIndicator color="#fff" />
                 ) : (
                     <>
                         {leftIcon && <View>{leftIcon}</View>}
                         <Text
                             className={clsx(
-                                "font-medium transition-colors text-center tracking-wide",
-                                variant && color
-                                    ? textColorVariants[variant as keyof typeof textColorVariants]?.[
-                                    color as keyof typeof textColorVariants[typeof variant]
-                                    ]
-                                    : undefined
+                                "font-medium text-center tracking-wide",
+                                textColorVariants[variant ?? 'solid']?.[color ?? 'primary']
                             )}
                         >
                             {title}
@@ -317,9 +310,11 @@ export function Button({
                     </>
                 )}
             </Pressable>
-        </View >
+        </View>
     );
-};
+}
+
+
 
 export function AllButtons() {
     return (

@@ -1,0 +1,29 @@
+import { useRouter, useLocalSearchParams } from 'expo-router';
+
+import { ResetPasswordRequest } from '@/types/auth.types';
+import { useResetPasswordMutation } from '@/services/authApi';
+
+export function useResetPassword() {
+    const router = useRouter();
+    const [resetPassword, { isLoading, error }] = useResetPasswordMutation();
+    const { email } = useLocalSearchParams<{ email?: string }>();
+
+    const reset = async (password: string, rePassword: string) => {
+        if (!email) throw new Error('Email is required from route params.');
+
+        const payload: ResetPasswordRequest = {
+            email,
+            password,
+            rePassword,
+        };
+
+        try {
+            await resetPassword(payload).unwrap();
+            router.replace('/signin');
+        } catch (err) {
+            console.error('Reset password failed:', err);
+        }
+    };
+
+    return { reset, isLoading, error };
+}

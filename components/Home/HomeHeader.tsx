@@ -1,6 +1,7 @@
 import { Image, Text, TouchableOpacity, View } from "react-native";
 import getRandomPersonsImage from "@/utils/functions/getRandomImage";
 import { IconSymbol } from "../ui/IconSymbol";
+import { Link } from "expo-router";
 
 export function Header() {
   return (
@@ -12,15 +13,17 @@ export function Header() {
 
       {/* Right section: Search, Notification, Avatar */}
       <View className="flex-row items-center gap-3">
-        {/* Search Icon */}
-        <TouchableOpacity className="p-2 rounded-full bg-gray-100 dark:bg-gray-700 active:opacity-80">
-          <IconSymbol size={22} name="magnifyingglass" color="#6B7280" />
-        </TouchableOpacity>
-
         {/* Notification Icon */}
         <TouchableOpacity className="p-2 rounded-full bg-gray-100 dark:bg-gray-700 active:opacity-80">
           <IconSymbol size={22} name="bell" color="#6B7280" />
         </TouchableOpacity>
+
+        {/* Search Icon */}
+        <Link href="/settings" asChild>
+          <TouchableOpacity className="p-2 rounded-full bg-gray-100 dark:bg-gray-700 active:opacity-80">
+            <IconSymbol size={22} name="gear" color="#6B7280" />
+          </TouchableOpacity>
+        </Link>
 
         {/* Avatar */}
         <Image

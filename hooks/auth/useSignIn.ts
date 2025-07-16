@@ -6,6 +6,7 @@ import { SignInRequest } from '@/types/auth.types';
 import { saveToken } from '@/utils/libs/secureStorage';
 import { setCredentials } from '@/features/auth/authSlice';
 import { useSignInMutation } from '@/services/authApi';
+import Toast from 'react-native-toast-message';
 
 export function useSignIn() {
     const [login, { isLoading, error }] = useSignInMutation();
@@ -20,10 +21,15 @@ export function useSignIn() {
             console.log('Login successful:', res);
             await saveToken('accessToken', res.token.accessToken);
             await saveToken('refreshToken', res.token.refreshToken);
-            console.log('Login successful. Redirecting to home.');
+            // console.log('Login successful. Redirecting to home.');
+            Toast.show({
+                type: 'success',
+                text1: 'Login successful',
+                text2: 'Welcome back to QuizIt!',
+            })
             router.replace('/(tabs)');
         } catch (err) {
-            console.error('Login failed:', err);
+            console.log('Login failed:', err);
         }
     };
 

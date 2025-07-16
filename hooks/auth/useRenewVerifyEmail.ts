@@ -2,6 +2,7 @@ import { useLocalSearchParams } from 'expo-router';
 
 import { RenewVerifyEmailRequest } from '@/types/auth.types';
 import { useRenewVerifyEmailMutation } from '@/services/authApi';
+import Toast from 'react-native-toast-message';
 
 export function useRenewVerifyEmail() {
     const [renew, { isLoading, error }] = useRenewVerifyEmailMutation();
@@ -11,12 +12,18 @@ export function useRenewVerifyEmail() {
         if (!email) throw new Error('Email is required to renew verification token.');
 
         const payload: RenewVerifyEmailRequest = { email };
-        console.log('Renewing verification token for email:', email);
+        // console.log('Renewing verification token for email:', email);
 
         try {
             await renew(payload).unwrap();
+            // console.log('Verification email resent successfully.');
+            Toast.show({
+                type: 'success',
+                text1: 'Verification token sent',
+                text2: 'Please check your inbox to verify your email.',
+            });
         } catch (err) {
-            console.error('Resend verification email failed:', err);
+            console.log('Resend verification email failed:', err);
         }
     };
 

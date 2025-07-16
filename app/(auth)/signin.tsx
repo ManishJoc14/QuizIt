@@ -4,7 +4,7 @@ import { Link } from 'expo-router';
 import { useTheme } from '@/context/ThemeContext';
 import { IconSymbol } from '@/components/ui/IconSymbol';
 import { Button } from '@/components/ui/Button';
-import { useSignIn } from '@/hooks/useSignIn';
+import { useSignIn } from '@/hooks/auth/useSignIn';
 
 export default function SignInScreen() {
     const [email, setEmail] = useState('');
@@ -40,7 +40,7 @@ export default function SignInScreen() {
                             autoCapitalize="none"
                             value={email}
                             onChangeText={setEmail}
-                            className={theme === 'dark' ? 'text-gray-100' : 'text-gray-800'}
+                            className='dark:text-gray-100 text-gray-800'
                         />
                     </View>
 
@@ -53,13 +53,13 @@ export default function SignInScreen() {
                             secureTextEntry
                             value={password}
                             onChangeText={setPassword}
-                            className={theme === 'dark' ? 'text-gray-100' : 'text-gray-800'}
+                            className='dark:text-gray-100 text-gray-800'
                         />
                     </View>
 
                     {error && <Text className="text-red-500 mb-2 text-sm">Invalid credentials or server error.</Text>}
 
-                    <View className="flex-row justify-end">
+                    <View className="flex-row justify-end mb-1">
                         <Link href="/forgetpassword" asChild>
                             <Button variant="link" color="primary" title="Forget password?" />
                         </Link>

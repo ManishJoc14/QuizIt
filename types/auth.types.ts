@@ -1,3 +1,10 @@
+export type User = {
+    id: number;
+    email: string;
+    fullName: string;
+    username: string;
+}
+
 export type SignupRequest = {
     fullName: string;
     username: string;
@@ -15,11 +22,9 @@ export type SignInRequest = {
     password: string;
 };
 
-export type SignInResponse = {
-    token: {
-        accessToken: string;
-        refreshToken: string;
-    }
+export type SignInResponse = RefreshTokenResponse & {
+    message: string;
+    user: User;
 };
 
 export type VerifyEmailRequest = {
@@ -34,6 +39,13 @@ export type VerifyEmailResponse = {
 export type RefreshTokenRequest = {
     refreshToken: string;
 };
+
+export type RefreshTokenResponse = {
+    token: {
+        accessToken: string;
+        refreshToken: string;
+    }
+}
 
 export type ForgetPasswordRequest = {
     email: string;

@@ -4,9 +4,9 @@ import { useLocalSearchParams, useRouter } from 'expo-router';
 
 import { Button } from '@/components/ui/Button';
 import { IconSymbol } from '@/components/ui/IconSymbol';
-import { useVerifyEmail } from '@/hooks/useVerifyEmail';
-import { useVerifyResetToken } from '@/hooks/useVerifyReset';
-import { useRenewVerifyEmail } from '@/hooks/useRenewVerifyEmail';
+import { useVerifyEmail } from '@/hooks/auth/useVerifyEmail';
+import { useVerifyResetToken } from '@/hooks/auth/useVerifyReset';
+import { useRenewVerifyEmail } from '@/hooks/auth/useRenewVerifyEmail';
 import { useTheme } from '@/context/ThemeContext';
 
 export default function VerifyScreen() {
@@ -44,7 +44,7 @@ export default function VerifyScreen() {
             return;
         }
 
-        console.log('Resending verification token...');
+        // console.log('Resending verification token...');
         await resendEmail.renewToken();
     };
 

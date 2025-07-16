@@ -10,7 +10,7 @@ import { SettingsHeader } from '@/components/Profile/Settings/SettingsHeader';
 import { SettingsSection } from '@/components/Profile/Settings/SettingsSection';
 import { SettingsListItem } from '@/components/Profile/Settings/SettingsListItem';
 import { LogoutConfirmationModal } from '@/components/Profile/Settings/Logout/LogoutModal';
-import { useLogout } from '@/hooks/useLogout';
+import { useLogout } from '@/hooks/auth/useLogout';
 
 type SettingsItem = {
     iconName: IconSymbolName;

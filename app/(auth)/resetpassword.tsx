@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, Alert } from 'react-native';
 
 import { Button } from '@/components/ui/Button';
-import { useResetPassword } from '@/hooks/useResetPassword';
+import { useResetPassword } from '@/hooks/auth/useResetPassword';
 
 export default function ResetPasswordScreen() {
 
@@ -20,13 +20,7 @@ export default function ResetPasswordScreen() {
             Alert.alert('Error', 'Passwords do not match.');
             return;
         }
-
-        try {
-            await reset(password, rePassword);
-            Alert.alert('Success', 'Password reset successfully!');
-        } catch {
-            Alert.alert('Failed', (error as any)?.data?.message || 'Reset failed. Please try again.');
-        }
+        await reset(password, rePassword);
     };
 
     return (
@@ -41,6 +35,7 @@ export default function ResetPasswordScreen() {
                 value={password}
                 onChangeText={setPassword}
             />
+            
             <TextInput
                 secureTextEntry
                 placeholder="Confirm New Password"

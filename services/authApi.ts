@@ -4,6 +4,7 @@ import {
     SignInRequest,
     SignInResponse,
     RefreshTokenRequest,
+    RefreshTokenResponse,
     VerifyEmailRequest,
     VerifyEmailResponse,
     ForgetPasswordRequest,
@@ -38,7 +39,7 @@ export const authApi = api.injectEndpoints({
             invalidatesTags: ['User'],
         }),
 
-        refreshToken: build.mutation<SignInResponse, RefreshTokenRequest>({
+        refreshToken: build.mutation<RefreshTokenResponse, RefreshTokenRequest>({
             query: (body) => ({
                 url: '/auth/renew-access',
                 method: 'POST',

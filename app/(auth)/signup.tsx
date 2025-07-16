@@ -5,7 +5,7 @@ import { Checkbox } from 'expo-checkbox';
 
 import { Button } from '@/components/ui/Button';
 import { IconSymbol } from '@/components/ui/IconSymbol';
-import { useSignUp } from '@/hooks/useSignUp';
+import { useSignUp } from '@/hooks/auth/useSignUp';
 import { useTheme } from '@/context/ThemeContext';
 
 export default function SignUpScreen() {

@@ -2,6 +2,7 @@ import { useRouter, useLocalSearchParams } from 'expo-router';
 
 import { ResetPasswordRequest } from '@/types/auth.types';
 import { useResetPasswordMutation } from '@/services/authApi';
+import Toast from 'react-native-toast-message';
 
 export function useResetPassword() {
     const router = useRouter();
@@ -20,8 +21,14 @@ export function useResetPassword() {
         try {
             await resetPassword(payload).unwrap();
             router.replace('/signin');
+            // console.log('Password reset successful. Redirecting to sign in.');
+            Toast.show({
+                type: 'success',
+                text1: 'Password reset successful',
+                text2: 'You can now sign in with your new password.',
+            });
         } catch (err) {
-            console.error('Reset password failed:', err);
+            console.log('Reset password failed:', err);
         }
     };
 

@@ -4,20 +4,24 @@ import { View, Text, TextInput, ScrollView, Alert } from 'react-native';
 import { Link } from 'expo-router';
 
 import { Button } from '@/components/ui/Button';
-import { useForgotPassword } from '@/hooks/useForgetPassword';
+import { useForgotPassword } from '@/hooks/auth/useForgetPassword';
+import { IconSymbol } from '@/components/ui/IconSymbol';
+import { useTheme } from '@/context/ThemeContext';
 
 export default function ForgotPasswordScreen() {
     const [email, setEmail] = useState('');
     const { requestReset, isLoading, error } = useForgotPassword();
-
+    const { theme } = useTheme();
+    
     const handleSend = async () => {
         if (!email) return Alert.alert('Error', 'Please enter your email.');
-        try {
-            await requestReset(email);
-        } catch {
-            Alert.alert('Failed', (error as any)?.data?.message || 'Something went wrong.');
-        }
+        await requestReset(email);
     };
+
+    const inputBg = theme === 'dark' ? 'bg-gray-700' : 'bg-gray-100';
+    const iconColor = theme === 'dark' ? '#9CA3AF' : '#6B7280';
+    const placeholderColor = theme === 'dark' ? '#e5e7eb' : '#374151';
+
 
     return (
         <View className="flex-1 bg-gray-50 dark:bg-gray-900 pt-safe-offset-8">
@@ -28,15 +32,19 @@ export default function ForgotPasswordScreen() {
                         Enter your email to reset your password
                     </Text>
 
-                    <TextInput
-                        value={email}
-                        onChangeText={setEmail}
-                        placeholder="Enter your email"
-                        placeholderTextColor="#9CA3AF"
-                        keyboardType="email-address"
-                        autoCapitalize="none"
-                        className="px-4 py-4 mb-6 bg-white dark:bg-gray-700 border dark:border-gray-600 rounded-lg text-gray-900 dark:text-white"
-                    />
+                    <View className={`${inputBg} flex-row items-center px-4 py-2 mb-4 rounded-xl`}>
+                        <IconSymbol name="envelope" size={20} color={iconColor} />
+                        <TextInput
+                            style={{ flex: 1, marginLeft: 12 }}
+                            placeholder="Enter email"
+                            placeholderTextColor={placeholderColor}
+                            keyboardType="email-address"
+                            autoCapitalize="none"
+                            value={email}
+                            onChangeText={setEmail}
+                            className='dark:text-gray-100 text-gray-800'
+                        />
+                    </View>
 
                     <Button
                         title={isLoading ? 'Sending...' : 'Send Reset Code'}

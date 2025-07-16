@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { SafeAreaView } from 'react-native';
 
 import { Stack } from 'expo-router';
+import Toast from 'react-native-toast-message';
 
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
@@ -12,6 +13,7 @@ import "../global.css";
 import { useTheme, ThemeProviderWrapper } from '@/context/ThemeContext';
 import { Provider } from 'react-redux';
 import { store } from '@/utils/libs/store';
+import { toastConfig } from '@/utils/functions/toastConfig';
 
 
 function InnerRootLayout() {
@@ -43,6 +45,7 @@ function InnerRootLayout() {
           <Stack.Screen name="settings" options={{ headerShown: false }} />
           <Stack.Screen name="+not-found" />
         </Stack>
+        <Toast config={toastConfig} visibilityTime={6000} />
         <StatusBar style={theme === 'dark' ? 'light' : 'dark'} />
       </ThemeProvider>
     </SafeAreaView>

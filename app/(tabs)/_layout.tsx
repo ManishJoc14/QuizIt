@@ -39,7 +39,7 @@ export default function TabLayout() {
           name="index"
           options={{
             title: 'Home',
-            tabBarIcon: ({ color }) => (
+            tabBarIcon: ({ color }: { color: string }) => (
               <IconSymbol size={28} name="house.fill" color={color} />
             ),
           }}
@@ -48,7 +48,7 @@ export default function TabLayout() {
           name="library"
           options={{
             title: 'Library',
-            tabBarIcon: ({ color }) => (
+            tabBarIcon: ({ color }: { color: string }) => (
               <IconSymbol size={28} name="square.grid.2x2.fill" color={color} />
             ),
           }}
@@ -58,7 +58,7 @@ export default function TabLayout() {
           name="join"
           options={{
             title: 'Join',
-            tabBarIcon: ({ color }) => (
+            tabBarIcon: ({ color }: { color: string }) => (
               <IconSymbol size={28} name="gamecontroller" color={color} />
             ),
           }}
@@ -68,7 +68,7 @@ export default function TabLayout() {
           name="profile"
           options={{
             title: 'Profile',
-            tabBarIcon: ({ color }) => (
+            tabBarIcon: ({ color }: { color: string }) => (
               <IconSymbol name="person.fill" size={28} color={color} />
             ),
           }}

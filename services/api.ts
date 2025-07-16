@@ -1,9 +1,10 @@
-import axios, { AxiosError } from 'axios';
-import { createApi, BaseQueryFn } from '@reduxjs/toolkit/query/react';
 import qs from 'qs';
-import snakecaseKeys from 'snakecase-keys';
+import axios, { AxiosError } from 'axios';
 import camelcaseKeys from 'camelcase-keys';
+import snakecaseKeys from 'snakecase-keys';
+import { createApi, BaseQueryFn } from '@reduxjs/toolkit/query/react';
 
+import { noAuthRoutes } from '@/constants/routes';
 import { getToken } from '@/utils/libs/secureStorage';
 import { handleTokenRefresh } from '@/utils/libs/handleTokenRefresh';
 
@@ -26,7 +27,8 @@ const axiosBaseQuery =
     > =>
         async ({ url, method, data, params, meta }) => {
             try {
-                const token = await getToken('accessToken');
+                const isPublicRoute = noAuthRoutes.some(route => url.startsWith(route));
+                const token = isPublicRoute ? null : await getToken('accessToken');
                 const isForm = meta?.contentType === 'form';
 
                 const headers: Record<string, string> = {
@@ -47,7 +49,7 @@ const axiosBaseQuery =
                     params: snakeParams,
                     headers,
                 });
-                
+
                 const result = await axios({
                     url: baseUrl + url,
                     method,
@@ -80,8 +82,11 @@ const axiosBaseQuery =
                             },
                         });
 
+                        // Convert response to camelCase
+                        const camelData = camelcaseKeys(retry.data, { deep: true });
+
                         return {
-                            data: camelcaseKeys(retry.data, { deep: true }),
+                            data: camelData,
                         };
                     }
                 }

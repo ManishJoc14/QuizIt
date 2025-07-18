@@ -1,16 +1,16 @@
 import { useRouter } from 'expo-router';
 
-import { useDispatch } from 'react-redux';
 
 import { SignInRequest } from '@/types/auth.types';
 import { saveToken } from '@/utils/libs/secureStorage';
 import { setCredentials } from '@/features/auth/authSlice';
 import { useSignInMutation } from '@/services/authApi';
+import { useAppDispatch } from '@/utils/libs/reduxHooks';
 import Toast from 'react-native-toast-message';
 
 export function useSignIn() {
     const [login, { isLoading, error }] = useSignInMutation();
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
     const router = useRouter();
 
     const signIn = async (data: SignInRequest) => {
@@ -19,8 +19,8 @@ export function useSignIn() {
             const res = await login(data).unwrap();
             dispatch(setCredentials(res));
             console.log('Login successful:', res);
-            await saveToken('accessToken', res.token.accessToken);
-            await saveToken('refreshToken', res.token.refreshToken);
+            await saveToken('accessToken', res.accessToken);
+            await saveToken('refreshToken', res.refreshToken);
             // console.log('Login successful. Redirecting to home.');
             Toast.show({
                 type: 'success',

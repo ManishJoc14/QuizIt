@@ -3,7 +3,6 @@ import {
     SignupResponse,
     SignInRequest,
     SignInResponse,
-    RefreshTokenRequest,
     RefreshTokenResponse,
     VerifyEmailRequest,
     VerifyEmailResponse,
@@ -11,6 +10,7 @@ import {
     VerifyForgetPasswordRequest,
     ResetPasswordRequest,
     RenewVerifyEmailRequest,
+    RefreshTokenRequestQuery,
 } from '@/types/auth.types';
 
 import { api } from './api';
@@ -30,20 +30,16 @@ export const authApi = api.injectEndpoints({
             query: (body) => ({
                 url: '/auth/login',
                 method: 'POST',
-                // NOTE - Adjusting to match the expected API format 
-                data: { username: body.email, password: body.password },
-                meta: {
-                    contentType: 'form',
-                },
+                data: body,
             }),
             invalidatesTags: ['User'],
         }),
 
-        refreshToken: build.mutation<RefreshTokenResponse, RefreshTokenRequest>({
-            query: (body) => ({
+        refreshToken: build.mutation<RefreshTokenResponse, RefreshTokenRequestQuery>({
+            query: (params) => ({
                 url: '/auth/renew-access',
                 method: 'POST',
-                data: body,
+                params,
             }),
         }),
 

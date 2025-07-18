@@ -1,9 +1,4 @@
-export type User = {
-    id: number;
-    email: string;
-    fullName: string;
-    username: string;
-}
+import { User } from "./shared.types";
 
 export type SignupRequest = {
     fullName: string;
@@ -22,8 +17,10 @@ export type SignInRequest = {
     password: string;
 };
 
-export type SignInResponse = RefreshTokenResponse & {
+export type SignInResponse = {
     message: string;
+    accessToken: string;
+    refreshToken: string;
     user: User;
 };
 
@@ -36,15 +33,12 @@ export type VerifyEmailResponse = {
     message: string;
 };
 
-export type RefreshTokenRequest = {
+export type RefreshTokenRequestQuery = {
     refreshToken: string;
 };
 
 export type RefreshTokenResponse = {
-    token: {
-        accessToken: string;
-        refreshToken: string;
-    }
+    accessToken: string;
 }
 
 export type ForgetPasswordRequest = {

@@ -1,9 +1,10 @@
-import { SignInResponse, User } from '@/types/auth.types';
-import { createSlice } from '@reduxjs/toolkit';
+import { User } from '@/types/shared.types';
+import { SignInResponse } from '@/types/auth.types';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface AuthState {
-    accessToken: SignInResponse['token']['accessToken'] | null;
-    refreshToken: SignInResponse['token']['refreshToken'] | null;
+    accessToken: SignInResponse['accessToken'] | null;
+    refreshToken: SignInResponse['refreshToken'] | null;
     isAuthenticated: boolean;
     user: User | null;
 }
@@ -15,17 +16,13 @@ const initialState: AuthState = {
     user: null,
 };
 
-type actionType = {
-    payload: SignInResponse
-};
-
 const authSlice = createSlice({
     name: 'auth',
     initialState,
     reducers: {
-        setCredentials: (state, action: actionType) => {
-            state.accessToken = action.payload.token.accessToken;
-            state.refreshToken = action.payload.token.refreshToken;
+        setCredentials: (state, action: PayloadAction<SignInResponse>) => {
+            state.accessToken = action.payload.accessToken;
+            state.accessToken = action.payload.refreshToken;
             state.isAuthenticated = true;
             state.user = { ...action.payload.user };
         },

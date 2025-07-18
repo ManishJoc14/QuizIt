@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, TextInput, Image, ScrollView } from 'react-native';
 import { Link } from 'expo-router';
 import { Checkbox } from 'expo-checkbox';
+import { View, Text, TextInput, Image, ScrollView } from 'react-native';
 
 import { Button } from '@/components/ui/Button';
 import { IconSymbol } from '@/components/ui/IconSymbol';
 import { useSignUp } from '@/hooks/auth/useSignUp';
 import { useTheme } from '@/context/ThemeContext';
+import { useIsUsernameUnique } from '@/hooks/user/useIsUsernameUnique';
 
 export default function SignUpScreen() {
     const [fullName, setFullName] = useState('lalit');
@@ -15,8 +16,8 @@ export default function SignUpScreen() {
     const [password, setPassword] = useState('lalit');
     const [isFormValid, setIsFormValid] = useState(false);
     const [isChecked, setChecked] = useState(true);
-
     const { register, isLoading, error } = useSignUp();
+    const { isUsernameUnique, isUsernameChecking } = useIsUsernameUnique({ username });
     const { theme } = useTheme();
 
     const inputBg = theme === 'dark' ? 'bg-gray-700' : 'bg-gray-100';
@@ -39,6 +40,7 @@ export default function SignUpScreen() {
         const valid = fullName && username && email && password && isChecked;
         setIsFormValid(Boolean(valid));
     }, [fullName, username, email, password, isChecked]);
+
 
     return (
         <View className="flex-1 bg-gray-50 dark:bg-gray-900">
@@ -77,6 +79,12 @@ export default function SignUpScreen() {
                             className={textColor}
                         />
                     </View>
+
+                    {!isUsernameUnique && (
+                        <Text className="text-red-500 mb-2 text-sm">
+                            Username already exists, please choose another username.
+                        </Text>
+                    )}
 
                     {/* Email */}
                     <View className={`${inputBg} flex-row items-center px-4 py-2 mb-4 rounded-xl`}>
@@ -127,8 +135,8 @@ export default function SignUpScreen() {
                         size="lg"
                         fullWidth
                         onPress={handleSignUp}
-                        isDisabled={!isFormValid}
-                        isLoading={isLoading}
+                        isDisabled={!isFormValid || !isUsernameUnique}
+                        isLoading={isLoading || isUsernameChecking}
                     />
 
                     <View className="flex-row items-center mt-8 mb-6">

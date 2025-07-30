@@ -11,8 +11,8 @@ export const userApi = api.injectEndpoints({
                 params
             })
         }),
-
-    })
+    }),
+    overrideExisting: true
 });
 
 export const { useGetUserQuery, useLazyGetUserQuery } = userApi;

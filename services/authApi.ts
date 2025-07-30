@@ -35,6 +35,14 @@ export const authApi = api.injectEndpoints({
             invalidatesTags: ['User'],
         }),
 
+        getMe: build.query<SignInResponse, void>({
+            query: () => ({
+                url: '/auth/me',
+                method: 'GET',
+            }),
+            providesTags: ['User'],
+        }),
+
         refreshToken: build.mutation<RefreshTokenResponse, RefreshTokenRequestQuery>({
             query: (params) => ({
                 url: '/auth/renew-access',
@@ -83,6 +91,7 @@ export const authApi = api.injectEndpoints({
             }),
         }),
     }),
+    overrideExisting: true
 });
 
 export const {
@@ -94,4 +103,5 @@ export const {
     useForgetPasswordMutation,
     useVerifyForgetPasswordMutation,
     useResetPasswordMutation,
+    useLazyGetMeQuery
 } = authApi;

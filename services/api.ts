@@ -27,8 +27,10 @@ const axiosBaseQuery =
     > =>
         async ({ url, method, data, params, meta }) => {
             try {
-                const isPublicRoute = noAuthRoutes.some(route => url.startsWith(route));
-                const token = isPublicRoute ? null : await getToken('accessToken');
+                const isPublicRoute = noAuthRoutes.includes(url);
+                const requireAuth = !isPublicRoute;
+
+                const token = requireAuth ? await getToken('accessToken') : null;
                 const isForm = meta?.contentType === 'form';
 
                 const headers: Record<string, string> = {
@@ -42,13 +44,15 @@ const axiosBaseQuery =
                 const snakeData = data ? snakecaseKeys(data, { deep: true }) : undefined;
                 const snakeParams = params ? snakecaseKeys(params, { deep: true }) : undefined;
 
-                console.log('MAKING REQUEST:', {
-                    url: baseUrl + url,
-                    method,
-                    data: snakeData,
-                    params: snakeParams,
-                    headers,
-                });
+                console.log('MAKING REQUEST:', JSON.stringify(
+                    {
+                        url: baseUrl + url,
+                        method,
+                        data: snakeData,
+                        params: snakeParams,
+                        headers,
+                    }, null, 2
+                ));
 
                 const result = await axios({
                     url: baseUrl + url,
@@ -64,8 +68,9 @@ const axiosBaseQuery =
                 return { data: camelData };
             } catch (err) {
                 const error = err as AxiosError;
+                console.log(error)
 
-                if (error.response?.status === 401) {
+                if (error.status === 401 || error.status === 403) {
                     const refreshed = await handleTokenRefresh(baseUrl);
 
                     if (refreshed?.accessToken) {
@@ -107,5 +112,5 @@ export const api = createApi({
     // baseQuery: axiosBaseQuery({ baseUrl: 'http://127.0.0.1:8000' }),
     baseQuery: axiosBaseQuery({ baseUrl: 'http://192.168.1.65:8000' }),
     endpoints: () => ({}),
-    tagTypes: ['User'],
+    tagTypes: ['User', 'Quiz'],
 });

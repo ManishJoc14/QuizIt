@@ -5,6 +5,7 @@ import { View, Text, Image, TouchableOpacity } from 'react-native';
 import { useRouter } from 'expo-router';
 
 import getRandomPersonsImage from '@/utils/functions/getRandomImage';
+import { getRelativeTime } from '@/utils/functions/time';
 
 import { ILibraryQuiz } from './types';
 
@@ -22,7 +23,7 @@ export function LibraryQuizCard({
             className="flex-row mb-4 overflow-hidden bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700"
         >
             <Image
-                source={{ uri: quiz.image }}
+                source={{ uri: quiz.coverPhoto || getRandomPersonsImage() }}
                 className="w-40 h-full mr-1"
                 resizeMode="cover"
             />
@@ -35,12 +36,12 @@ export function LibraryQuizCard({
                 </Text>
                 <View className="flex-row items-center space-x-1">
                     <Image
-                        source={{ uri: getRandomPersonsImage() }}
+                        source={{ uri: quiz.image || getRandomPersonsImage() }}
                         className="w-6 h-6 rounded-full mx-1"
                     />
                     <Text numberOfLines={1} className="text-sm text-gray-500 dark:text-gray-300 max-w-[60px]">{quiz.author}</Text>
                     <Text className="text-sm text-gray-500 mx-2">•</Text>
-                    <Text className="text-sm text-gray-500">{quiz.date}</Text>
+                    <Text className="text-sm text-gray-500">{getRelativeTime(quiz.date)}</Text>
                     <Text className="text-sm text-gray-500 mx-2">•</Text>
                     <Text className="text-sm text-gray-500">{quiz.count}Qns</Text>
                 </View>

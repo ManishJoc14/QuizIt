@@ -25,8 +25,6 @@ export function ResultQuestionCard({
     const isCorrect = selectedIndex === correctIndex;
     const { theme } = useTheme();
 
-    console.log('points:', points);
-
     return (
         <View
             className={`mx-4 mb-4 rounded-2xl border px-4 py-4 ${isCorrect ? 'bg-green-100 dark:bg-green-950 border-green-400' : 'bg-red-100 dark:bg-red-950 border-red-400'}`}

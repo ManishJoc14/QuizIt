@@ -3,18 +3,17 @@ import React, { useEffect, useState } from 'react';
 import { SafeAreaView } from 'react-native';
 
 import { Stack } from 'expo-router';
-import Toast from 'react-native-toast-message';
 
+import Toast from 'react-native-toast-message';
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
+import { Provider } from 'react-redux';
 import { StatusBar } from 'expo-status-bar';
 import { useFonts } from 'expo-font';
 import "../global.css";
 
-import { useTheme, ThemeProviderWrapper } from '@/context/ThemeContext';
-import { Provider } from 'react-redux';
 import { store } from '@/utils/libs/store';
 import { toastConfig } from '@/utils/functions/toastConfig';
-
+import { useTheme, ThemeProviderWrapper } from '@/context/ThemeContext';
 
 function InnerRootLayout() {
   const { theme, loading } = useTheme();

@@ -5,3 +5,7 @@ export type User = {
     username: string;
     photo?: string;
 }
+
+export interface MutationSuccessResponse {
+    message: string;
+}

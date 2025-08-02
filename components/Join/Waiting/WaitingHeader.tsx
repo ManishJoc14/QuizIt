@@ -10,7 +10,7 @@ export function WaitingHeader() {
     const router = useRouter();
     return (
         <View className='flex-row items-center justify-between mb-6'>
-            <TouchableOpacity onPress={() => router.back()}>
+            <TouchableOpacity onPress={() => router.push("/")}>
                 <View className='flex-row items-center gap-2'>
                     <IconSymbol
                         name="chevron.left"

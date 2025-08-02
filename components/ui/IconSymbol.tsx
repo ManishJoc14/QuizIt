@@ -35,6 +35,7 @@ const MAPPING = {
   'square.and.pencil': 'mode-edit', // Edit icon
   'square.and.arrow.up': 'share', // Share icon
   'checkmark.circle': 'check-circle', // Checkmark icon
+  'circle': 'radio-button-unchecked', // Circle icon
   'multiply.circle': 'cancel', // Cancel icon
   'gear': 'settings', // Settings icon
   'envelope': 'email', // Envelope icon
@@ -46,6 +47,8 @@ const MAPPING = {
   'face.smiling.fill': 'sentiment-satisfied', // Happy face icon
   'face.smiling.inverse': 'sentiment-very-dissatisfied', // Inverse happy face icon
   'face.dashed': 'sentiment-neutral', // Neutral face icon
+  'plus': 'add', // Plus icon
+  'minus': 'remove', // Minus icon
 } as IconMapping;
 
 /**

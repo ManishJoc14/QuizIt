@@ -1,6 +1,7 @@
-import { User } from '@/types/shared.types';
-import { SignInResponse } from '@/types/auth.types';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+
+import { SignInResponse } from '@/types/auth.types';
+import { User } from '@/types/shared.types';
 
 interface AuthState {
     accessToken: SignInResponse['accessToken'] | null;

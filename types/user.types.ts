@@ -8,3 +8,33 @@ export type GetUserParams = {
 export type GetUserResponse = {
     user: User;
 };
+
+export type Question = {
+    id: number;
+    question: string;
+    options: string[];
+    correctOption: number;
+    points: number;
+    duration: number;
+    questionIndex: number;
+}
+
+export type QuizEditResponse = {
+    userId: number;
+    quizId: number;
+    editData: {
+        coverPhoto: string | null;
+        title: string;
+        description: string;
+        questions: Question[];
+    }
+};
+
+export interface QuizEditPayload {
+    title: string;
+    description: string;
+    coverPhoto?: File | string | null;
+    isPublished: boolean;
+    questions: (Omit<Question, 'id'> & { id?: number })[];
+    tags: string[];
+}

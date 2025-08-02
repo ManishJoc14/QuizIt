@@ -60,7 +60,7 @@ export function CreateQuizForm({
     const labelTextColor = theme === 'dark' ? 'text-gray-300' : 'text-gray-600';
 
     const handleImagePick = () => {
-        const randomImage = getRandomImage();
+        const randomImage = getRandomImage(800, 400);
         onChangeCoverPhoto(randomImage);
     };
 
@@ -98,7 +98,7 @@ export function CreateQuizForm({
 
                 <View className="mb-4">
                     <Text className={`text-lg font-medium mb-2 ${labelTextColor}`}>Cover Photo</Text>
-                    <Pressable onPress={handleImagePick} className="relative w-full h-40 rounded-xl overflow-hidden bg-gray-200 dark:bg-gray-700 items-center justify-center">
+                    <Pressable onPress={handleImagePick} className="relative w-full h-40 web:h-80 rounded-xl overflow-hidden bg-gray-200 dark:bg-gray-700 items-center justify-center">
                         {coverPhoto ? (
                             <Image source={{ uri: coverPhoto }} className="w-full h-full" resizeMode="cover" />
                         ) : (

@@ -20,7 +20,7 @@ export function LibraryQuizCard({
             activeOpacity={0.9}
             key={quiz.id}
             onPress={() => router.push({ pathname: '/quiz/[id]', params: { id: String(quiz.id) } })}
-            className="flex-row mb-4 overflow-hidden bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700"
+            className="flex-row w-full max-w-xl mb-4 overflow-hidden bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700"
         >
             <Image
                 source={{ uri: quiz.coverPhoto || getRandomPersonsImage() }}

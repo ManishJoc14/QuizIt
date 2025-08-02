@@ -1,13 +1,13 @@
-import * as SecureStore from 'expo-secure-store';
+import { Storage } from './storage';
 
 export const saveToken = async (key: string, value: string) => {
-    await SecureStore.setItemAsync(key, value);
+    await Storage.setItem(key, value);
 };
 
 export const getToken = async (key: string) => {
-    return await SecureStore.getItemAsync(key);
+    return await Storage.getItem(key);
 };
 
 export const deleteToken = async (key: string) => {
-    await SecureStore.deleteItemAsync(key);
+    await Storage.deleteItem(key);
 };

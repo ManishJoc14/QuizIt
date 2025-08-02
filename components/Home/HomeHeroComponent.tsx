@@ -12,14 +12,14 @@ export function Hero() {
         className="w-full rounded-xl overflow-hidden"
         resizeMode="cover"
       >
-        <View className="bg-black/50 px-6 py-16 items-center justify-center">
+        <View className="bg-black/50 px-6 py-16 web:py-48 items-center justify-center">
           {/* Title */}
-          <Text className="text-4xl tracking-wider font-semibold text-white text-center mb-2">
+          <Text className="text-4xl web:text-5xl tracking-wider font-semibold text-white text-center mb-2">
             Welcome to QuizIt
           </Text>
 
           {/* Subtitle */}
-          <Text className="text-gray-200 tracking-wide text-center text-base max-w-xs">
+          <Text className="text-gray-200 tracking-wide text-center text-base web:text-lg max-w-xs">
             Explore quizzes and challenge your knowledge with friends
           </Text>
         </View>

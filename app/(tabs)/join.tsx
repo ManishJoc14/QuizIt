@@ -12,8 +12,10 @@ export default function Join() {
     return (
         <View className="flex-1 bg-white dark:bg-gray-950 pt-safe-offset-4 px-6">
             <JoinHeader />
-            <JoinInput code={code} setCode={setCode} />
-            <JoinButton onPress={handleJoin} />
+            <View className="web:max-w-2xl web:mx-auto flex web:-mt-24">
+                <JoinInput code={code} setCode={setCode} />
+                <JoinButton onPress={handleJoin} />
+            </View>
         </View>
     );
 }

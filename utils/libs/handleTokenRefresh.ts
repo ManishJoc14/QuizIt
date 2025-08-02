@@ -1,10 +1,15 @@
 import axios from 'axios';
 import { saveToken, deleteToken, getToken } from './secureStorage';
+import { router } from 'expo-router';
 
 export async function handleTokenRefresh(baseUrl: string) {
     const refreshToken = await getToken('refreshToken');
+    console.log('Refreshing token with refreshToken:', refreshToken);
 
-    if (!refreshToken) return null;
+    if (!refreshToken) {
+        router.push('/signin');
+        return null;
+    };
 
     try {
         const refreshResponse = await axios.post(baseUrl + '/refresh-token', { refreshToken });

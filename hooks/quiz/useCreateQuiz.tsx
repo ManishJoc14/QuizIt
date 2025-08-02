@@ -120,11 +120,10 @@ export function useCreateQuiz() {
 
         try {
             const result = await createQuiz(payload).unwrap();
-            Alert.alert('Success', result.message || 'Quiz submitted!');
             Toast.show({
                 type: 'success',
                 text1: 'Quiz Created',
-                text2: 'Your quiz has been created successfully!',
+                text2: result.message || 'Your quiz has been created successfully.',
             });
             // reset form state
             setTitle('');
@@ -133,7 +132,6 @@ export function useCreateQuiz() {
             setSelectedTags([]);
             setQuestions([]);
             closeQuestionModal();
-            // Optionally, navigate to another screen or reset the form
             router.replace({
                 pathname: '/library',
                 params: {},

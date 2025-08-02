@@ -1,5 +1,4 @@
 import React from 'react';
-
 import {
     ScrollView,
     View,
@@ -9,17 +8,15 @@ import {
     Pressable,
     TouchableOpacity,
 } from 'react-native';
-
 import { Button } from '@/components/ui/Button';
 import { IconSymbol } from '@/components/ui/IconSymbol';
 import { Question } from '@/types/quiz.types';
 import { useTheme } from '@/context/ThemeContext';
 import { getRandomImage } from '@/utils/functions/getRandomImage';
-
 import { ResultQuestionCard } from '../Join/Result/ResultQuestionCard';
-import { TagSelection } from './CreateTagSelection';
+import { TagSelection } from '../Create/CreateTagSelection';
 
-interface CreateQuizFormProps {
+interface EditQuizFormProps {
     title: string;
     description: string;
     coverPhoto: string;
@@ -34,9 +31,10 @@ interface CreateQuizFormProps {
     onSubmit: (payload: { isPublished: boolean; data: any }) => void;
     onAddQuestion: () => void;
     onEditQuestion: (questionId: string) => void;
+    deletedQuestionIds: number[];
 }
 
-export function CreateQuizForm({
+export function EditQuizForm({
     title,
     description,
     coverPhoto,
@@ -51,7 +49,8 @@ export function CreateQuizForm({
     onSubmit,
     onAddQuestion,
     onEditQuestion,
-}: CreateQuizFormProps) {
+    deletedQuestionIds,
+}: EditQuizFormProps) {
     const { theme } = useTheme();
 
     const inputBg = theme === 'dark' ? 'bg-gray-700' : 'bg-gray-100';
@@ -65,12 +64,14 @@ export function CreateQuizForm({
     };
 
     return (
-        <ScrollView className="flex-1" contentContainerStyle={{ paddingBottom: 100 }}
+        <ScrollView
+            className="flex-1"
+            contentContainerStyle={{ paddingBottom: 100 }}
             showsVerticalScrollIndicator={false}
         >
             {/* Quiz Details */}
             <View className="px-2 mb-8">
-                <Text className={`text-2xl font-semibold mb-4 ${labelTextColor}`}>Quiz Details</Text>
+                <Text className={`text-2xl font-semibold mb-4 ${labelTextColor}`}>Edit Quiz Details</Text>
 
                 <View className="mb-4">
                     <Text className={`text-lg font-medium mb-2 ${labelTextColor}`}>Title</Text>
@@ -98,7 +99,10 @@ export function CreateQuizForm({
 
                 <View className="mb-4">
                     <Text className={`text-lg font-medium mb-2 ${labelTextColor}`}>Cover Photo</Text>
-                    <Pressable onPress={handleImagePick} className="relative w-full h-40 rounded-xl overflow-hidden bg-gray-200 dark:bg-gray-700 items-center justify-center">
+                    <Pressable
+                        onPress={handleImagePick}
+                        className="relative w-full h-40 rounded-xl overflow-hidden bg-gray-200 dark:bg-gray-700 items-center justify-center"
+                    >
                         {coverPhoto ? (
                             <Image source={{ uri: coverPhoto }} className="w-full h-full" resizeMode="cover" />
                         ) : (
@@ -124,28 +128,49 @@ export function CreateQuizForm({
             {/* Quiz Questions */}
             <View className="px-2 mb-8">
                 <View className="flex-row justify-between items-center mb-4">
-                    <Text className={`text-2xl font-semibold ${labelTextColor}`}>Questions ({questions.length})</Text>
+                    <Text className={`text-2xl font-semibold ${labelTextColor}`}>
+                        Questions ({questions.length})
+                        {deletedQuestionIds.length > 0 && (
+                            <Text className="text-red-500 text-sm"> ({deletedQuestionIds.length} deleted)</Text>
+                        )}
+                    </Text>
                     <Button title="Add Question" onPress={onAddQuestion} size="md" />
                 </View>
 
                 {questions.length === 0 ? (
                     <View className="bg-gray-200 dark:bg-gray-700 p-4 rounded-xl items-center justify-center h-52">
-                        <Text className="text-gray-600 dark:text-gray-400">No questions added yet.</Text>
+                        <Text className="text-gray-600 dark:text-gray-400">
+                            {deletedQuestionIds.length > 0
+                                ? "All questions deleted. Add new questions to continue."
+                                : "No questions added yet."
+                            }
+                        </Text>
                     </View>
                 ) : (
                     questions.map((q, index) => (
-                        <TouchableOpacity key={String(q.id ?? index)} onPress={() => onEditQuestion(String(q.id ?? ''))}>
-                            <ResultQuestionCard
-                                id={index}
-                                key={q.id ?? index}
-                                index={index + 1}
-                                question={q.question}
-                                options={q.options}
-                                correctIndex={q.correctOption}
-                                selectedIndex={q.correctOption}
-                                points={q.points}
-                                timeTaken={q.duration}
-                            />
+                        <TouchableOpacity
+                            key={String(q.id ?? index)}
+                            onPress={() => onEditQuestion(String(q.id ?? ''))}
+                        >
+                            <View className="relative">
+                                <ResultQuestionCard
+                                    id={index}
+                                    key={q.id ?? index}
+                                    index={index + 1}
+                                    question={q.question}
+                                    options={q.options}
+                                    correctIndex={q.correctOption}
+                                    selectedIndex={q.correctOption}
+                                    points={q.points}
+                                    timeTaken={q.duration}
+                                />
+                                {/* New question indicator */}
+                                {(q as any).isNew && (
+                                    <View className="absolute top-2 right-2 bg-green-500 rounded-full px-2 py-1">
+                                        <Text className="text-white text-xs font-medium">NEW</Text>
+                                    </View>
+                                )}
+                            </View>
                         </TouchableOpacity>
                     ))
                 )}
@@ -154,7 +179,7 @@ export function CreateQuizForm({
             {/* Buttons */}
             <View className="flex-row justify-around px-2 gap-3 mb-4">
                 <Button
-                    title="Submit Quiz"
+                    title="Update Quiz"
                     onPress={() =>
                         onSubmit({
                             isPublished: true,

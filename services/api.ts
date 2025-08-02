@@ -68,9 +68,10 @@ const axiosBaseQuery =
                 return { data: camelData };
             } catch (err) {
                 const error = err as AxiosError;
-                console.log(error)
+                console.log('error: ', error, error.status)
 
                 if (error.status === 401 || error.status === 403) {
+                    console.log('attempting refresh...');
                     const refreshed = await handleTokenRefresh(baseUrl);
 
                     if (refreshed?.accessToken) {

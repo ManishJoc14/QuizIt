@@ -1,20 +1,25 @@
 import React, { useState } from 'react';
-
 import { View, Text, TextInput, Pressable, ScrollView, Alert } from 'react-native';
-
 import { Button } from '@/components/ui/Button';
 import { IconSymbol } from '@/components/ui/IconSymbol';
 import { Question } from '@/types/quiz.types';
 import { useTheme } from '@/context/ThemeContext';
 
-interface QuestionFormProps {
+interface EditQuestionFormProps {
     initialData?: Question; // for editing existing questions
     onSave: (question: Question) => void;
     onCancel: () => void;
     onDelete?: (questionId: string | number) => void; // for deleting in edit mode
+    isEditing: boolean; // to differentiate between add and edit modes
 }
 
-export function QuestionForm({ initialData, onSave, onCancel, onDelete }: QuestionFormProps) {
+export function EditQuestionForm({
+    initialData,
+    onSave,
+    onCancel,
+    onDelete,
+    isEditing
+}: EditQuestionFormProps) {
     const { theme } = useTheme();
 
     const [questionText, setQuestionText] = useState(initialData?.question || '');
@@ -31,19 +36,20 @@ export function QuestionForm({ initialData, onSave, onCancel, onDelete }: Questi
 
     const handleSave = () => {
         if (!questionText.trim() || options.some(opt => !opt.trim())) {
-            alert('Please fill in all question and option fields.');
+            Alert.alert('Validation Error', 'Please fill in all question and option fields.');
             return;
         }
         if (points <= 0 || duration <= 0) {
-            alert('Points and duration must be positive numbers.');
+            Alert.alert('Validation Error', 'Points and duration must be positive numbers.');
             return;
         }
         if (correctOption >= options.length || correctOption < 0) {
-            alert('Please select a valid correct option.');
+            Alert.alert('Validation Error', 'Please select a valid correct option.');
             return;
         }
+
         const questionToSave: Question = {
-            id: initialData?.id || 1,
+            id: initialData?.id,
             question: questionText,
             options: options.filter(opt => opt.trim() !== ''),
             correctOption: correctOption,
@@ -57,21 +63,38 @@ export function QuestionForm({ initialData, onSave, onCancel, onDelete }: Questi
         if (initialData?.id && onDelete) {
             Alert.alert(
                 "Delete Question",
-                "Are you sure you want to delete this question?",
+                "Are you sure you want to delete this question? This action cannot be undone.",
                 [
                     { text: "Cancel", style: "cancel" },
-                    { text: "Delete", onPress: () => initialData.id !== undefined && onDelete(initialData.id), style: "destructive" }
+                    {
+                        text: "Delete",
+                        onPress: () => initialData.id !== undefined && onDelete(initialData.id),
+                        style: "destructive"
+                    }
                 ],
                 { cancelable: true }
             );
         }
     };
 
+    const isNewQuestion = (initialData as any)?.isNew || !initialData;
+
     return (
         <ScrollView
             contentContainerStyle={{ paddingBottom: 80 }}
             showsVerticalScrollIndicator={false}
         >
+            {/* Show question status */}
+            {initialData && (
+                <View className="mb-4">
+                    <View className={`inline-flex px-3 py-1 rounded-full ${isNewQuestion ? 'bg-green-100 dark:bg-green-900' : 'bg-blue-100 dark:bg-blue-900'}`}>
+                        <Text className={`text-sm font-medium ${isNewQuestion ? 'text-green-800 dark:text-green-200' : 'text-blue-800 dark:text-blue-200'}`}>
+                            {isNewQuestion ? 'New Question' : 'Existing Question'}
+                        </Text>
+                    </View>
+                </View>
+            )}
+
             {/* Question */}
             <Text className={`text-lg font-semibold mb-3 ${labelTextColor}`}>Question</Text>
             <TextInput
@@ -138,6 +161,7 @@ export function QuestionForm({ initialData, onSave, onCancel, onDelete }: Questi
             {/* Buttons */}
             <View className="gap-3">
                 <View className="flex-row justify-around gap-3">
+                    {/* Delete button - only show for existing questions */}
                     {initialData && onDelete && (
                         <Button
                             title="Delete"
@@ -156,7 +180,8 @@ export function QuestionForm({ initialData, onSave, onCancel, onDelete }: Questi
                         size="lg"
                         fullWidth
                     />
-                    {!initialData && (
+                    {/* Add/Save button */}
+                    {!isEditing && (
                         <Button
                             title="Add Question"
                             onPress={handleSave}
@@ -168,7 +193,8 @@ export function QuestionForm({ initialData, onSave, onCancel, onDelete }: Questi
                     )}
                 </View>
 
-                {initialData && (
+                {/* Save changes button for editing */}
+                {isEditing && (
                     <View className="mt-2">
                         <Button
                             title="Save Changes"

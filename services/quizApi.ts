@@ -1,4 +1,4 @@
-import { CreateQuizPayload, QuizTagsResponse } from "@/types/quiz.types";
+import { CreateQuizPayload, QuizQuestionsResponse, QuizResponse, QuizTagsResponse, QuizzesResponse } from "@/types/quiz.types";
 import { MutationSuccessResponse } from "@/types/shared.types";
 
 import { api } from "./api";
@@ -20,15 +20,37 @@ export const quizApi = api.injectEndpoints({
                 params: query,
             }),
         }),
-        // getQuizzes: build.query<QuizTagsResponse, void>({
-        //     query: (query) => ({
-        //         url: '/quiz/',
-        //         method: 'GET',
-        //         params: query,
-        //     }),
-        // }),
+        getQuizzes: build.query<QuizzesResponse, void>({
+            query: (query) => ({
+                url: '/quiz/',
+                method: 'GET',
+                params: query,
+            }),
+            providesTags: ['Quiz'],
+        }),
+        getQuizById: build.query<QuizResponse, number>({
+            query: (id) => ({
+                url: `/quiz/${id}`,
+                method: 'GET',
+            }),
+            providesTags: ['Quiz'],
+        }),
+        getQuizQuestions: build.query<QuizQuestionsResponse, number>({
+            query: (id) => ({
+                url: `/quiz/quiz-questions/${id}`,
+                method: 'GET',
+            }),
+            providesTags: ['Quiz'],
+        }),
+        deleteQuizQuestion: build.mutation<MutationSuccessResponse, { quizId: number, questionId: number }>({
+            query: ({ quizId, questionId }) => ({
+                url: `/quiz/${quizId}/question/${questionId}`,
+                method: 'DELETE',
+            }),
+            invalidatesTags: ['Quiz']
+        }),
     }),
     overrideExisting: true,
 });
 
-export const { useCreateQuizMutation, useGetQuizTagsQuery } = quizApi;
+export const { useCreateQuizMutation, useGetQuizTagsQuery, useGetQuizzesQuery, useGetQuizByIdQuery, useGetQuizQuestionsQuery, useDeleteQuizQuestionMutation } = quizApi;

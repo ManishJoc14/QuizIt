@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text } from 'react-native';
 
 import { IconSymbol } from '@/components/ui/IconSymbol';
 import { useTheme } from '@/context/ThemeContext';
@@ -15,9 +15,9 @@ export function LibraryHeader() {
                     Library
                 </Text>
             </View>
-            <TouchableOpacity>
+            {/* <TouchableOpacity>
                 <IconSymbol name="magnifyingglass" size={28} color="#6B7280" />
-            </TouchableOpacity>
+            </TouchableOpacity> */}
         </View>
     );
 }

@@ -1,6 +1,7 @@
 
-import { GetUserParams, GetUserResponse } from "@/types/user.types";
+import { GetUserParams, GetUserResponse, QuizEditPayload, QuizEditResponse } from "@/types/user.types";
 import { api } from "./api";
+import { MutationSuccessResponse } from "@/types/shared.types";
 
 export const userApi = api.injectEndpoints({
     endpoints: (build) => ({
@@ -11,8 +12,32 @@ export const userApi = api.injectEndpoints({
                 params
             })
         }),
+        getQuizForEdit: build.query<QuizEditResponse, number>({
+            query: (id) => ({
+                url: `/user/me/${id}/edit`,
+                method: 'GET',
+            }),
+            providesTags: ['Quiz'],
+        }),
+
+        updateQuiz: build.mutation<MutationSuccessResponse, { id: number, values: QuizEditPayload }>({
+            query: ({ id, values }) => ({
+                url: `/user/me/${id}/edit`,
+                method: 'PUT',
+                data: values,
+            }),
+            invalidatesTags: ['Quiz']
+        }),
+
+        deteleQuiz: build.mutation<MutationSuccessResponse, number>({
+            query: (id) => ({
+                url: `/user/me/${id}/delete`,
+                method: 'DELETE',
+            }),
+            invalidatesTags: ['Quiz']
+        }),
     }),
     overrideExisting: true
 });
 
-export const { useGetUserQuery, useLazyGetUserQuery } = userApi;
+export const { useGetUserQuery, useLazyGetUserQuery, useGetQuizForEditQuery, useDeteleQuizMutation, useUpdateQuizMutation } = userApi;

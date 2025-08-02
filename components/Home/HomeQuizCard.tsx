@@ -2,7 +2,6 @@ import { Image, Text, TouchableOpacity, View } from "react-native";
 
 import { useRouter } from "expo-router";
 
-import getRandomPersonsImage, { getRandomImage } from "@/utils/functions/getRandomImage";
 
 interface QuizCardProps {
     id: number;
@@ -10,7 +9,7 @@ interface QuizCardProps {
     authorName: string;
     authorAvatar?: string;
     questionCount: number;
-    image?: string;
+    image: string;
 }
 
 export function QuizCard({
@@ -34,7 +33,7 @@ export function QuizCard({
                     {/* Cover Image */}
                     <View className="relative">
                         <Image
-                            source={{ uri: image ?? getRandomImage() }}
+                            source={{ uri: image }}
                             className="w-full h-36 bg-gray-200 dark:bg-gray-700"
                         />
                         {/* Question Badge */}
@@ -57,7 +56,7 @@ export function QuizCard({
                         {/* Author */}
                         <View className="flex-row items-center my-2">
                             <Image
-                                source={{ uri: authorAvatar ?? getRandomPersonsImage() }}
+                                source={{ uri: authorAvatar }}
                                 className="w-8 h-8 rounded-full mr-2"
                             />
                             <Text className="text-sm tracking-wide text-gray-600 dark:text-gray-400">

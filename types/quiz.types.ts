@@ -1,8 +1,10 @@
+import { ILibraryQuiz } from "@/components/Library/types";
+
 export interface Question {
     id?: number | string;
     question: string;
     options: string[];
-    questionIndex?: number; // Optional index for ordering
+    questionIndex: number; // index for ordering
     correctOption: number; // Index of the correct answer in options
     points: number; // Points awarded for this question
     duration: number; // Duration in seconds to answer this question
@@ -19,4 +21,29 @@ export interface CreateQuizPayload {
 
 export interface QuizTagsResponse {
     quizTags: string[];
+}
+
+export interface QuizzesResponse {
+    message: string;
+    data: ILibraryQuiz[];
+}
+
+export interface QuizResponse {
+    message: string;
+    data: ILibraryQuiz & { isThisMe: boolean; };
+}
+
+export interface QuizQuestion {
+    questionId: number;
+    question: string;
+    options: string[];
+    questionIndex: number;
+    correctOption: number;
+    points: number;
+    duration: number;
+}
+
+export interface QuizQuestionsResponse {
+    message: string;
+    data: QuizQuestion[];
 }

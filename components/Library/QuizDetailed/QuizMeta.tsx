@@ -1,9 +1,11 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 
-import { QuizData } from '@/components/Join/types';
-
-export function QuizMeta({ questions, played, favorited }:  QuizData['meta']) {
+export function QuizMeta({ questions, played, favorited }: {
+    questions: number;
+    played: number;
+    favorited: number;
+}) {
     return (
         <View className="flex-row justify-between border-t border-b py-6 border-gray-200 dark:border-gray-700 mb-8">
             <View className="items-center flex-1">

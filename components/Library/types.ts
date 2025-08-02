@@ -2,7 +2,8 @@ export interface ILibraryQuiz {
     id: number;
     title: string;
     description: string;
-    image: string;
+    coverPhoto: string | null;
+    image: string | null;
     author: string;
     plays: number;
     date: string;
@@ -10,16 +11,6 @@ export interface ILibraryQuiz {
 }
 
 export type IOrder = 'asc' | 'desc'
-
-export type Question = {
-    id: number;
-    index: number;
-    question: string;
-    options: string[];
-    correctAnswer: string;
-    points: number;
-    time: number;
-};
 
 export type ResultItem = {
     id: number;

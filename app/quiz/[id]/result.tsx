@@ -9,12 +9,15 @@ import { Button } from '@/components/ui/Button';
 import { ResultData } from '@/components/Join/types';
 
 export default function ResultsScreen() {
-    const { result } = useLocalSearchParams();
+    const { result, rank } = useLocalSearchParams();
+
+    const userResult = Array.isArray(result) ? result[0] : result;
+    const userRank = Array.isArray(rank) ? rank[0] : rank;
 
     let parsed: ResultData | null = null;
     try {
-        if (typeof result === 'string') {
-            parsed = JSON.parse(result);
+        if (typeof userResult === 'string') {
+            parsed = JSON.parse(userResult);
         }
     } catch (err) {
         console.error('Failed to parse result data:', err);
@@ -28,11 +31,13 @@ export default function ResultsScreen() {
         );
     }
 
+    console.log(parsed)
+
     return (
         <View className="flex-1 bg-violet-950 pt-safe-offset-4">
             <ResultHeader />
             <ScrollView contentContainerStyle={{ paddingBottom: 80 }}>
-                <ResultSummary {...parsed.summary} />
+                <ResultSummary {...{ ...parsed.summary, rank: Number(userRank) }} />
                 <View className='mx-6 bg-white dark:bg-gray-900 rounded-t-3xl rounded-b-none pt-6 pb-2'>
                     {parsed.questions.map((q, index) => (
                         <ResultQuestionCard

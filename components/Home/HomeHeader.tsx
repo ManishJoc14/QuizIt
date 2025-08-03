@@ -10,7 +10,7 @@ export function Header() {
   return (
     <View className="flex-row items-center justify-between px-6 py-2 sm:py-4 bg-white dark:bg-gray-950">
       {/* Greeting */}
-      <Text className="text-2xl tracking-wider font-semibold text-gray-900 dark:text-white">
+      <Text className="text-2xl web:text-xl tracking-wider font-semibold text-gray-900 dark:text-white">
         Hello {user?.username}!
       </Text>
 

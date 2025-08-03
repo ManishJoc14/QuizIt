@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/Button';
 import { IconSymbol } from '@/components/ui/IconSymbol';
 import { Question } from '@/types/quiz.types';
 import { useTheme } from '@/context/ThemeContext';
+import { ConfirmationModal } from '@/components/ConfirmModal';
 
 interface EditQuestionFormProps {
     initialData?: Question; // for editing existing questions
@@ -27,6 +28,7 @@ export function EditQuestionForm({
     const [correctOption, setCorrectOption] = useState<number>(initialData?.correctOption ?? 0);
     const [points, setPoints] = useState(initialData?.points || 10);
     const [duration, setDuration] = useState(initialData?.duration || 30);
+    const [showConfirmModal, setShowConfirmModal] = useState(false);
 
     const inputBg = theme === 'dark' ? 'bg-gray-700' : 'bg-gray-100';
     const inputTextColor = theme === 'dark' ? 'text-gray-100' : 'text-gray-800';
@@ -55,29 +57,14 @@ export function EditQuestionForm({
             correctOption: correctOption,
             points: points,
             duration: duration,
+            questionIndex: initialData?.questionIndex ?? 0,
         };
         onSave(questionToSave);
     };
 
-    const handleDelete = () => {
-        if (initialData?.id && onDelete) {
-            Alert.alert(
-                "Delete Question",
-                "Are you sure you want to delete this question? This action cannot be undone.",
-                [
-                    { text: "Cancel", style: "cancel" },
-                    {
-                        text: "Delete",
-                        onPress: () => initialData.id !== undefined && onDelete(initialData.id),
-                        style: "destructive"
-                    }
-                ],
-                { cancelable: true }
-            );
-        }
-    };
-
     const isNewQuestion = (initialData as any)?.isNew || !initialData;
+
+    const handleDelete = () => setShowConfirmModal(true);
 
     return (
         <ScrollView
@@ -207,6 +194,22 @@ export function EditQuestionForm({
                     </View>
                 )}
             </View>
+
+            {/* Confirmation Modal */}
+            <ConfirmationModal
+                isVisible={showConfirmModal}
+                title="Delete Question"
+                message="Are you sure you want to delete this question? This action cannot be undone."
+                onCancel={() => setShowConfirmModal(false)}
+                onConfirm={() => {
+                    if (initialData && initialData.id !== undefined && typeof onDelete === 'function') {
+                        onDelete(initialData.id);
+                    }
+                    setShowConfirmModal(false);
+                }}
+                confirmText="Delete"
+                cancelText="Cancel"
+            />
         </ScrollView>
     );
 }

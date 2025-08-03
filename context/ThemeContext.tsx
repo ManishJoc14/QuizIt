@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { Appearance, Platform } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { colorScheme as nativeColorScheme } from 'nativewind';
+import { Storage } from '@/utils/libs/storage'; //
 
 const STORAGE_KEY = 'color-scheme';
 type ThemeType = 'light' | 'dark';
@@ -20,13 +20,11 @@ const ThemeContext = createContext<ThemeContextType>({
 
 // --- Polyfill Appearance for Web ---
 if (Platform.OS === 'web' && typeof window !== 'undefined' && typeof document !== 'undefined') {
-  // Polyfill setColorScheme
   Appearance.setColorScheme = (scheme: 'light' | 'dark' | null | undefined) => {
     const theme = scheme === 'dark' || scheme === 'light' ? scheme : 'light';
     document.documentElement.setAttribute('data-theme', theme);
   };
 
-  // Polyfill getColorScheme
   Appearance.getColorScheme = (): ThemeType => {
     const userValue = document.documentElement.getAttribute('data-theme');
     const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -34,29 +32,33 @@ if (Platform.OS === 'web' && typeof window !== 'undefined' && typeof document !=
     return userValue && userValue !== 'null' ? (userValue as ThemeType) : systemValue;
   };
 
-  // Polyfill addChangeListener
   Appearance.addChangeListener = (listener: (event: { colorScheme: ThemeType }) => void) => {
+    if (typeof window === 'undefined' || typeof document === 'undefined') {
+      // no-op if environment isn't ready
+      return { remove: () => { } };
+    }
+
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
 
-    // Listen for system preference changes
     const systemListener = (e: MediaQueryListEvent) => {
-      const newSystemValue: ThemeType = e.matches ? 'dark' : 'light';
+      const systemValue: ThemeType = e.matches ? 'dark' : 'light';
       const userValue = document.documentElement.getAttribute('data-theme');
       listener({
-        colorScheme: userValue && userValue !== 'null' ? (userValue as ThemeType) : newSystemValue,
+        colorScheme: userValue && userValue !== 'null' ? (userValue as ThemeType) : systemValue,
       });
     };
+
     mediaQuery.addEventListener('change', systemListener);
 
-    // Listen for user overrides (mutation observer)
     const observer = new MutationObserver((mutations) => {
       mutations.forEach((mutation) => {
         if (mutation.attributeName === 'data-theme') {
           const scheme = Appearance.getColorScheme();
-          listener({ colorScheme: scheme === 'dark' ? 'dark' : 'light' });
+          listener({ colorScheme: scheme === 'dark' || scheme === 'light' ? scheme : 'light' });
         }
       });
     });
+
     observer.observe(document.documentElement, { attributes: true });
 
     return {
@@ -74,42 +76,33 @@ export const ThemeProviderWrapper = ({ children }: { children: React.ReactNode }
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    let isMounted = true;
     const loadTheme = async () => {
-      const saved = await AsyncStorage.getItem(STORAGE_KEY);
-      const system = Appearance.getColorScheme() || 'light';
-      const toUse = saved === 'dark' || saved === 'light' ? saved : system;
+      try {
+        const saved = await Storage.getItem(STORAGE_KEY);
+        console.log('Loaded saved theme:', saved);
+        const system = Appearance.getColorScheme() || 'light';
+        const toUse = saved === 'dark' || saved === 'light' ? saved : system;
 
-      setTheme(toUse);
-      setColorScheme(toUse);
-      setLoading(false);
+        if (!isMounted) return;
+        setTheme(toUse);
+        setColorScheme(toUse);
+      } catch (err) {
+        console.error('Theme load failed:', err);
+      } finally {
+        if (isMounted) setLoading(false);
+      }
     };
 
     loadTheme();
-
-    // Listen to system or data-theme changes dynamically
-    const subscription = Appearance.addChangeListener(({ colorScheme }) => {
-      // Only update theme if user has not saved a preference (saved === null)
-      AsyncStorage.getItem(STORAGE_KEY).then(saved => {
-        if (!saved) {
-          if (colorScheme === 'dark' || colorScheme === 'light') {
-            setTheme(colorScheme);
-            setColorScheme(colorScheme);
-          }
-        }
-      });
-    });
-
-    return () => subscription?.remove && subscription.remove();
   }, []);
 
   const setColorScheme = (mode: ThemeType) => {
     if (Platform.OS === 'web') {
-      if (typeof document !== 'undefined') {
-        document.documentElement.classList.remove('light', 'dark');
-        document.documentElement.classList.add(mode);
-        document.documentElement.style.colorScheme = mode;
-        Appearance.setColorScheme(mode); // triggers the polyfill data-theme attribute
-      }
+      document.documentElement.classList.remove('light', 'dark');
+      document.documentElement.classList.add(mode);
+      document.documentElement.style.colorScheme = mode;
+      Appearance.setColorScheme(mode);
     } else {
       nativeColorScheme.set(mode);
     }
@@ -118,8 +111,12 @@ export const ThemeProviderWrapper = ({ children }: { children: React.ReactNode }
   const toggleTheme = async () => {
     const next = theme === 'dark' ? 'light' : 'dark';
     setTheme(next);
-    await AsyncStorage.setItem(STORAGE_KEY, next);
-    setColorScheme(next);
+    try {
+      await Storage.setItem(STORAGE_KEY, next);
+      setColorScheme(next);
+    } catch (err) {
+      console.error('Error setting theme:', err);
+    }
   };
 
   return (

@@ -14,7 +14,7 @@ export function Hero() {
       >
         <View className="bg-black/50 px-6 py-16 web:py-48 items-center justify-center">
           {/* Title */}
-          <Text className="text-4xl web:text-5xl tracking-wider font-semibold text-white text-center mb-2">
+          <Text className="text-4xl web:text-6xl tracking-wider font-semibold text-white text-center mb-2">
             Welcome to QuizIt
           </Text>
 

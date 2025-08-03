@@ -15,23 +15,26 @@ import "../global.css";
 import { store } from '@/utils/libs/store';
 import { toastConfig } from '@/utils/functions/toastConfig';
 import { useTheme, ThemeProviderWrapper } from '@/context/ThemeContext';
+import LoadingScreen from '@/components/loading';
+
 
 function InnerRootLayout() {
-  const { theme, loading } = useTheme();
+  const { theme, loading: themeLoading } = useTheme();
   const [fontsLoaded] = useFonts({
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
   });
 
-  const [isAppReady, setIsAppReady] = useState(false);
+  const [appIsReady, setAppIsReady] = useState(false);
 
   useEffect(() => {
-    if (fontsLoaded && theme !== null && !loading) {
-      setIsAppReady(true);
+    if (fontsLoaded && !themeLoading) {
+      setAppIsReady(true);
     }
-  }, [fontsLoaded, theme, loading]);
+  }, [fontsLoaded, themeLoading]);
 
-
-  if (!isAppReady) return null;
+  if (!appIsReady) {
+    return <LoadingScreen />
+  };
 
   return (
     <SafeAreaView style={{ flex: 1 }}>

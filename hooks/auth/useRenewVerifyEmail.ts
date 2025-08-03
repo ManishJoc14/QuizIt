@@ -1,14 +1,11 @@
-import { useLocalSearchParams } from 'expo-router';
-
 import { RenewVerifyEmailRequest } from '@/types/auth.types';
 import { useRenewVerifyEmailMutation } from '@/services/authApi';
 import Toast from 'react-native-toast-message';
 
 export function useRenewVerifyEmail() {
     const [renew, { isLoading, error }] = useRenewVerifyEmailMutation();
-    const { email } = useLocalSearchParams<{ email?: string }>();
 
-    const renewToken = async () => {
+    const renewToken = async ({ email }: { email: string }) => {
         if (!email) throw new Error('Email is required to renew verification token.');
 
         const payload: RenewVerifyEmailRequest = { email };

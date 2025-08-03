@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { View, Text, ScrollView, Image } from 'react-native'
+import { View, Text, Image } from 'react-native'
 
 type WaitingPlayersProps = {
     players: { name: string, image: string }[]
@@ -8,14 +8,13 @@ type WaitingPlayersProps = {
 
 export function WaitingPlayers({ players }: WaitingPlayersProps) {
     return (
-        <ScrollView
-            showsVerticalScrollIndicator={false}
-            contentContainerStyle={{
+        <View
+            style={{
                 flexDirection: 'row',
                 flexWrap: 'wrap',
                 justifyContent: 'space-between',
                 gap: 8,
-                paddingBottom: 80,
+                paddingBottom: 20,
             }}
         >
             {players.map((player, index) => (
@@ -39,6 +38,6 @@ export function WaitingPlayers({ players }: WaitingPlayersProps) {
                     </Text>
                 </View>
             ))}
-        </ScrollView>
+        </View>
     )
 }

@@ -49,7 +49,7 @@ export default function SignUpScreen() {
                 contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', alignItems: 'center' }}
                 showsVerticalScrollIndicator={false}
             >
-                <View className="w-full max-w-lg border p-8 rounded-3xl border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800">
+                <View className="w-full max-w-md border p-8 rounded-3xl border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800">
                     <Text className="mb-2 text-3xl font-bold text-gray-900 dark:text-white">Welcome.</Text>
                     <Text className="mb-8 text-base text-gray-600 dark:text-gray-400">Create an account</Text>
 

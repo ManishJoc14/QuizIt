@@ -38,3 +38,10 @@ export interface QuizEditPayload {
     questions: (Omit<Question, 'id'> & { id?: number })[];
     tags: string[];
 }
+
+export type CheckUserNamePayload = {
+    username: string;
+};
+export type CheckUserNameResponse = {
+    isUnique: boolean;
+};

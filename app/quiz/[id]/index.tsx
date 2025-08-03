@@ -43,12 +43,14 @@ export default function QuizDetailScreen() {
                             isThisMe={quiz.data.isThisMe}
                             isFollowed={false}
                         />
-                        <QuizMeta
-                            questions={quiz.data.count}
-                            played={quiz.data.plays}
-                            favorited={120}
-                        />
-                        <QuizDescription description={quiz.data.description} />
+                        <View className='w-full web:flex web:flex-row web:gap-4'>
+                            <QuizMeta
+                                questions={quiz.data.count}
+                                played={quiz.data.plays}
+                                favorited={120}
+                            />
+                            <QuizDescription description={quiz.data.description} />
+                        </View>
                         <QuizButtons id={quizId} />
                     </ScrollView>
                 )}

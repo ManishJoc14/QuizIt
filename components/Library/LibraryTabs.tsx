@@ -2,7 +2,7 @@ import React from 'react';
 
 import { View, Text, TouchableOpacity } from 'react-native';
 
-const tabs = ['My quizzes', 'Favourites'];
+const tabs = ['My quizzes'];
 
 export function LibraryTabs({ activeTab, onChange }: { activeTab: string; onChange: (tab: string) => void }) {
     return (

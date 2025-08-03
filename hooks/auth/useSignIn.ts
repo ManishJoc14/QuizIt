@@ -9,11 +9,13 @@ import { getToken, saveToken } from '@/utils/libs/secureStorage';
 import { setCredentials } from '@/features/auth/authSlice';
 import { useAppDispatch } from '@/utils/libs/reduxHooks';
 import { useLazyGetMeQuery, useSignInMutation } from '@/services/authApi';
+import { useRenewVerifyEmail } from './useRenewVerifyEmail';
 
 export function useSignIn() {
     const [login, { isLoading, error }] = useSignInMutation();
     const dispatch = useAppDispatch();
     const [getMe] = useLazyGetMeQuery();
+    const { renewToken } = useRenewVerifyEmail();
     const router = useRouter();
 
     // Auto login using access token
@@ -51,6 +53,16 @@ export function useSignIn() {
             router.replace('/(tabs)');
         } catch (err) {
             console.log('Login failed:', err);
+            if ((err as any)?.data?.detail?.includes('Please Verify Your Email')) {
+                console.log('Email not verified, renewing verification token.');
+                await renewToken({email: data.email});
+                Toast.show({
+                    type: 'info',
+                    text1: 'Please verify your email',
+                    text2: 'A verification token has been sent to your email address.',
+                });
+                router.push({ pathname: '/verify', params: { email: data.email, next: '/signin' } });
+            }
         }
     };
 

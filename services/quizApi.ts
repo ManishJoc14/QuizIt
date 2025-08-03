@@ -1,4 +1,4 @@
-import { CreateQuizPayload, QuizQuestionsResponse, QuizResponse, QuizTagsResponse, QuizzesResponse } from "@/types/quiz.types";
+import { CreateQuizPayload, GetMyQuizzesQueryParams, QuizQuestionsResponse, QuizResponse, QuizTagsResponse, QuizzesResponse } from "@/types/quiz.types";
 import { MutationSuccessResponse } from "@/types/shared.types";
 
 import { api } from "./api";
@@ -21,6 +21,14 @@ export const quizApi = api.injectEndpoints({
             }),
         }),
         getQuizzes: build.query<QuizzesResponse, void>({
+            query: (query) => ({
+                url: '/quiz/',
+                method: 'GET',
+                params: query,
+            }),
+            providesTags: ['Quiz'],
+        }),
+        getMyQuizzes: build.query<QuizzesResponse, GetMyQuizzesQueryParams>({
             query: (query) => ({
                 url: '/quiz/',
                 method: 'GET',
@@ -53,4 +61,4 @@ export const quizApi = api.injectEndpoints({
     overrideExisting: true,
 });
 
-export const { useCreateQuizMutation, useGetQuizTagsQuery, useGetQuizzesQuery, useGetQuizByIdQuery, useGetQuizQuestionsQuery, useDeleteQuizQuestionMutation } = quizApi;
+export const { useCreateQuizMutation, useGetQuizTagsQuery, useGetQuizzesQuery, useLazyGetMyQuizzesQuery, useGetQuizByIdQuery, useGetQuizQuestionsQuery, useDeleteQuizQuestionMutation } = quizApi;

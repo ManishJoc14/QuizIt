@@ -1,18 +1,18 @@
-import { useLocalSearchParams } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 
 import Profile from '@/components/Profile';
 import getRandomPersonsImage from '@/utils/functions/getRandomImage';
 import { ProfileData } from '@/components/Profile/types';
+import { useAppSelector } from '@/utils/libs/reduxHooks';
 
 export default function OtherUserProfilePage() {
     const { id: someUserId } = useLocalSearchParams();
+    const { user } = useAppSelector((state) => state.auth);
+    const router = useRouter();
 
-    // get this user form our session/store
-    const user = {
-        id: 123,
-        name: 'John Doe',
-        username: 'johndoe',
-        image: getRandomPersonsImage(),
+    if (!user) {
+        router.push('/signin');
+        return null;
     }
 
     const isThisMe = user?.id === Number(someUserId);
@@ -21,10 +21,10 @@ export default function OtherUserProfilePage() {
     const response: ProfileData = {
         user: {
             id: Number(someUserId),
-            name: isThisMe ? user.name : 'Jane Doe',
+            name: isThisMe ? user.fullName : 'Jane Doe',
             username: isThisMe ? user.username : 'janedoe',
-            image: getRandomPersonsImage(),
-            isFollowed: false,
+            image: user.photo || getRandomPersonsImage(),
+            isFollowed: false
         },
         meta: {
             quizzes: 5,

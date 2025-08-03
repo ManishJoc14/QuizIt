@@ -1,4 +1,4 @@
-import { View, Text } from 'react-native';
+import { View, Text, ScrollView } from 'react-native';
 
 import { useLocalSearchParams } from 'expo-router';
 
@@ -51,45 +51,47 @@ export default function WaitingScreen() {
     return (
         <View className="flex-1 px-6 pt-safe-offset-4 bg-violet-600 dark:bg-violet-950">
             <WaitingHeader />
-            {
-                error ? (
-                    <View className="flex-1 justify-center items-center">
-                        <Text>Error loading room code</Text>
-                    </View>
-                ) : (
-                    <>
-                        <Text className="text-center text-xl font-medium tracking-wider text-gray-100 dark:text-gray-200 my-4">
-                            {connected ? isHost ? "Start Quiz" : "Waiting for host to start..." : "Connecting..."}
-                        </Text>
-
-                        <WaitingRoomCode
-                            roomCode={ROOMCODE}
-                            quizTitle={quizTitle}
-                            image={getRandomImage(800, 400)}
-                        />
-
-                        <View className="mt-8 mb-2">
-                            <Text className="text-xl font-semibold text-gray-100 dark:text-gray-200 mb-4">
-                                Players Joined ({players.length})
-                            </Text>
+            <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 80 }}>
+                {
+                    error ? (
+                        <View className="flex-1 justify-center items-center">
+                            <Text>Error loading room code</Text>
                         </View>
+                    ) : (
+                        <>
+                            <Text className="text-center text-xl font-medium tracking-wider text-gray-100 dark:text-gray-200 my-2">
+                                {connected ? isHost ? "Start Quiz" : "Waiting for host to start..." : "Connecting..."}
+                            </Text>
 
-                        <WaitingPlayers players={players} />
-
-                        {/* Start button */}
-                        {
-                            isHost &&
-                            <Button
-                                title="Start Quiz"
-                                size="lg"
-                                className='mb-16'
-                                accessibilityLabel="Start Quiz"
-                                accessibilityRole="button"
-                                onPress={handleStartQuiz}
+                            <WaitingRoomCode
+                                roomCode={ROOMCODE}
+                                quizTitle={quizTitle}
+                                image={getRandomImage(800, 400)}
                             />
-                        }
-                    </>
-                )}
+
+                            <View className="mt-6 mb-2">
+                                <Text className="text-xl font-semibold text-gray-100 dark:text-gray-200 mb-4">
+                                    Players Joined ({players.length})
+                                </Text>
+                            </View>
+
+                            <WaitingPlayers players={players} />
+
+                            {/* Start button */}
+                            {
+                                isHost &&
+                                <Button
+                                    title="Start Quiz"
+                                    size="lg"
+                                    className='mb-16'
+                                    accessibilityLabel="Start Quiz"
+                                    accessibilityRole="button"
+                                    onPress={handleStartQuiz}
+                                />
+                            }
+                        </>
+                    )}
+            </ScrollView>
         </View>
     );
 }

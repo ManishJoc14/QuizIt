@@ -47,3 +47,8 @@ export interface QuizQuestionsResponse {
     message: string;
     data: QuizQuestion[];
 }
+
+export interface GetMyQuizzesQueryParams {
+    filter: string;
+    order: string;
+}

@@ -11,6 +11,7 @@ import { StatusBar } from 'expo-status-bar';
 import { useFonts } from 'expo-font';
 import "../global.css";
 
+
 import { store } from '@/utils/libs/store';
 import { toastConfig } from '@/utils/functions/toastConfig';
 import { useTheme, ThemeProviderWrapper } from '@/context/ThemeContext';

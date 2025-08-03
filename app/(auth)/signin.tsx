@@ -26,7 +26,7 @@ export default function SignInScreen() {
     return (
         <View className="flex-1 pt-safe-offset-4 bg-gray-50 dark:bg-gray-900">
             <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', alignItems: 'center' }} className="px-6">
-                <View className="w-full max-w-lg border p-8 rounded-3xl border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800">
+                <View className="w-full max-w-md border p-8 rounded-3xl border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800">
                     <Text className="mb-2 text-3xl font-bold text-gray-900 dark:text-white">Hello.</Text>
                     <Text className="mb-8 text-base text-gray-600 dark:text-gray-400">Welcome back</Text>
 

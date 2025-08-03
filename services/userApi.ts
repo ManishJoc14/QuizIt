@@ -1,5 +1,5 @@
 
-import { GetUserParams, GetUserResponse, QuizEditPayload, QuizEditResponse } from "@/types/user.types";
+import { CheckUserNamePayload, CheckUserNameResponse, GetUserParams, GetUserResponse, QuizEditPayload, QuizEditResponse } from "@/types/user.types";
 import { api } from "./api";
 import { MutationSuccessResponse } from "@/types/shared.types";
 
@@ -36,8 +36,16 @@ export const userApi = api.injectEndpoints({
             }),
             invalidatesTags: ['Quiz']
         }),
+
+        checkUsername: build.query<CheckUserNameResponse, CheckUserNamePayload>({
+            query: ({ username }) => ({
+                url: `/user/check-username`,
+                method: 'GET',
+                params: { username }
+            }),
+        }),
     }),
     overrideExisting: true
 });
 
-export const { useGetUserQuery, useLazyGetUserQuery, useGetQuizForEditQuery, useDeteleQuizMutation, useUpdateQuizMutation } = userApi;
+export const { useGetUserQuery, useLazyGetUserQuery, useGetQuizForEditQuery, useDeteleQuizMutation, useUpdateQuizMutation, useLazyCheckUsernameQuery } = userApi;

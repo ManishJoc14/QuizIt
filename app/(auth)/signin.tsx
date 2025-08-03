@@ -7,8 +7,8 @@ import { Button } from '@/components/ui/Button';
 import { useSignIn } from '@/hooks/auth/useSignIn';
 
 export default function SignInScreen() {
-    const [email, setEmail] = useState('manishjoc14@gmail.com');
-    const [password, setPassword] = useState('mj');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
     const [isFormValid, setIsFormValid] = useState(false);
 
     const { signIn, isLoading, error } = useSignIn();

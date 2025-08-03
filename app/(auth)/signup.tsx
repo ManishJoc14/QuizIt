@@ -10,10 +10,10 @@ import { useTheme } from '@/context/ThemeContext';
 import { useIsUsernameUnique } from '@/hooks/user/useIsUsernameUnique';
 
 export default function SignUpScreen() {
-    const [fullName, setFullName] = useState('lalit');
-    const [username, setUsername] = useState('lalit123');
-    const [email, setEmail] = useState('lalitbhatt2081@gmail.com');
-    const [password, setPassword] = useState('lalit');
+    const [fullName, setFullName] = useState('');
+    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
     const [isFormValid, setIsFormValid] = useState(false);
     const [isChecked, setChecked] = useState(true);
     const { register, isLoading, error } = useSignUp();

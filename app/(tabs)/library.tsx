@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Text, View } from 'react-native';
 
 import { LibraryHeader } from '@/components/Library/LibraryHeader';
@@ -6,13 +6,19 @@ import { LibraryTabs } from '@/components/Library/LibraryTabs';
 import { LibraryFilters } from '@/components/Library/LibraryFilters';
 import { LibraryList } from '@/components/Library/LibraryList';
 import { IOrder } from '@/components/Library/types';
-import { useGetQuizzesQuery } from '@/services/quizApi';
+import { useLazyGetMyQuizzesQuery } from '@/services/quizApi';
 
 export default function Library() {
   const [activeTab, setActiveTab] = useState('My quizzes');
-  const [activeFilter, setActiveFilter] = useState('Newest');
+  const [activeFilter, setActiveFilter] = useState('newest');
   const [ordering, setOrdering] = useState<IOrder>('asc');
-  const { data: quizzes, isLoading } = useGetQuizzesQuery();
+  const [getQuizzes, { isLoading, data: quizzes }] = useLazyGetMyQuizzesQuery();
+
+  useEffect(() => {
+    if (activeFilter || ordering) {
+      getQuizzes({ filter: activeFilter, order: ordering });
+    }
+  }, [activeFilter, ordering, getQuizzes]);
 
   if (isLoading) {
     return (
@@ -38,9 +44,9 @@ export default function Library() {
               ordering={ordering}
               onOrderingChange={setOrdering}
               onChange={setActiveFilter}
-              total={quizzes.data.length}
+              total={quizzes?.data?.length ?? 0}
             />
-            <LibraryList data={quizzes.data} />
+            <LibraryList data={quizzes?.data ?? []} />
           </>
         )}
     </View>

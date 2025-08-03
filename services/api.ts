@@ -108,10 +108,14 @@ const axiosBaseQuery =
             }
         };
 
+if (!process.env.EXPO_PUBLIC_BASEURL || !process.env.EXPO_PUBLIC_PROTOCOL) {
+    throw new Error('EXPO_PUBLIC_BASEURL or EXPO_PUBLIC_PROTOCOL is not defined in the environment variables');
+};
+
 export const api = createApi({
     reducerPath: 'api',
-    // baseQuery: axiosBaseQuery({ baseUrl: 'http://127.0.0.1:8000' }),
-    baseQuery: axiosBaseQuery({ baseUrl: 'http://192.168.1.65:8000' }),
+    // baseQuery: axiosBaseQuery({ baseUrl: 'http://192.168.1.65:8000' }),
+    baseQuery: axiosBaseQuery({ baseUrl: `${process.env.EXPO_PUBLIC_PROTOCOL}${process.env.EXPO_PUBLIC_BASEURL}` }),
     endpoints: () => ({}),
     tagTypes: ['User', 'Quiz'],
 });

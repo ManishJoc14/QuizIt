@@ -25,9 +25,9 @@ export function useSignUp() {
         } catch (err) {
             console.log('Signup failed:', err);
             if (
-                (err as any)?.data?.detail === '409: Email or Username already exist'
+                (err as any)?.data?.detail?.includes('Email or Username already exist')
             ) {
-                await renewToken();
+                await renewToken({ email: data.email });
                 // console.log('Email already exists, renewing verification token.');
                 Toast.show({
                     type: 'info',

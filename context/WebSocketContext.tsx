@@ -55,8 +55,12 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
             ws.current.close();
         }
 
-        const protocol = window.location.protocol === "https:" ? "wss" : "ws";
-        const wsUrl = `${protocol}://192.168.1.65:8000/room/${roomCode}?token=${token}`;
+        if (!process.env.EXPO_PUBLIC_BASEURL) {
+            throw new Error('EXPO_PUBLIC_BASEURL is not defined in the environment variables');
+        }
+
+        const protocol = window.location.protocol === "https:" ? "wss://" : "wss://";
+        const wsUrl = `${protocol}${process.env.EXPO_PUBLIC_BASEURL}/room/${roomCode}?token=${token}`;
         ws.current = new WebSocket(wsUrl);
 
         ws.current.onopen = () => {

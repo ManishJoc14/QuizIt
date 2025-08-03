@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, Pressable } from 'react-native';
+import { View, Text, Pressable } from 'react-native';
 
 import { useRouter } from 'expo-router';
 
@@ -9,10 +9,8 @@ export function ResultHeader() {
     return (
         <View className="px-6 mb-6">
             <Pressable onPress={() => router.back()} className='flex-row items-center'>
-                <TouchableOpacity>
-                    <IconSymbol name="chevron.left" size={28} color='#f9fafb' />
-                    <Text className="text-gray-50 text-2xl font-medium">Home</Text>
-                </TouchableOpacity>
+                <IconSymbol name="chevron.left" size={28} color='#f9fafb' />
+                <Text className="text-gray-50 text-2xl font-medium">Scoreboard</Text>
             </Pressable>
         </View>
     );

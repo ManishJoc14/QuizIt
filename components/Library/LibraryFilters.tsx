@@ -6,7 +6,7 @@ import { IconSymbol } from '@/components/ui/IconSymbol';
 
 import { IOrder } from './types';
 
-const filters = ['Newest', 'Ratings', 'Plays'];
+const filters = ['newest'];
 
 export function LibraryFilters({
     activeFilter,

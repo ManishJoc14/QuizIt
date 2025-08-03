@@ -10,7 +10,6 @@ import { Provider } from 'react-redux';
 import { StatusBar } from 'expo-status-bar';
 import { useFonts } from 'expo-font';
 import "../global.css";
-// import '@/utils/libs/appearance.web';
 
 
 import { store } from '@/utils/libs/store';

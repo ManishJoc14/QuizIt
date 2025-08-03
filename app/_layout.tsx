@@ -13,7 +13,6 @@ import "../global.css";
 
 
 import { store } from '@/utils/libs/store';
-import { toastConfig } from '@/utils/functions/toastConfig';
 import { useTheme, ThemeProviderWrapper } from '@/context/ThemeContext';
 import LoadingScreen from '@/components/loading';
 
@@ -48,7 +47,7 @@ function InnerRootLayout() {
           <Stack.Screen name="settings" options={{ headerShown: false }} />
           <Stack.Screen name="+not-found" />
         </Stack>
-        <Toast config={toastConfig} visibilityTime={6000} />
+        <Toast visibilityTime={5000} />
         <StatusBar style={theme === 'dark' ? 'light' : 'dark'} />
       </ThemeProvider>
     </SafeAreaView>

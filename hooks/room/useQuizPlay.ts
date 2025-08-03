@@ -101,7 +101,7 @@ export function useQuizPlay({ quizId, roomCode }: UseQuizPlayParams) {
             setCurrentIndex((prev) => prev + 1);
         }
     },
-        [current, currentIndex, questions.length,user, quizId, results, submitAnswer, roomCode]
+        [current, currentIndex, questions.length, user, quizId, results, submitAnswer, roomCode]
     );
 
     const handleSelect = useCallback(
@@ -112,7 +112,7 @@ export function useQuizPlay({ quizId, roomCode }: UseQuizPlayParams) {
             setIsTimeout(false);
             setTimeout(() => {
                 finishQuestion({ usedTime: timeTaken, selected });
-            }, 2000);
+            }, 1000);
         },
         [finishQuestion, isAnswered, timeTaken]
     );
@@ -124,7 +124,7 @@ export function useQuizPlay({ quizId, roomCode }: UseQuizPlayParams) {
         setIsTimeout(true);
         setTimeout(() => {
             finishQuestion({ usedTime: current?.duration ?? 0, selected: null })
-        }, 2000);
+        }, 1000);
     }, [finishQuestion, isAnswered, current]);
 
     return {

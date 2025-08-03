@@ -12,14 +12,14 @@ export async function handleTokenRefresh(baseUrl: string) {
     };
 
     try {
-        const refreshResponse = await axios.post(baseUrl + '/refresh-token', { refreshToken });
+        const refreshResponse = await axios.post(baseUrl + `/auth/renew-access?refresh_token=${refreshToken}`);
 
-        const { accessToken: newAccess, refreshToken: newRefresh } = refreshResponse.data;
+        const { access_token } = refreshResponse.data;
 
-        await saveToken('accessToken', newAccess);
-        await saveToken('refreshToken', newRefresh);
+        await saveToken('accessToken', access_token);
+        await saveToken('refreshToken', refreshToken);
 
-        return { accessToken: newAccess };
+        return { accessToken: access_token };
     } catch {
         await deleteToken('accessToken');
         await deleteToken('refreshToken');

@@ -45,7 +45,7 @@ export default function VerifyScreen() {
         }
 
         // console.log('Resending verification token...');
-        await resendEmail.renewToken();
+        await resendEmail.renewToken({ email: email as string });
     };
 
     return (

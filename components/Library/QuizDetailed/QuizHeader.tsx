@@ -25,7 +25,7 @@ export function QuizHeader({ isThisMe }: { isThisMe?: boolean }) {
             show: isThisMe,
             onPress: async () => {
                 await Haptics.selectionAsync();
-                console.log('Edit clicked');
+                // console.log('Edit clicked');
             },
         },
         {
@@ -34,7 +34,7 @@ export function QuizHeader({ isThisMe }: { isThisMe?: boolean }) {
             show: isThisMe,
             onPress: async () => {
                 await Haptics.selectionAsync();
-                console.log('Delete clicked');
+                // console.log('Delete clicked');
             },
         },
         {
@@ -43,7 +43,7 @@ export function QuizHeader({ isThisMe }: { isThisMe?: boolean }) {
             show: true,
             onPress: async () => {
                 await Haptics.selectionAsync();
-                console.log('Share clicked');
+                // console.log('Share clicked');
             },
         },
     ];

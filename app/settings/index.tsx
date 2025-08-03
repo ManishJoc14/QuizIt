@@ -39,7 +39,7 @@ export default function SettingsScreen() {
     };
 
     const handleLogoutCancel = () => {
-        console.log('Logout cancelled.');
+        // console.log('Logout cancelled.');
         setIsLogoutModalVisible(false);
     };
 

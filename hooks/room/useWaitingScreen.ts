@@ -48,12 +48,12 @@ export function useWaitingScreen(id: number, roomCodeParam?: string) {
         const code = roomCodeParam ? roomCodeParam : roomCodeData?.roomCode
         if (!quizStarted) return;
 
-        console.log("--------------------------/n")
-        console.log({ quizData, isHost, id, roomCodeParam, roomCodeData });
-        console.log("--------------------------/n")
+        // console.log("--------------------------/n")
+        // console.log({ quizData, isHost, id, roomCodeParam, roomCodeData });
+        // console.log("--------------------------/n")
 
         if (isHost) {
-            console.log("Host is starting the quiz");
+            // console.log("Host is starting the quiz");
             router.push({
                 pathname: `/quiz/[id]/host`,
                 params: { id: String(id), roomCode: code },

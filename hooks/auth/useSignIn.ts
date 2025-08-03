@@ -29,7 +29,7 @@ export function useSignIn() {
                 dispatch(setCredentials(res));
                 router.replace('/(tabs)');
             } catch (err) {
-                console.log('Auto login failed:', err);
+                console.error('Auto login failed:', err);
             }
         };
 
@@ -37,11 +37,11 @@ export function useSignIn() {
     }, [dispatch, getMe, router]);
 
     const signIn = async (data: SignInRequest) => {
-        console.log('Signing in with data:', data);
+        // console.log('Signing in with data:', data);
         try {
             const res = await login(data).unwrap();
             dispatch(setCredentials(res));
-            console.log('Login successful:', res);
+            // console.log('Login successful:', res);
             await saveToken('accessToken', res.accessToken);
             await saveToken('refreshToken', res.refreshToken);
             // console.log('Login successful. Redirecting to home.');
@@ -52,9 +52,9 @@ export function useSignIn() {
             })
             router.replace('/(tabs)');
         } catch (err) {
-            console.log('Login failed:', err);
+            console.error('Login failed:', err);
             if ((err as any)?.data?.detail?.includes('Please Verify Your Email')) {
-                console.log('Email not verified, renewing verification token.');
+                // console.log('Email not verified, renewing verification token.');
                 await renewToken({email: data.email});
                 Toast.show({
                     type: 'info',

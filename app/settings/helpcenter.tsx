@@ -11,7 +11,7 @@ export default function HelpCenterScreen() {
     const [activeTab, setActiveTab] = useState('FAQ');
 
     const handleSubmitContactForm = (name: string, email: string, question: string) => {
-        console.log('Contact Form Submitted:', { name, email, question });
+        // console.log('Contact Form Submitted:', { name, email, question });
         alert('Your message has been sent!');
     };
 

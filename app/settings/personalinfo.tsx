@@ -11,7 +11,7 @@ export default function PersonalInfoScreen() {
     const [image, setImage] = useState(getRandomPersonsImage());
 
     const handleSaveChanges = () => {
-        console.log('Saving changes:', { name, email });
+        // console.log('Saving changes:', { name, email });
         alert('Changes saved!');
     };
 

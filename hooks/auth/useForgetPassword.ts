@@ -22,7 +22,7 @@ export function useForgotPassword() {
             });
             router.push({ pathname: '/verify', params: { email, next: '/resetpassword' } });
         } catch (err) {
-            console.log('Forgot password failed:', err);
+            console.error('Forgot password failed:', err);
         }
     };
 

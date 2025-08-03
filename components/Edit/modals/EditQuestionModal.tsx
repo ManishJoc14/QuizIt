@@ -44,7 +44,7 @@ export function EditQuestionModal({
     const tabs = ['Add One by One', 'Bulk Add'];
 
     const handleSaveSingleQuestion = (questionData: Question) => {
-        console.log('Saving question:', questionData);
+        // console.log('Saving question:', questionData);
         if (questionToEdit) {
             // Editing existing question - preserve ID and metadata
             onSaveQuestion({

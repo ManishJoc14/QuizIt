@@ -44,15 +44,15 @@ const axiosBaseQuery =
                 const snakeData = data ? snakecaseKeys(data, { deep: true }) : undefined;
                 const snakeParams = params ? snakecaseKeys(params, { deep: true }) : undefined;
 
-                console.log('MAKING REQUEST:', JSON.stringify(
-                    {
-                        url: baseUrl + url,
-                        method,
-                        data: snakeData,
-                        params: snakeParams,
-                        headers,
-                    }, null, 2
-                ));
+                // console.log('MAKING REQUEST:', JSON.stringify(
+                //     {
+                //         url: baseUrl + url,
+                //         method,
+                //         data: snakeData,
+                //         params: snakeParams,
+                //         headers,
+                //     }, null, 2
+                // ));
 
                 const result = await axios({
                     url: baseUrl + url,
@@ -68,10 +68,10 @@ const axiosBaseQuery =
                 return { data: camelData };
             } catch (err) {
                 const error = err as AxiosError;
-                console.log('error: ', error, error.status)
+                console.error('error: ', error, error.status)
 
                 if (error.status === 401 || error.status === 403) {
-                    console.log('attempting refresh...');
+                    // console.log('attempting refresh...');
                     const refreshed = await handleTokenRefresh(baseUrl);
 
                     if (refreshed?.accessToken) {

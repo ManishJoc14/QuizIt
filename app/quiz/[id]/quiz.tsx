@@ -12,7 +12,7 @@ import { useQuizPlay } from '@/hooks/room/useQuizPlay';
 
 export default function QuizScreen() {
     const { id: quizId, roomCode } = useLocalSearchParams<{ id: string; roomCode: string }>();
-    console.log("Host is in the quiz screen")
+    // console.log("Host is in the quiz screen")
 
     const code = Array.isArray(roomCode) ? roomCode[0] : roomCode;
 

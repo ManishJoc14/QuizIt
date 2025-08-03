@@ -4,7 +4,7 @@ import { router } from 'expo-router';
 
 export async function handleTokenRefresh(baseUrl: string) {
     const refreshToken = await getToken('refreshToken');
-    console.log('Refreshing token with refreshToken:', refreshToken);
+    // console.log('Refreshing token with refreshToken:', refreshToken);
 
     if (!refreshToken) {
         router.push('/signin');

@@ -80,7 +80,7 @@ export const ThemeProviderWrapper = ({ children }: { children: React.ReactNode }
     const loadTheme = async () => {
       try {
         const saved = await Storage.getItem(STORAGE_KEY);
-        console.log('Loaded saved theme:', saved);
+        // console.log('Loaded saved theme:', saved);
         const system = Appearance.getColorScheme() || 'light';
         const toUse = saved === 'dark' || saved === 'light' ? saved : system;
 

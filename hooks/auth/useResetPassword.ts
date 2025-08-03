@@ -28,7 +28,7 @@ export function useResetPassword() {
                 text2: 'You can now sign in with your new password.',
             });
         } catch (err) {
-            console.log('Reset password failed:', err);
+            console.error('Reset password failed:', err);
         }
     };
 

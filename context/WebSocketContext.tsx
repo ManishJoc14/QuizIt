@@ -65,11 +65,11 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
 
         ws.current.onopen = () => {
             setConnected(true);
-            console.log("WebSocket connected");
+            // console.log("WebSocket connected");
         };
 
         ws.current.onmessage = (event) => {
-            console.log(event.data, 'WebSocket message received');
+            // console.log(event.data, 'WebSocket message received');
             try {
                 const res = JSON.parse(event.data);
                 if (res.type === "quiz_started") {
@@ -91,7 +91,7 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
 
         ws.current.onclose = () => {
             setConnected(false);
-            console.log("WebSocket disconnected");
+            // console.log("WebSocket disconnected");
         };
 
         ws.current.onerror = (error) => {

@@ -19,7 +19,7 @@ export function useIsUsernameUnique({ username }: { username: string }) {
                 const { isUnique } = await checkUserName({ username }).unwrap();
                 setIsUsernameUnique(isUnique); // User exists => NOT unique
             } catch (error) {
-                console.log('Error checking username uniqueness:', error);
+                console.error('Error checking username uniqueness:', error);
                 setIsUsernameUnique(true); // Assume unique on error
             } finally {
                 setLaoding(false);

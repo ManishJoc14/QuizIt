@@ -47,7 +47,7 @@ export function useWaitingScreen(id: number, roomCodeParam?: string) {
 
     // Handle quiz started
     useEffect(() => {
-        const isHost = quizData?.data.isThisMe ?? false;
+        const isHost = user?.username === roomData?.roomHost;
         const code = roomCodeParam ? roomCodeParam : roomData?.roomCode
         if (!quizStarted) return;
 
@@ -67,7 +67,7 @@ export function useWaitingScreen(id: number, roomCodeParam?: string) {
                 params: { id: String(id), roomCode: code },
             });
         }
-    }, [quizStarted, router, id, roomData, roomCodeParam, quizData]);
+    }, [quizStarted, router, id, roomData, roomCodeParam, quizData, user]);
 
     if (roomCodeParam) {
         isRoomCodeLoading = false;

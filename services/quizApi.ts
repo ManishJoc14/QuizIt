@@ -30,7 +30,7 @@ export const quizApi = api.injectEndpoints({
         }),
         getMyQuizzes: build.query<QuizzesResponse, GetMyQuizzesQueryParams>({
             query: (query) => ({
-                url: '/quiz/',
+                url: '/quiz/my-quizzes',
                 method: 'GET',
                 params: query,
             }),

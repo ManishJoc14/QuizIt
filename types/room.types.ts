@@ -1,6 +1,7 @@
 export interface RoomCodeResponse {
   roomCode: string;
   redirect: string;
+  roomHost: string;
 }
 
 export interface JoinRoomResponse {

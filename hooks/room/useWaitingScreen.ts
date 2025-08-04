@@ -6,9 +6,12 @@ import { useGetQuizByIdQuery } from "@/services/quizApi";
 import { useGetRoomCodeQuery } from "@/services/roomApi";
 import { useSocket } from "@/context/WebSocketContext";
 import { getToken } from "@/utils/libs/secureStorage";
+import { useAppSelector } from "@/utils/libs/reduxHooks";
 
 export function useWaitingScreen(id: number, roomCodeParam?: string) {
     const router = useRouter();
+
+    const { user } = useAppSelector((state) => state.auth);
 
     // Get joined users 
     const { quizStarted, joinedUsers, connected, connectToRoom } = useSocket();
@@ -18,7 +21,7 @@ export function useWaitingScreen(id: number, roomCodeParam?: string) {
 
     // Get room code
     const {
-        data: roomCodeData,
+        data: roomData,
         isLoading: roomCodeLoadingFromApi,
         isError: roomCodeErrorFromApi,
     } = useGetRoomCodeQuery({ quizId: String(id) }, { skip: !id || !!roomCodeParam });
@@ -30,7 +33,7 @@ export function useWaitingScreen(id: number, roomCodeParam?: string) {
     // Connect to WebSocket
     useEffect(() => {
         const tryConnect = async () => {
-            let code = roomCodeParam ?? roomCodeData?.roomCode;
+            let code = roomCodeParam ?? roomData?.roomCode;
             if (code) {
                 const token = await getToken("accessToken");
                 if (token) {
@@ -40,16 +43,16 @@ export function useWaitingScreen(id: number, roomCodeParam?: string) {
         };
 
         tryConnect();
-    }, [roomCodeData, roomCodeParam, connectToRoom]);
+    }, [roomData, roomCodeParam, connectToRoom]);
 
     // Handle quiz started
     useEffect(() => {
         const isHost = quizData?.data.isThisMe ?? false;
-        const code = roomCodeParam ? roomCodeParam : roomCodeData?.roomCode
+        const code = roomCodeParam ? roomCodeParam : roomData?.roomCode
         if (!quizStarted) return;
 
         // console.log("--------------------------/n")
-        // console.log({ quizData, isHost, id, roomCodeParam, roomCodeData });
+        // console.log({ quizData, isHost, id, roomCodeParam, roomData });
         // console.log("--------------------------/n")
 
         if (isHost) {
@@ -64,7 +67,7 @@ export function useWaitingScreen(id: number, roomCodeParam?: string) {
                 params: { id: String(id), roomCode: code },
             });
         }
-    }, [quizStarted, router, id, roomCodeData, roomCodeParam, quizData]);
+    }, [quizStarted, router, id, roomData, roomCodeParam, quizData]);
 
     if (roomCodeParam) {
         isRoomCodeLoading = false;
@@ -74,8 +77,8 @@ export function useWaitingScreen(id: number, roomCodeParam?: string) {
     return {
         joinedUsers,
         quizTitle: quizData?.data?.title ?? 'Quiz Title',
-        isHost: quizData?.data?.isThisMe ?? false,
-        roomCode: roomCodeParam ?? roomCodeData?.roomCode ?? 'Loading...',
+        isHost: user?.username === roomData?.roomHost,
+        roomCode: roomCodeParam ?? roomData?.roomCode ?? 'Loading...',
         isLoading: isQuizLoading || isRoomCodeLoading,
         error: errorInQuiz || errorInRoomCode,
         connected,

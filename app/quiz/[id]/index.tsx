@@ -37,6 +37,7 @@ export default function QuizDetailScreen() {
                         <QuizImage image={getRandomImage()} />
                         <QuizAuthor
                             id={quiz.data.id}
+                            userId={quiz.data.userId}
                             name={quiz.data.author}
                             username={quiz.data.author}
                             image={quiz.data.image ? quiz.data.image : getRandomImage()}

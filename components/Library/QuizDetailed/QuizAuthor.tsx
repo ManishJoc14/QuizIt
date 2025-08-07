@@ -9,8 +9,9 @@ import { Button } from '@/components/ui/Button'
 import { UserAvatar } from '@/components/ui/AuthorAvatar';
 import { useFollowUserMutation } from '@/services/featureApi';
 
-export function QuizAuthor({ id, name, username, image, isThisMe, isFollowed = false }: {
+export function QuizAuthor({ id, userId, name, username, image, isThisMe, isFollowed = false }: {
     id: number,
+    userId: number,
     name: string,
     username: string,
     image?: string,
@@ -29,7 +30,7 @@ export function QuizAuthor({ id, name, username, image, isThisMe, isFollowed = f
 
     const handleFollowClick = async () => {
         try {
-            await followUser({ followedToId: String(id) }).unwrap();
+            await followUser({ followedToId: String(userId) }).unwrap();
         }
         catch (error) {
             console.error('Failed to follow user:', error);

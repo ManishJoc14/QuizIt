@@ -1,5 +1,5 @@
 
-import { CheckUserNamePayload, CheckUserNameResponse, GetUserParams, GetUserResponse, QuizEditPayload, QuizEditResponse } from "@/types/user.types";
+import { CheckUserNamePayload, CheckUserNameResponse, GetUserParams, GetUserResponse, QuizEditPayload, QuizEditResponse, UserEditPayload } from "@/types/user.types";
 import { api } from "./api";
 import { MutationSuccessResponse } from "@/types/shared.types";
 
@@ -28,6 +28,14 @@ export const userApi = api.injectEndpoints({
             }),
             invalidatesTags: ['Quiz']
         }),
+        updateUser: build.mutation<MutationSuccessResponse, { values: UserEditPayload }>({
+            query: ({ values }) => ({
+                url: `/user/profile/edit`,
+                method: 'PUT',
+                data: values,
+            }),
+            invalidatesTags: ['User']
+        }),
 
         deteleQuiz: build.mutation<MutationSuccessResponse, number>({
             query: (id) => ({
@@ -48,4 +56,4 @@ export const userApi = api.injectEndpoints({
     overrideExisting: true
 });
 
-export const { useGetUserQuery, useLazyGetUserQuery, useGetQuizForEditQuery, useDeteleQuizMutation, useUpdateQuizMutation, useLazyCheckUsernameQuery } = userApi;
+export const { useGetUserQuery, useLazyGetUserQuery, useGetQuizForEditQuery, useDeteleQuizMutation, useUpdateQuizMutation, useUpdateUserMutation, useLazyCheckUsernameQuery } = userApi;

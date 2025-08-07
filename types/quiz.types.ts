@@ -30,7 +30,7 @@ export interface QuizzesResponse {
 
 export interface QuizResponse {
     message: string;
-    data: ILibraryQuiz & { isThisMe: boolean; };
+    data: ILibraryQuiz & { isThisMe: boolean; count: number; follower: number; following: number; isFollowed: boolean };
 }
 
 export interface QuizQuestion {

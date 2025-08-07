@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { View, TextInput, Image, Pressable } from 'react-native';
+import { View, TextInput, Image, Pressable, Text } from 'react-native';
 
 import getRandomPersonsImage from '@/utils/functions/getRandomImage';
 import { IconSymbol } from '@/components/ui/IconSymbol';
@@ -8,26 +8,33 @@ import { useTheme } from '@/context/ThemeContext';
 import { Button } from '@/components/ui/Button';
 
 interface PersonalInfoFormProps {
-    name: string;
+    fullName: string;
+    username: string;
     email: string;
     image: string;
-    password: string;
-    onNameChange: (text: string) => void;
+    onFullNameChange: (text: string) => void;
+    onUsernameChange: (text: string) => void;
     onEmailChange: (text: string) => void;
     onImageChange: (image: string) => void;
-    onPasswordChange: (text: string) => void;
     onSaveChanges: () => void;
+    isUsernameUnique?: boolean;
+    isUsernameChecking?: boolean;
+    isFormValid: boolean;
 }
 
 export function PersonalInfoForm({
-    name,
+    fullName,
+    username,
     email,
     image,
-    password,
-    onNameChange,
+    onFullNameChange,
+    onUsernameChange,
     onEmailChange,
-    onPasswordChange,
     onSaveChanges,
+    onImageChange,
+    isUsernameUnique,
+    isUsernameChecking,
+    isFormValid,
 }: PersonalInfoFormProps) {
     const { theme } = useTheme();
 
@@ -55,12 +62,27 @@ export function PersonalInfoForm({
                         <IconSymbol name="person.fill" size={20} color={iconColor} />
                         <TextInput
                             className={`flex-1 ml-3 text-base ${inputTextColor}`}
-                            placeholder="Name"
+                            placeholder="Full Name"
                             placeholderTextColor={inputPlaceholderColor}
-                            value={name}
-                            onChangeText={onNameChange}
+                            value={fullName}
+                            onChangeText={onFullNameChange}
                         />
                     </View>
+                    <View className={`flex-row items-center p-3 rounded-xl ${inputBg}`}>
+                        <IconSymbol name="person.fill" size={20} color={iconColor} />
+                        <TextInput
+                            className={`flex-1 ml-3 text-base ${inputTextColor}`}
+                            placeholder="Username Name"
+                            placeholderTextColor={inputPlaceholderColor}
+                            value={username}
+                            onChangeText={onUsernameChange}
+                        />
+                    </View>
+                    {!isUsernameUnique && (
+                        <Text className="text-red-500 mb-2 text-sm">
+                            Username already exists, please choose another username.
+                        </Text>
+                    )}
                     <View className={`flex-row items-center p-3 rounded-xl ${inputBg} ${theme === 'dark' ? 'opacity-60' : 'opacity-50'}`}>
                         <IconSymbol name="envelope" size={20} color={iconColor} />
                         <TextInput
@@ -74,20 +96,11 @@ export function PersonalInfoForm({
                             editable={false}
                         />
                     </View>
-                    <View className={`flex-row items-center p-3 rounded-xl ${inputBg}`}>
-                        <IconSymbol name="lock.fill" size={20} color={iconColor} />
-                        <TextInput
-                            className={`flex-1 ml-3 text-base ${inputTextColor}`}
-                            placeholder="Enter password"
-                            value={password}
-                            onChangeText={onPasswordChange}
-                            placeholderTextColor={inputPlaceholderColor}
-                            secureTextEntry
-                        />
-                    </View>
                 </View>
             </View>
-            <Button title="Save Changes" className='mx-4 my-4' fullWidth onPress={onSaveChanges} size="lg" />
+            <Button title="Save Changes" className='mx-4 my-4' fullWidth onPress={onSaveChanges} size="lg"
+                isDisabled={!isFormValid || !isUsernameUnique}
+            />
         </>
     );
 }

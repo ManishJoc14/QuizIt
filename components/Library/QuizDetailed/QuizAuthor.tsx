@@ -7,6 +7,7 @@ import { useRouter } from 'expo-router';
 import getRandomPersonsImage from '@/utils/functions/getRandomImage'
 import { Button } from '@/components/ui/Button'
 import { UserAvatar } from '@/components/ui/AuthorAvatar';
+import { useFollowUserMutation } from '@/services/featureApi';
 
 export function QuizAuthor({ id, name, username, image, isThisMe, isFollowed = false }: {
     id: number,
@@ -17,12 +18,22 @@ export function QuizAuthor({ id, name, username, image, isThisMe, isFollowed = f
     isFollowed: boolean
 }) {
     const router = useRouter();
+    const [followUser] = useFollowUserMutation();
 
-    const handleClick = () => {
+    const handleEditClick = () => {
         router.push({
             pathname: '/quiz/[id]/edit',
             params: { id: String(id) }
         });
+    };
+
+    const handleFollowClick = async () => {
+        try {
+            await followUser({ followedToId: String(id) }).unwrap();
+        }
+        catch (error) {
+            console.error('Failed to follow user:', error);
+        }
     }
 
     return (
@@ -33,9 +44,9 @@ export function QuizAuthor({ id, name, username, image, isThisMe, isFollowed = f
                 image={image ? image : getRandomPersonsImage()} />
 
             {isThisMe ?
-                <Button title="Edit" onPress={handleClick} variant="outline" color="gray" radius="full" /> :
+                <Button title="Edit" onPress={handleEditClick} variant="outline" color="gray" radius="full" /> :
                 isFollowed ? <Button title="Following" variant="outline" radius="full" /> :
-                    <Button title="Follow" variant="solid" radius="full" />}
+                    <Button title="Follow" onPress={handleFollowClick} variant="solid" radius="full" />}
         </View >
     )
 }

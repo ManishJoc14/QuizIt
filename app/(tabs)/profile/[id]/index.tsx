@@ -5,7 +5,7 @@ import getRandomPersonsImage from '@/utils/functions/getRandomImage';
 import { ProfileData } from '@/components/Profile/types';
 import { useAppSelector } from '@/utils/libs/reduxHooks';
 
-export default function OtherUserProfilePage() {
+export default function UserProfilePage() {
     const { id: someUserId } = useLocalSearchParams();
     const { user } = useAppSelector((state) => state.auth);
     const router = useRouter();
@@ -20,7 +20,7 @@ export default function OtherUserProfilePage() {
     // get this from api 
     const response: ProfileData = {
         user: {
-            id: Number(someUserId),
+            id: isThisMe ? user?.id : Number(someUserId),
             name: isThisMe ? user.fullName : 'Jane Doe',
             username: isThisMe ? user.username : 'janedoe',
             image: user.photo || getRandomPersonsImage(),

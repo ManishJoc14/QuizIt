@@ -41,7 +41,7 @@ export default function QuizDetailScreen() {
                             username={quiz.data.author}
                             image={quiz.data.image ? quiz.data.image : getRandomImage()}
                             isThisMe={quiz.data.isThisMe}
-                            isFollowed={false}
+                            isFollowed={quiz.data.isFollowed}
                         />
                         <View className='w-full web:flex web:flex-row web:gap-4'>
                             <QuizMeta

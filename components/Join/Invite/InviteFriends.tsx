@@ -1,36 +1,40 @@
-import React from 'react';
-
+import React, { useState } from 'react';
 import { View, Text, ScrollView } from 'react-native';
 
-import getRandomPersonsImage from '@/utils/functions/getRandomImage';
 import { AuthorAvatar, UserAvatar } from '@/components/ui/AuthorAvatar';
 import { Button } from '@/components/ui/Button';
+import { useGetInviteUserListQuery } from '@/services/featureApi';
+import { UserToInvite } from '@/types/feature.types';
+import getRandomPersonsImage from '@/utils/functions/getRandomImage';
 
-export function InviteFriends({ id }: { id: string }) {
-    const users = [
-        { id: 1, name: 'Ava Thompson', username: '@ava_thompson', image: getRandomPersonsImage(), isInvited: false },
-        { id: 2, name: 'Harper Evans', username: '@harper_evans', image: getRandomPersonsImage(), isInvited: true },
-        { id: 3, name: 'Maya Chen', username: '@maya_chen', image: getRandomPersonsImage(), isInvited: true },
-        { id: 4, name: 'Elijah Murphy', username: '@elijah_murphy', image: getRandomPersonsImage(), isInvited: true },
-        { id: 5, name: 'Liam Patel', username: '@liam_patel', image: getRandomPersonsImage(), isInvited: false },
-        { id: 6, name: 'Chloe Brooks', username: '@chloe_brooks', image: getRandomPersonsImage(), isInvited: true },
-        { id: 7, name: 'Sofia Kim', username: '@sofia_kim', image: getRandomPersonsImage(), isInvited: false },
-        { id: 8, name: 'Amelia Flores', username: '@amelia_flores', image: getRandomPersonsImage(), isInvited: true },
-        { id: 9, name: 'Jackson Lee', username: '@jackson_lee', image: getRandomPersonsImage(), isInvited: false },
-        { id: 10, name: 'Noah Garcia', username: '@noah_garcia', image: getRandomPersonsImage(), isInvited: false },
-        { id: 11, name: 'Ella Nguyen', username: '@ella_nguyen', image: getRandomPersonsImage(), isInvited: false },
-        { id: 12, name: 'Benjamin Smith', username: '@benjamin_smith', image: getRandomPersonsImage(), isInvited: false },
-        { id: 13, name: 'Mason Rivera', username: '@mason_rivera', image: getRandomPersonsImage(), isInvited: true },
-        { id: 14, name: 'Olivia Martinez', username: '@olivia_martinez', image: getRandomPersonsImage(), isInvited: false },
-    ];
+export function InviteFriends({ quizId }: { quizId: string }) {
+    const { data: users } = useGetInviteUserListQuery();
+    const [invitedUsers, setInvitedUsers] = useState<UserToInvite[]>([]);
 
-    const invitedUsers = users.filter((u) => u.isInvited);
+    const isUserInvited = (userId: string) =>
+        invitedUsers.some((u) => String(u.userId) === userId);
+
+    const handleInvite = (user: UserToInvite) => {
+        if (!isUserInvited(String(user.userId))) {
+            setInvitedUsers((prev) => [...prev, user]);
+        }
+    };
+
+    if (!users) {
+        return (
+            <View className="flex-1 items-center justify-center">
+                <Text className="text-gray-500">Loading users...</Text>
+            </View>
+        );
+    }
 
     return (
         <ScrollView
             showsVerticalScrollIndicator={false}
             contentContainerStyle={{ paddingBottom: 60 }}
-            className="px-4 bg-white dark:bg-gray-950">
+            className="px-4 bg-white dark:bg-gray-950"
+        >
+            {/* Invited Friends Section */}
             <View className="pt-4">
                 <View className="flex-row items-center mb-2">
                     <Text className="text-2xl font-medium text-gray-900 dark:text-white">
@@ -48,17 +52,23 @@ export function InviteFriends({ id }: { id: string }) {
                 className="py-6 border-b border-gray-200 dark:border-gray-800"
             >
                 {invitedUsers.map((user, index) => (
-                    <AuthorAvatar key={index} id={user.id} name={user.name} avatar={user.image} />
+                    <AuthorAvatar
+                        key={index}
+                        id={user.userId}
+                        name={user.username}
+                        avatar={user.image ? user.image : getRandomPersonsImage()}
+                    />
                 ))}
             </ScrollView>
 
+            {/* All Friends Section */}
             <View className="pt-6">
                 <View className="flex-row items-center">
                     <Text className="text-2xl font-medium text-gray-900 dark:text-white">
                         All Friends
                     </Text>
                     <Text className="text-2xl font-medium text-indigo-500 ml-1">
-                        ({users.length})
+                        ({users.data.length})
                     </Text>
                 </View>
             </View>
@@ -68,25 +78,29 @@ export function InviteFriends({ id }: { id: string }) {
                 style={{ marginVertical: 10 }}
                 contentContainerStyle={{ paddingBottom: 60 }}
             >
-                {/* User list */}
-                {users.map((user, index) => (
-                    <View
-                        key={index}
-                        className="flex-row items-center justify-between py-4 border-b border-gray-200 dark:border-gray-800"
-                    >
-                        <UserAvatar
-                            id={user.id}
-                            name={user.name}
-                            username={user.username}
-                            image={user.image}
-                        />
-                        <Button
-                            title={user.isInvited ? 'Invited' : 'Invite'}
-                            variant={user.isInvited ? 'outline' : 'solid'}
-                            radius="full"
-                        />
-                    </View>
-                ))}
+                {users.data.map((user, index) => {
+                    const invited = isUserInvited(String(user.userId));
+                    return (
+                        <View
+                            key={index}
+                            className="flex-row items-center justify-between py-4 border-b border-gray-200 dark:border-gray-800"
+                        >
+                            <UserAvatar
+                                id={user.userId}
+                                name={user.username}
+                                username={user.username}
+                                image={user.image ? user.image : getRandomPersonsImage()}
+                            />
+                            <Button
+                                title={invited ? 'Invited' : 'Invite'}
+                                variant={invited ? 'outline' : 'solid'}
+                                radius="full"
+                                onPress={() => handleInvite(user)}
+                                disabled={invited}
+                            />
+                        </View>
+                    );
+                })}
             </ScrollView>
         </ScrollView>
     );

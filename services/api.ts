@@ -44,15 +44,15 @@ const axiosBaseQuery =
                 const snakeData = data ? snakecaseKeys(data, { deep: true }) : undefined;
                 const snakeParams = params ? snakecaseKeys(params, { deep: true }) : undefined;
 
-                // console.log('MAKING REQUEST:', JSON.stringify(
-                //     {
-                //         url: baseUrl + url,
-                //         method,
-                //         data: snakeData,
-                //         params: snakeParams,
-                //         headers,
-                //     }, null, 2
-                // ));
+                console.log('MAKING REQUEST:', JSON.stringify(
+                    {
+                        url: baseUrl + url,
+                        method,
+                        data: snakeData,
+                        params: snakeParams,
+                        headers,
+                    }, null, 2
+                ));
 
                 const result = await axios({
                     url: baseUrl + url,
@@ -117,5 +117,5 @@ export const api = createApi({
     // baseQuery: axiosBaseQuery({ baseUrl: 'http://192.168.1.65:8000' }),
     baseQuery: axiosBaseQuery({ baseUrl: `${process.env.EXPO_PUBLIC_PROTOCOL}${process.env.EXPO_PUBLIC_BASEURL}` }),
     endpoints: () => ({}),
-    tagTypes: ['User', 'Quiz'],
+    tagTypes: ['User', 'Quiz', 'InviteUserList', 'QuizDetailed'],
 });

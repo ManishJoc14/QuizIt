@@ -14,7 +14,7 @@ export default function InviteScreen() {
     return (
         <View className="flex-1 px-6 pt-safe-offset-4 bg-white dark:bg-gray-950">
             <InviteHeader />
-            <InviteFriends id={quizId} />
+            <InviteFriends quizId={quizId} />
             <Button
                 title="Done, Go to Lobby"
                 size="lg"

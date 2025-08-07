@@ -2,18 +2,20 @@
 import React from 'react';
 
 // NATIVE IMPORTS
-import { Platform } from 'react-native';
+import { Platform, Pressable } from 'react-native';
 
 // THIRD PARTY IMPORTS
-import { Tabs } from 'expo-router';
+import { router, Tabs } from 'expo-router';
 
 // PROJECT IMPORTS
 import { HapticTab } from '@/components/HapticTab';
 import { IconSymbol } from '@/components/ui/IconSymbol';
 import TabBarBackground from '@/components/ui/TabBarBackground';
 import AuthGuard from '@/components/AuthGuard';
+import { useAppSelector } from '@/utils/libs/reduxHooks';
 
 export default function TabLayout() {
+  const { user } = useAppSelector((state) => state.auth);
 
   return (
     <AuthGuard>
@@ -75,11 +77,25 @@ export default function TabLayout() {
         />
 
         <Tabs.Screen
-          name="profile"
+          name="profile" // can point to a blank page or leave it as is
           options={{
             title: 'Profile',
             tabBarIcon: ({ color }: { color: string }) => (
               <IconSymbol name="person.fill" size={28} color={color} />
+            ),
+            // Override the tabBarButton to manually redirect
+            tabBarButton: (props: any) => (
+              <Pressable
+                {...props}
+                onPress={() => {
+                  if (user?.id) {
+                    router.push({
+                      pathname: '/profile/[id]',
+                      params: { id: user.id.toString() },
+                    });
+                  }
+                }}
+              />
             ),
           }}
         />

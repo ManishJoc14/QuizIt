@@ -41,7 +41,7 @@ export const quizApi = api.injectEndpoints({
                 url: `/quiz/${id}`,
                 method: 'GET',
             }),
-            providesTags: ['Quiz'],
+            providesTags: ['Quiz', 'QuizDetailed'],
         }),
         getQuizQuestions: build.query<QuizQuestionsResponse, number>({
             query: (id) => ({

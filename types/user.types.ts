@@ -39,6 +39,12 @@ export interface QuizEditPayload {
     tags: string[];
 }
 
+export interface UserEditPayload {
+    fullName?: string;
+    username?: string;
+    photo?: File | string | null;
+}
+
 export type CheckUserNamePayload = {
     username: string;
 };

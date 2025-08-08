@@ -13,7 +13,8 @@ export function CreateQuizSection() {
     const {
         title, setTitle,
         description, setDescription,
-        coverPhoto, setCoverPhoto,
+        coverPhotoFile, setCoverPhotoFile,
+        coverPhotoUri, setCoverPhotoUri,
         selectedTags, toggleTag,
         availableTags, isTagsLoading,
         questions, addQuestion, editQuestion,
@@ -22,22 +23,39 @@ export function CreateQuizSection() {
         submitQuiz, isSubmittingQuiz
     } = useCreateQuiz();
 
+    const handleCoverPhotoChange = (data: { uri: string; file: File }) => {
+        setCoverPhotoFile(data.file);
+        setCoverPhotoUri(data.uri);
+    };
+
     return (
         <>
             {/* shows quiz's details and options to open modals for add or edit feature */}
             <CreateQuizForm
                 title={title}
                 description={description}
-                coverPhoto={coverPhoto}
+                coverPhoto={coverPhotoUri}
                 selectedTags={selectedTags}
                 questions={questions}
                 availableTags={availableTags}
                 isTagsLoading={isTagsLoading}
                 onChangeTitle={setTitle}
                 onChangeDescription={setDescription}
-                onChangeCoverPhoto={setCoverPhoto}
+                onChangeCoverPhoto={handleCoverPhotoChange}
                 onToggleTag={toggleTag}
-                onSubmit={submitQuiz}
+                onSubmit={() =>
+                    submitQuiz({
+                        isPublished: true,
+                        data: {
+                            title,
+                            description,
+                            coverPhotoUri,
+                            coverPhotoFile,
+                            questions,
+                            tags: selectedTags,
+                        },
+                    })
+                }
                 onAddQuestion={addQuestion}
                 onEditQuestion={editQuestion}
             />

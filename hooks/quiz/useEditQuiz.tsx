@@ -1,15 +1,17 @@
 import { useState, useEffect, useMemo } from 'react';
-import { Alert } from 'react-native';
+
 import { useRouter } from 'expo-router';
+
 import Toast from 'react-native-toast-message';
 import uuid from 'react-native-uuid';
-import { Question } from '@/types/quiz.types';
+
 import {
     useGetQuizTagsQuery,
     useDeleteQuizQuestionMutation
 } from '@/services/quizApi';
-import { useGetQuizForEditQuery, useUpdateQuizMutation } from '@/services/userApi';
+import { Question } from '@/types/quiz.types';
 import { QuizEditPayload } from '@/types/user.types';
+import { useGetQuizForEditQuery, useUpdateQuizMutation } from '@/services/userApi';
 
 export function useEditQuiz(quizId: number) {
     const { data: quizData, isLoading: isQuizLoading } = useGetQuizForEditQuery(quizId);
@@ -17,9 +19,11 @@ export function useEditQuiz(quizId: number) {
     const router = useRouter();
 
     const availableTags = useMemo(() => tagsData?.quizTags ?? [], [tagsData]);
+
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
-    const [coverPhoto, setCoverPhoto] = useState('');
+    // Now coverPhoto can be string URI or { uri: string; file: File }
+    const [coverPhoto, setCoverPhoto] = useState<string | { uri: string; file: File }>('');
     const [selectedTags, setSelectedTags] = useState<string[]>([]);
     const [questions, setQuestions] = useState<Question[]>([]);
     const [deletedQuestionIds, setDeletedQuestionIds] = useState<number[]>([]);
@@ -36,11 +40,11 @@ export function useEditQuiz(quizId: number) {
             const editData = quizData.editData;
             setTitle(editData.title || '');
             setDescription(editData.description || '');
-            setCoverPhoto(editData.coverPhoto || '');
-            setSelectedTags(availableTags || []);
+            setCoverPhoto(editData.coverPhoto || ''); // Usually string URI on load
+            setSelectedTags(editData.tags || []);
             setQuestions(editData.questions || []);
         }
-    }, [quizData, availableTags]);
+    }, [quizData]);
 
     const toggleTag = (tag: string) => {
         setSelectedTags((prev) =>
@@ -114,16 +118,32 @@ export function useEditQuiz(quizId: number) {
         isPublished: boolean;
         data: any;
     }) => {
+
+        console.log('Submitting quiz with data:', JSON.stringify(data, null, 2));
+
         if (!data.title.trim()) {
-            Alert.alert('Validation Error', 'Quiz title is required.');
+            Toast.show({
+                type: 'error',
+                text1: 'Validation Error',
+                text2: 'Title is required.',
+            });
             return;
         }
+
         if (data.questions.length === 0) {
-            Alert.alert('Validation Error', 'Please add at least one question.');
+            Toast.show({
+                type: 'error',
+                text1: 'Validation Error',
+                text2: 'Please add at least one question.',
+            });
             return;
         }
         if (data.tags.length === 0) {
-            Alert.alert('Validation Error', 'Please select at least one tag.');
+            Toast.show({
+                type: 'error',
+                text1: 'Validation Error',
+                text2: 'Please select at least one tag.',
+            });
             return;
         }
 
@@ -156,10 +176,16 @@ export function useEditQuiz(quizId: number) {
                 }
             });
 
+            // Prepare payload, for coverPhoto:
+            // If coverPhoto is object {uri,file}, send the file
+            // Else if string, send string URI
             const payload: QuizEditPayload = {
                 title: data.title,
                 description: data.description,
-                coverPhoto: data.coverPhoto || null,
+                coverPhoto:
+                    typeof data.coverPhoto === 'object' && data.coverPhoto !== null
+                        ? data.coverPhoto.file
+                        : data.coverPhoto || null,
                 isPublished,
                 questions: updatedQuestions,
                 tags: data.tags,

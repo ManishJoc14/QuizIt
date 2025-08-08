@@ -1,9 +1,12 @@
 import { Image, Text, TouchableOpacity, View } from "react-native";
-import getRandomPersonsImage from "@/utils/functions/getRandomImage";
-import { IconSymbol } from "../ui/IconSymbol";
+
 import { Link } from "expo-router";
+
+import getRandomPersonsImage from "@/utils/functions/getRandomImage";
 import { authtState } from "@/selectors/authSelector";
 import { useAppSelector } from "@/utils/libs/reduxHooks";
+
+import { IconSymbol } from "../ui/IconSymbol";
 
 export function Header() {
   const { user } = useAppSelector(authtState);
@@ -11,7 +14,7 @@ export function Header() {
     <View className="flex-row items-center justify-between px-6 py-2 sm:py-4 bg-white dark:bg-gray-950">
       {/* Greeting */}
       <Text className="text-2xl web:text-xl tracking-wider font-semibold text-gray-900 dark:text-white">
-        Hello {user?.username}!
+        <Text className="text-base">Hello</Text> <Text className="text-indigo-400 font-bold">{user?.fullName.toUpperCase()}</Text>
       </Text>
 
       {/* Right section: Search, Notification, Avatar */}

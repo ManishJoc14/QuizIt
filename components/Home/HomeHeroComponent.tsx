@@ -1,27 +1,58 @@
 import React from 'react';
-
-import { View, Text, ImageBackground } from 'react-native';
-
+import { View, ImageBackground, Dimensions } from 'react-native';
+import { router } from 'expo-router';
+import { useAssets } from 'expo-asset';
 import { getRandomImage } from '@/utils/functions/getRandomImage';
+import { Button } from '../ui/Button';
 
 export function Hero() {
-  return (
-    <View className='my-6'>
-      <ImageBackground
-        source={{ uri: getRandomImage(800, 400) }}
-        className="w-full rounded-xl overflow-hidden"
-        resizeMode="cover"
-      >
-        <View className="bg-black/50 px-6 py-16 web:py-48 items-center justify-center">
-          {/* Title */}
-          <Text className="text-4xl web:text-6xl tracking-wider font-semibold text-white text-center mb-2">
-            Welcome to QuizIt
-          </Text>
+  const [assets] = useAssets(require('@/assets/images/hero_image.png'));
+  const { width } = Dimensions.get('window');
 
-          {/* Subtitle */}
-          <Text className="text-gray-200 tracking-wide text-center text-base web:text-lg max-w-xs">
-            Explore quizzes and challenge your knowledge with friends
-          </Text>
+  // Make height responsive based on screen width
+  const heroHeight = width > 1024 ? 500 : width > 768 ? 400 : 250;
+
+  const heroImageUri =
+    assets && assets[0]
+      ? assets[0].localUri || assets[0].uri
+      : getRandomImage(width, heroHeight);
+
+  return (
+    <View className="w-full my-4">
+      <ImageBackground
+        source={{ uri: heroImageUri }}
+        resizeMode="cover"
+        style={{
+          width: '100%',
+          height: heroHeight,
+          borderRadius: 16,
+          overflow: 'hidden',
+        }}
+        imageStyle={{
+          borderRadius: 16,
+        }}
+      >
+        <View
+          style={{
+            flex: 1,
+            justifyContent: 'flex-end',
+            alignItems: 'center',
+            padding: width > 768 ? 24 : 16,
+          }}
+        >
+          <Button
+            title="LET'S PLAY"
+            variant="outline"
+            size={width > 768 ? 'lg' : 'md'}
+            className="rounded-full shadow-2xl border-2"
+            style={{
+              width: width > 768 ? 180 : 140,
+              paddingVertical: width > 768 ? 16 : 12,
+              paddingHorizontal: width > 768 ? 24 : 16,
+            }}
+            textClassName={width > 768 ? 'text-lg' : 'text-md'}
+            onPress={() => router.push('/(home)/trending')}
+          />
         </View>
       </ImageBackground>
     </View>

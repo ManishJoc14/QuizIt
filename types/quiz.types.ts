@@ -13,7 +13,7 @@ export interface Question {
 export interface CreateQuizPayload {
     title: string;
     description: string;
-    coverPhoto: File | null;
+    coverPhoto: File | string | null;
     isPublished: boolean;
     questions: Question[];
     tags: string[]; // Tags for the quiz from the predefined list
@@ -30,7 +30,7 @@ export interface QuizzesResponse {
 
 export interface QuizResponse {
     message: string;
-    data: ILibraryQuiz & { isThisMe: boolean; quizCreatorId: number; count: number; follower: number; following: number; isFollowed: boolean };
+    data: ILibraryQuiz & { isThisMe: boolean; isFavourite: boolean, favouriteCount: number; quizCreatorId: number; count: number; follower: number; following: number; isFollowed: boolean };
 }
 
 export interface QuizQuestion {

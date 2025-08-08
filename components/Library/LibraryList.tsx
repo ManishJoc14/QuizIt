@@ -6,7 +6,6 @@ import { ILibraryQuiz } from './types';
 import { LibraryQuizCard } from './LibraryQuizCard';
 
 export function LibraryList({ data }: { data: ILibraryQuiz[] }) {
-  console.log('LibraryList data:', data);
 
   return (
     <ScrollView className="my-4" showsVerticalScrollIndicator={false}

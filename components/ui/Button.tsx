@@ -46,7 +46,7 @@ const buttonVariants = cva(
                 variant: "solid",
                 color: "primary",
                 class:
-                    "bg-blue-600 text-white border-blue-600 dark:bg-blue-500 dark:border-blue-500 dark:text-white hover:bg-blue-500 dark:hover:bg-blue-400",
+                    "bg-indigo-600 text-white border-indigo-600 dark:bg-indigo-500 dark:border-indigo-500 dark:text-white hover:bg-indigo-500 dark:hover:bg-indigo-400",
             },
             {
                 variant: "solid",
@@ -78,7 +78,7 @@ const buttonVariants = cva(
                 variant: "outline",
                 color: "primary",
                 class:
-                    "border-blue-600 text-blue-600 dark:border-blue-500 dark:text-white hover:bg-blue-100 dark:hover:bg-blue-200",
+                    "border-indigo-600 text-indigo-600 dark:border-indigo-500 dark:text-white hover:bg-indigo-100 dark:hover:bg-indigo-200",
             },
             {
                 variant: "outline",
@@ -110,7 +110,7 @@ const buttonVariants = cva(
                 variant: "ghost",
                 color: "primary",
                 class:
-                    "text-blue-600 dark:text-white hover:bg-blue-100 dark:hover:bg-blue-200",
+                    "text-indigo-600 dark:text-white hover:bg-indigo-100 dark:hover:bg-indigo-200",
             },
             {
                 variant: "ghost",
@@ -141,7 +141,7 @@ const buttonVariants = cva(
             {
                 variant: "link",
                 color: "primary",
-                class: "text-blue-600 dark:text-white",
+                class: "text-indigo-600 dark:text-white",
             },
             {
                 variant: "link",
@@ -174,7 +174,7 @@ const buttonVariants = cva(
 );
 
 const commonColors = {
-    primary: "text-blue-600 dark:text-blue-300 group-hover:text-blue-600 dark:group-hover:text-blue-600",
+    primary: "text-indigo-600 dark:text-indigo-300 group-hover:text-indigo-600 dark:group-hover:text-indigo-600",
     success: "text-green-600 dark:text-success-300 group-hover:text-green-600 dark:group-hover:text-green-600",
     danger: "text-red-600 dark:text-danger-300 group-hover:text-red-600 dark:group-hover:text-red-600",
     warning: "text-amber-700 dark:text-warning-300 group-hover:text-amber-600 dark:group-hover:text-amber-600",
@@ -239,6 +239,7 @@ export interface ButtonProps
     leftIcon?: React.ReactNode;
     rightIcon?: React.ReactNode;
     className?: string;
+    textClassName?: string;
     fullWidth?: boolean;
 }
 
@@ -256,6 +257,7 @@ export function Button({
     children,
     fullWidth = false,
     onPress,
+    textClassName,
     ...rest
 }: ButtonProps) {
     const { theme } = useTheme();
@@ -302,7 +304,7 @@ export function Button({
                             className={clsx(
                                 "font-medium text-center tracking-wide",
                                 textColorVariants[variant ?? 'solid']?.[color ?? 'primary']
-                            )}
+                                , textClassName)}
                         >
                             {title}
                         </Text>

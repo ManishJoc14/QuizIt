@@ -14,7 +14,7 @@ import { Button } from '@/components/ui/Button';
 import { IconSymbol } from '@/components/ui/IconSymbol';
 import { Question } from '@/types/quiz.types';
 import { useTheme } from '@/context/ThemeContext';
-import { getRandomImage } from '@/utils/functions/getRandomImage';
+import { pickImage } from '@/utils/libs/pickImage';
 
 import { ResultQuestionCard } from '../Join/Result/ResultQuestionCard';
 import { TagSelection } from './CreateTagSelection';
@@ -29,7 +29,7 @@ interface CreateQuizFormProps {
     isTagsLoading: boolean;
     onChangeTitle: (text: string) => void;
     onChangeDescription: (text: string) => void;
-    onChangeCoverPhoto: (url: string) => void;
+    onChangeCoverPhoto: (data: { uri: string; file: File }) => void;
     onToggleTag: (tag: string) => void;
     onSubmit: (payload: { isPublished: boolean; data: any }) => void;
     onAddQuestion: () => void;
@@ -59,13 +59,18 @@ export function CreateQuizForm({
     const inputPlaceholderColor = theme === 'dark' ? '#9CA3AF' : '#6B7280';
     const labelTextColor = theme === 'dark' ? 'text-gray-300' : 'text-gray-600';
 
-    const handleImagePick = () => {
-        const randomImage = getRandomImage(800, 400);
-        onChangeCoverPhoto(randomImage);
+    const handleImagePick = async () => {
+        const result = await pickImage();
+        if (result) {
+            // result should be { uri: string, file: File }
+            onChangeCoverPhoto(result);
+        }
     };
 
     return (
-        <ScrollView className="flex-1" contentContainerStyle={{ paddingBottom: 100 }}
+        <ScrollView
+            className="flex-1"
+            contentContainerStyle={{ paddingBottom: 100 }}
             showsVerticalScrollIndicator={false}
         >
             {/* Quiz Details */}
@@ -98,7 +103,10 @@ export function CreateQuizForm({
 
                 <View className="mb-4">
                     <Text className={`text-lg font-medium mb-2 ${labelTextColor}`}>Cover Photo</Text>
-                    <Pressable onPress={handleImagePick} className="relative w-full h-40 web:h-80 rounded-xl overflow-hidden bg-gray-200 dark:bg-gray-700 items-center justify-center">
+                    <Pressable
+                        onPress={handleImagePick}
+                        className="relative w-full h-40 web:h-80 rounded-xl overflow-hidden bg-gray-200 dark:bg-gray-700 items-center justify-center"
+                    >
                         {coverPhoto ? (
                             <Image source={{ uri: coverPhoto }} className="w-full h-full" resizeMode="cover" />
                         ) : (
@@ -124,7 +132,9 @@ export function CreateQuizForm({
             {/* Quiz Questions */}
             <View className="px-2 mb-8">
                 <View className="flex-row justify-between items-center mb-4">
-                    <Text className={`text-2xl font-semibold ${labelTextColor}`}>Questions ({questions.length})</Text>
+                    <Text className={`text-2xl font-semibold ${labelTextColor}`}>
+                        Questions ({questions.length})
+                    </Text>
                     <Button title="Add Question" onPress={onAddQuestion} size="md" />
                 </View>
 
@@ -134,7 +144,10 @@ export function CreateQuizForm({
                     </View>
                 ) : (
                     questions.map((q, index) => (
-                        <TouchableOpacity key={String(q.id ?? index)} onPress={() => onEditQuestion(String(q.id ?? ''))}>
+                        <TouchableOpacity
+                            key={String(q.id ?? index)}
+                            onPress={() => onEditQuestion(String(q.id ?? ''))}
+                        >
                             <ResultQuestionCard
                                 id={index}
                                 key={q.id ?? index}

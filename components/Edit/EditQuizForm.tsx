@@ -1,4 +1,5 @@
 import React from 'react';
+
 import {
     ScrollView,
     View,
@@ -8,25 +9,27 @@ import {
     Pressable,
     TouchableOpacity,
 } from 'react-native';
+
 import { Button } from '@/components/ui/Button';
 import { IconSymbol } from '@/components/ui/IconSymbol';
 import { Question } from '@/types/quiz.types';
 import { useTheme } from '@/context/ThemeContext';
-import { getRandomImage } from '@/utils/functions/getRandomImage';
+
 import { ResultQuestionCard } from '../Join/Result/ResultQuestionCard';
 import { TagSelection } from '../Create/CreateTagSelection';
+import { pickImage } from '@/utils/libs/pickImage';
 
 interface EditQuizFormProps {
     title: string;
     description: string;
-    coverPhoto: string;
+    coverPhoto: string | { uri: string; file: File };
     selectedTags: string[];
     questions: Question[];
     availableTags: string[];
     isTagsLoading: boolean;
     onChangeTitle: (text: string) => void;
     onChangeDescription: (text: string) => void;
-    onChangeCoverPhoto: (url: string) => void;
+    onChangeCoverPhoto: (data: string | { uri: string; file: File }) => void;
     onToggleTag: (tag: string) => void;
     onSubmit: (payload: { isPublished: boolean; data: any }) => void;
     onAddQuestion: () => void;
@@ -58,10 +61,16 @@ export function EditQuizForm({
     const inputPlaceholderColor = theme === 'dark' ? '#9CA3AF' : '#6B7280';
     const labelTextColor = theme === 'dark' ? 'text-gray-300' : 'text-gray-600';
 
-    const handleImagePick = () => {
-        const randomImage = getRandomImage(800,400);
-        onChangeCoverPhoto(randomImage);
+    const handleImagePick = async () => {
+        const result = await pickImage();
+        if (result) {
+            // result: { uri, file }
+            onChangeCoverPhoto(result);
+        }
     };
+
+    // Determine image URI to display:
+    const imageUri = typeof coverPhoto === 'string' ? coverPhoto : coverPhoto?.uri ?? '';
 
     return (
         <ScrollView
@@ -103,8 +112,8 @@ export function EditQuizForm({
                         onPress={handleImagePick}
                         className="relative w-full h-40 web:h-80 rounded-xl overflow-hidden bg-gray-200 dark:bg-gray-700 items-center justify-center"
                     >
-                        {coverPhoto ? (
-                            <Image source={{ uri: coverPhoto }} className="w-full h-full" resizeMode="cover" />
+                        {imageUri ? (
+                            <Image source={{ uri: imageUri }} className="w-full h-full" resizeMode="cover" />
                         ) : (
                             <IconSymbol name="camera.fill" size={40} color={theme === 'dark' ? '#9CA3AF' : '#6B7280'} />
                         )}
@@ -164,7 +173,6 @@ export function EditQuizForm({
                                     points={q.points}
                                     timeTaken={q.duration}
                                 />
-                                {/* New question indicator */}
                                 {(q as any).isNew && (
                                     <View className="absolute top-2 right-2 bg-green-500 rounded-full px-2 py-1">
                                         <Text className="text-white text-xs font-medium">NEW</Text>

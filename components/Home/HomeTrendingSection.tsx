@@ -1,17 +1,18 @@
 import { ScrollView, Text, View } from "react-native"
+
 import { router } from "expo-router";
 
+import getRandomPersonsImage, { getRandomImage } from "@/utils/functions/getRandomImage";
 import { QuizCard } from "@/components/Home/HomeQuizCard";
+import { useGetTopQuizzesListQuery } from "@/services/featureApi";
 import { useTheme } from "@/context/ThemeContext"
 
 import { Button } from "../ui/Button"
 import { IconSymbol } from "../ui/IconSymbol"
-import { useGetQuizzesQuery } from "@/services/quizApi";
-import getRandomPersonsImage, { getRandomImage } from "@/utils/functions/getRandomImage";
 
 export function TrendingSection() {
     const { theme } = useTheme();
-    const { data: quizzes, isLoading } = useGetQuizzesQuery();
+    const { data: quizzes, isLoading } = useGetTopQuizzesListQuery();
 
     if (isLoading) {
         return (
@@ -29,8 +30,6 @@ export function TrendingSection() {
         );
     }
 
-    const trendingQuizzes = [...quizzes.data].sort((a, b) => a.plays - b.plays);
-
     return (
         <View className="mb-10">
             <View className="flex-row items-center justify-between mb-5">
@@ -45,7 +44,7 @@ export function TrendingSection() {
                 horizontal
                 showsHorizontalScrollIndicator={false}
             >
-                {trendingQuizzes.map((quiz, index) => (
+                {quizzes.data.map((quiz, index) => (
                     <QuizCard key={index}
                         id={quiz.id}
                         title={quiz.title}

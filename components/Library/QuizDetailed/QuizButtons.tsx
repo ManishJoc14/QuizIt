@@ -11,12 +11,6 @@ export function QuizButtons({ id }: { id: string }) {
 
     return (
         <View className="flex-row flex-1 gap-4 justify-between mb-20">
-            {/* <Button
-                fullWidth
-                variant="outline"
-                title="Play Solo"
-                size="lg"
-            /> */}
             <Button
                 fullWidth
                 variant="solid"

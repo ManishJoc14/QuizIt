@@ -1,3 +1,5 @@
+import snakecaseKeys from "snakecase-keys";
+
 import { CheckUserNamePayload, CheckUserNameResponse, GetUserParams, GetUserResponse, GetUsersQuizzesQueryParams, QuizEditPayload, QuizEditResponse, UserEditPayload, UserProfileResponse } from "@/types/user.types";
 import { MutationSuccessResponse } from "@/types/shared.types";
 import { QuizzesResponse } from "@/types/quiz.types";
@@ -28,20 +30,61 @@ export const userApi = api.injectEndpoints({
             providesTags: ['Quiz'],
         }),
         updateQuiz: build.mutation<MutationSuccessResponse, { id: number, values: QuizEditPayload }>({
-            query: ({ id, values }) => ({
-                url: `/user/me/${id}/edit`,
-                method: 'PUT',
-                data: values,
-            }),
+            query: ({ id, values }) => {
+                const snakeysObj = snakecaseKeys(values as unknown as Record<string, unknown>, { deep: true });
+
+                const { cover_photo, questions, tags, ...rest } = snakeysObj;
+                const body = new FormData();
+
+                for (const [key, value] of Object.entries(rest)) {
+                    if (value !== undefined && value !== null) {
+                        body.append(key, value as string | Blob);
+                    }
+                }
+
+                body.append('questions', JSON.stringify(questions));
+                body.append('tags', JSON.stringify(tags));
+
+                // Append coverPhoto if it's a File
+                if (cover_photo instanceof File) {
+                    body.append('cover_photo', cover_photo);
+                }
+
+                return {
+                    url: `/user/me/${id}/edit`,
+                    method: 'PUT',
+                    data: body,
+                    meta: { contentType: 'multipart' },
+                }
+            },
             invalidatesTags: ['Quiz']
         }),
         updateUser: build.mutation<MutationSuccessResponse, { values: UserEditPayload }>({
-            query: ({ values }) => ({
-                url: `/user/profile/edit`,
-                method: 'PUT',
-                data: values,
-            }),
-            invalidatesTags: ['User']
+            query: ({ values }) => {
+                const snakeysObj = snakecaseKeys(values as Record<string, unknown>, { deep: true });
+
+                const { photo, ...rest } = snakeysObj;
+                const body = new FormData();
+
+                for (const [key, value] of Object.entries(rest)) {
+                    if (value !== undefined && value !== null) {
+                        body.append(key, value as string | Blob);
+                    }
+                }
+
+                // Append photo if it's a File
+                if (photo instanceof File) {
+                    body.append('photo', photo);
+                }
+
+                return {
+                    url: `/user/profile/edit`,
+                    method: 'PUT',
+                    data: body,
+                    meta: { contentType: 'multipart' },
+                };
+            },
+            invalidatesTags: ['User'],
         }),
 
         deteleQuiz: build.mutation<MutationSuccessResponse, number>({

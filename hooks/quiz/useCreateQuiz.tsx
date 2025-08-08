@@ -1,9 +1,6 @@
 import { useState } from 'react';
-
 import { Alert } from 'react-native';
-
 import { useRouter } from 'expo-router';
-
 import Toast from 'react-native-toast-message';
 import uuid from 'react-native-uuid';
 
@@ -15,9 +12,12 @@ export function useCreateQuiz() {
     const router = useRouter();
 
     const availableTags = data?.quizTags ?? [];
+
+    // Split coverPhoto state into URI and File
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
-    const [coverPhoto, setCoverPhoto] = useState('');
+    const [coverPhotoFile, setCoverPhotoFile] = useState<File | null>(null);
+    const [coverPhotoUri, setCoverPhotoUri] = useState('');
     const [selectedTags, setSelectedTags] = useState<string[]>([]);
     const [questions, setQuestions] = useState<Question[]>([]);
 
@@ -25,13 +25,6 @@ export function useCreateQuiz() {
     const [questionToEdit, setQuestionToEdit] = useState<Question | null>(null);
 
     const [createQuiz, { isLoading: isSubmittingQuiz }] = useCreateQuizMutation();
-
-    // useEffect(() => {
-    //     console.log('Current questions:', questions);
-    //     console.log('Current selected tags:', selectedTags);
-    //     console.log('Current title:', title);
-    //     console.log('Current description:', description);
-    // }, [questions, selectedTags, title, description]);
 
     const toggleTag = (tag: string) => {
         setSelectedTags((prev) =>
@@ -86,7 +79,14 @@ export function useCreateQuiz() {
         data,
     }: {
         isPublished: boolean;
-        data: any;
+        data: {
+            title: string;
+            description: string;
+            coverPhotoUri: string;
+            coverPhotoFile: File | null;
+            questions: Question[];
+            tags: string[];
+        };
     }) => {
         if (!data.title.trim()) {
             Alert.alert('Validation Error', 'Quiz title is required.');
@@ -101,18 +101,19 @@ export function useCreateQuiz() {
             return;
         }
 
+        // Remove ids from questions, add questionIndex
         const UpdatedQuestions = data.questions.map((q: Question, index: number) => {
             const { id, ...rest } = q;
             return {
-                ...rest, // not including id here
-                questionIndex: index, // Assign index for ordering
+                ...rest,
+                questionIndex: index,
             };
         });
 
         const payload: CreateQuizPayload = {
             title: data.title,
             description: data.description,
-            coverPhoto: null,
+            coverPhoto: data.coverPhotoFile || data.coverPhotoUri || null,
             isPublished,
             questions: UpdatedQuestions,
             tags: data.tags,
@@ -125,10 +126,11 @@ export function useCreateQuiz() {
                 text1: 'Quiz Created',
                 text2: result.message || 'Your quiz has been created successfully.',
             });
-            // reset form state
+            // Reset form state
             setTitle('');
             setDescription('');
-            setCoverPhoto('');
+            setCoverPhotoFile(null);
+            setCoverPhotoUri('');
             setSelectedTags([]);
             setQuestions([]);
             closeQuestionModal();
@@ -142,7 +144,7 @@ export function useCreateQuiz() {
                 type: 'error',
                 text1: 'Quiz Creation Failed',
                 text2: 'An error occurred while creating the quiz.',
-            })
+            });
         }
     };
 
@@ -151,8 +153,10 @@ export function useCreateQuiz() {
         setTitle,
         description,
         setDescription,
-        coverPhoto,
-        setCoverPhoto,
+        coverPhotoFile,
+        setCoverPhotoFile,
+        coverPhotoUri,
+        setCoverPhotoUri,
         selectedTags,
         toggleTag,
         availableTags,

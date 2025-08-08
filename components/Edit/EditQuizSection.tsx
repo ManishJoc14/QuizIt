@@ -1,9 +1,12 @@
 import React from 'react';
+
 import { View, ActivityIndicator, Text } from 'react-native';
-import { useTheme } from '@/context/ThemeContext';
+
 import { useEditQuiz } from '@/hooks/quiz/useEditQuiz';
-import { EditQuizForm } from './EditQuizForm';
+import { useTheme } from '@/context/ThemeContext';
+
 import { EditQuestionModal } from './modals/EditQuestionModal';
+import { EditQuizForm } from './EditQuizForm';
 
 interface EditQuizSectionProps {
     quizId: number;
@@ -36,7 +39,6 @@ export function EditQuizSection({ quizId }: EditQuizSectionProps) {
 
     return (
         <>
-            {/* Quiz edit form */}
             <EditQuizForm
                 title={title}
                 description={description}
@@ -55,7 +57,6 @@ export function EditQuizSection({ quizId }: EditQuizSectionProps) {
                 deletedQuestionIds={deletedQuestionIds}
             />
 
-            {/* Question modal */}
             <EditQuestionModal
                 isVisible={isQuestionModalVisible}
                 onClose={closeQuestionModal}
@@ -65,7 +66,6 @@ export function EditQuizSection({ quizId }: EditQuizSectionProps) {
                 onAddQuestionsBulk={addQuestionsBulk}
             />
 
-            {/* Loading overlay */}
             {isSubmittingQuiz && (
                 <View className="absolute inset-0 bg-black bg-opacity-50 justify-center items-center">
                     <ActivityIndicator size="large" color={theme === 'dark' ? '#F9FAFB' : '#111827'} />

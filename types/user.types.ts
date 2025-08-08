@@ -28,6 +28,7 @@ export type QuizEditResponse = {
         title: string;
         description: string;
         questions: Question[];
+        tags: string[];
     }
 };
 

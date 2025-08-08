@@ -49,6 +49,8 @@ const MAPPING = {
   'face.dashed': 'sentiment-neutral', // Neutral face icon
   'plus': 'add', // Plus icon
   'minus': 'remove', // Minus icon
+  'heart.fill': 'favorite', // Filled heart icon
+  'heart': 'favorite-border', // Heart icon
 } as IconMapping;
 
 /**

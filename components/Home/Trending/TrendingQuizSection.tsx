@@ -1,23 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 import { Text, View } from 'react-native';
 
-import { IOrder } from '@/components/Library/types';
-import { LibraryFilters } from '@/components/Library/LibraryFilters';
 import { LibraryList } from '@/components/Library/LibraryList';
-import { useLazyGetMyQuizzesQuery } from '@/services/quizApi';
-
+import { useGetTopQuizzesListQuery } from '@/services/featureApi';
 
 export function TrendingQuizSection() {
-    const [activeFilter, setActiveFilter] = useState('newest');
-    const [ordering, setOrdering] = useState<IOrder>('asc');
-    const [getQuizzes, { isLoading, data: quizzes }] = useLazyGetMyQuizzesQuery();
-
-    useEffect(() => {
-        if (activeFilter || ordering) {
-            getQuizzes({ filter: activeFilter, order: ordering });
-        }
-    }, [activeFilter, ordering, getQuizzes]);
+    const { data: quizzes, isLoading } = useGetTopQuizzesListQuery();
 
     if (isLoading) {
         return (
@@ -36,14 +25,7 @@ export function TrendingQuizSection() {
                     </View>
                 ) : (
                     <>
-                        <LibraryFilters
-                            activeFilter={activeFilter}
-                            ordering={ordering}
-                            onOrderingChange={setOrdering}
-                            onChange={setActiveFilter}
-                            total={quizzes?.data?.length ?? 0}
-                        />
-                        <LibraryList data={[...quizzes.data].sort((a, b) => a.plays - b.plays) ?? []} />
+                        <LibraryList data={quizzes.data} />
                     </>
                 )}
         </>

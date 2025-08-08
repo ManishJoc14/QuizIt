@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import { View } from 'react-native'
 
@@ -7,7 +7,7 @@ import { useRouter } from 'expo-router';
 import getRandomPersonsImage from '@/utils/functions/getRandomImage'
 import { Button } from '@/components/ui/Button'
 import { UserAvatar } from '@/components/ui/AuthorAvatar';
-import { useFollowUserMutation } from '@/services/featureApi';
+import { useFollowUserMutation, useUnFollowUserMutation } from '@/services/featureApi';
 
 import { User } from './types';
 
@@ -18,22 +18,37 @@ type ProfileAuthorProps = User & {
 export function ProfileAuthor({ id, name, username, image, isThisMe, isFollowed }: ProfileAuthorProps) {
     const router = useRouter();
     const [followUser] = useFollowUserMutation();
-
-    const handleEditClick = () => {
-        router.push({
-            pathname: '/quiz/[id]/edit',
-            params: { id: String(id) }
-        });
-    };
+    const [unFollowUser] = useUnFollowUserMutation();
+    const [isFollowedState, setIsFollowedState] = useState(isFollowed);
 
     const handleFollowClick = async () => {
+        setIsFollowedState(true);
         try {
             await followUser({ followedToId: String(id) }).unwrap();
         }
         catch (error) {
             console.error('Failed to follow user:', error);
+            setIsFollowedState(false); // Revert state if the request fails
         }
     }
+
+    const handleUnfollowClick = async () => {
+        setIsFollowedState(false);
+        try {
+            await unFollowUser({ followedToId: String(id) }).unwrap();
+        }
+        catch (error) {
+            console.error('Failed to unfollow user:', error);
+            setIsFollowedState(true); // Revert state if the request fails
+        }
+    }
+
+    const handleEditClick = () => {
+        router.push({
+            pathname: '/settings/personalinfo',
+            params: { id: String(id) }
+        });
+    };
 
     return (
         <View className="flex-row items-center justify-between mb-8" >
@@ -45,7 +60,7 @@ export function ProfileAuthor({ id, name, username, image, isThisMe, isFollowed 
 
             {isThisMe ?
                 <Button title="Edit" onPress={handleEditClick} variant="outline" color="gray" radius="full" /> :
-                isFollowed ? <Button title="Following" variant="outline" radius="full" /> :
+                isFollowedState ? <Button title="Following" onPress={handleUnfollowClick} variant="outline" radius="full" /> :
                     <Button title="Follow" onPress={handleFollowClick} variant="solid" radius="full" />}
         </View >
     )

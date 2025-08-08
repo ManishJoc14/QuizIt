@@ -1,3 +1,5 @@
+import snakecaseKeys from "snakecase-keys";
+
 import { CreateQuizPayload, QuizQuestionsResponse, QuizResponse, QuizTagsResponse, QuizzesResponse } from "@/types/quiz.types";
 import { MutationSuccessResponse } from "@/types/shared.types";
 
@@ -6,11 +8,33 @@ import { api } from "./api";
 export const quizApi = api.injectEndpoints({
     endpoints: (build) => ({
         createQuiz: build.mutation<MutationSuccessResponse, CreateQuizPayload>({
-            query: (body) => ({
-                url: '/quiz/upload-quiz',
-                method: 'POST',
-                data: body,
-            }),
+            query: (values) => {
+                const snakeysObj = snakecaseKeys(values as unknown as Record<string, unknown>, { deep: true });
+
+                const { cover_photo, questions, tags, ...rest } = snakeysObj;
+                const body = new FormData();
+
+                for (const [key, value] of Object.entries(rest)) {
+                    if (value !== undefined && value !== null) {
+                        body.append(key, value as string | Blob);
+                    }
+                }
+
+                body.append('questions', JSON.stringify(questions));
+                body.append('tags', JSON.stringify(tags));
+
+                // Append coverPhoto if it's a File
+                if (cover_photo instanceof File) {
+                    body.append('cover_photo', cover_photo);
+                }
+
+                return {
+                    url: '/quiz/upload-quiz',
+                    method: 'POST',
+                    data: body,
+                    meta: { contentType: 'multipart' },
+                };
+            },
             invalidatesTags: ['Quiz'],
         }),
         getQuizTags: build.query<QuizTagsResponse, void>({

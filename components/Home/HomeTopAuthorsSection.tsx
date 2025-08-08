@@ -2,12 +2,12 @@ import { ScrollView, Text, View } from "react-native"
 
 import { router } from "expo-router"
 
+import { useGetTopAuthorsListQuery } from "@/services/featureApi"
 import { useTheme } from "@/context/ThemeContext"
 
 import { AuthorAvatar } from "../ui/AuthorAvatar"
 import { Button } from "../ui/Button"
 import { IconSymbol } from "../ui/IconSymbol"
-import { useGetTopAuthorsListQuery } from "@/services/featureApi"
 
 export function TopAuthorsSection() {
     const { theme } = useTheme();
@@ -30,7 +30,9 @@ export function TopAuthorsSection() {
                     showsHorizontalScrollIndicator={false}
                 >
                     {authorsData?.data.map((author, index) => (
-                        <AuthorAvatar key={index} {...author} />
+                        <AuthorAvatar key={index}
+                            id={author.id} name={author.name} avatar={author.image}
+                        />
                     ))}
                 </ScrollView>
             ) : (

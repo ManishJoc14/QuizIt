@@ -4,6 +4,7 @@ export type User = {
     fullName: string;
     username: string;
     photo?: string;
+    image?: string;
 }
 
 export interface MutationSuccessResponse {

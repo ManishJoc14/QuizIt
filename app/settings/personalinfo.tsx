@@ -1,32 +1,48 @@
 import React, { useEffect, useState } from 'react';
 import { ScrollView, View } from 'react-native';
+import Toast from 'react-native-toast-message';
+
 import getRandomPersonsImage from '@/utils/functions/getRandomImage';
-import { PersonalInfoHeader } from '@/components/Profile/Settings/PersonalInfo/PersonalInfoHeader';
 import { PersonalInfoForm } from '@/components/Profile/Settings/PersonalInfo/PersonalInfoForm';
+import { PersonalInfoHeader } from '@/components/Profile/Settings/PersonalInfo/PersonalInfoHeader';
 import { useAppSelector } from '@/utils/libs/reduxHooks';
 import { useIsUsernameUnique } from '@/hooks/user/useIsUsernameUnique';
 import { useUpdateUserMutation } from '@/services/userApi';
-import Toast from 'react-native-toast-message';
 
 export default function PersonalInfoScreen() {
     const { user } = useAppSelector(state => state.auth);
     const [updateUser] = useUpdateUserMutation();
 
+    // Separate state for file (for upload) and uri (for preview)
+    const [imageFile, setImageFile] = useState<File | null>(null);
+    const [imageUri, setImageUri] = useState<string>(user?.photo || user?.image || getRandomPersonsImage());
+
     const [fullName, setFullName] = useState(user?.fullName || 'Manish Joshi');
     const [username, setUsername] = useState(user?.username || 'manishjoc14');
     const [email, setEmail] = useState(user?.email || 'manishjoc14@email.com');
-    const [image, setImage] = useState(getRandomPersonsImage());
     const [isFormValid, setIsFormValid] = useState(false);
     const { isUsernameUnique, isUsernameChecking } = useIsUsernameUnique({ username });
+
+    // onImageChange receives an object with uri and file from pickImage util
+    const onImageChange = (data: { uri: string; file: File }) => {
+        setImageFile(data.file);
+        setImageUri(data.uri);
+    };
 
     const handleSaveChanges = async () => {
         if (!fullName || !username || !email) return;
 
-        let values: { fullName?: string; username?: string; photo?: string } = {};
+        let values: { fullName?: string; username?: string; photo?: File | string } = {};
 
         if (fullName !== user?.fullName) values.fullName = fullName;
         if (username !== user?.username) values.username = username;
-        if (image !== user?.photo) values.photo = image;
+
+        // If user picked a new file, send file, else if uri changed send uri string
+        if (imageFile) {
+            values.photo = imageFile;
+        } else if (imageUri !== user?.photo) {
+            values.photo = imageUri;
+        }
 
         try {
             await updateUser({ values }).unwrap();
@@ -53,11 +69,11 @@ export default function PersonalInfoScreen() {
                     fullName={fullName}
                     username={username}
                     email={email}
-                    image={image}
+                    imageUri={imageUri}             // pass URI string only for preview
                     onFullNameChange={setFullName}
                     onUsernameChange={setUsername}
                     onEmailChange={setEmail}
-                    onImageChange={setImage}
+                    onImageChange={onImageChange}   // pass full handler for file & uri
                     onSaveChanges={handleSaveChanges}
                     isUsernameUnique={isUsernameUnique}
                     isUsernameChecking={isUsernameChecking}

@@ -24,6 +24,8 @@ export default function QuizDetailScreen() {
         );
     }
 
+    console.log("Quiz Data:", quiz);
+
     return (
         <View className="flex-1 px-4 pt-safe-offset-4 bg-gray-50 dark:bg-gray-950 border">
             <QuizHeader isThisMe={quiz?.data.isThisMe} />
@@ -34,7 +36,7 @@ export default function QuizDetailScreen() {
                     </View>
                 ) : (
                     <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
-                        <QuizImage image={getRandomImage()} />
+                        <QuizImage image={quiz.data.coverPhoto || getRandomImage()} />
                         <QuizAuthor
                             id={quiz.data.id}
                             quizCreatorId={quiz.data.quizCreatorId}
@@ -43,12 +45,13 @@ export default function QuizDetailScreen() {
                             image={quiz.data.image ? quiz.data.image : getRandomImage()}
                             isThisMe={quiz.data.isThisMe}
                             isFollowed={quiz.data.isFollowed}
+                            isFavourite={quiz.data.isFavourite}
                         />
                         <View className='w-full web:flex web:flex-row web:gap-4'>
                             <QuizMeta
                                 questions={quiz.data.count}
                                 played={quiz.data.plays}
-                                favorited={120}
+                                favorited={quiz.data.favouriteCount}
                             />
                             <QuizDescription description={quiz.data.description} />
                         </View>

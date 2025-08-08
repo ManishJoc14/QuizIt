@@ -2,12 +2,12 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { SignInResponse } from '@/types/auth.types';
 import { User } from '@/types/shared.types';
-
 interface AuthState {
     accessToken: SignInResponse['accessToken'] | null;
     refreshToken: SignInResponse['refreshToken'] | null;
     isAuthenticated: boolean;
     user: User | null;
+
 }
 
 const initialState: AuthState = {

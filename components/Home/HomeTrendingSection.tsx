@@ -1,6 +1,5 @@
 import { ScrollView, Text, View } from "react-native"
-
-import { Link } from "expo-router";
+import { router } from "expo-router";
 
 import { QuizCard } from "@/components/Home/HomeQuizCard";
 import { useTheme } from "@/context/ThemeContext"
@@ -12,7 +11,6 @@ import getRandomPersonsImage, { getRandomImage } from "@/utils/functions/getRand
 
 export function TrendingSection() {
     const { theme } = useTheme();
-
     const { data: quizzes, isLoading } = useGetQuizzesQuery();
 
     if (isLoading) {
@@ -33,18 +31,15 @@ export function TrendingSection() {
 
     const trendingQuizzes = [...quizzes.data].sort((a, b) => a.plays - b.plays);
 
-
-
     return (
         <View className="mb-10">
             <View className="flex-row items-center justify-between mb-5">
                 <Text className="text-2xl tracking-wider font-semibold text-gray-900 dark:text-white">
                     Trending Quiz
                 </Text>
-                <Link href="/trending" asChild>
-                    <Button title='View all' variant="link" className="no-underline"
-                        rightIcon={<IconSymbol size={28} name="chevron.right" color={theme === 'dark' ? "#93c5fd" : "#60a5fa"} />} />
-                </Link>
+                <Button title='View all' variant="link" className="no-underline"
+                    onPress={() => router.push('/trending')}
+                    rightIcon={<IconSymbol size={28} name="chevron.right" color={theme === 'dark' ? "#93c5fd" : "#60a5fa"} />} />
             </View>
             <ScrollView
                 horizontal

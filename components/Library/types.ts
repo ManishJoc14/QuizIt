@@ -8,6 +8,7 @@ export interface ILibraryQuiz {
     plays: number;
     date: string;
     count: number;
+    createdAt?: string;
 }
 
 export type IOrder = 'asc' | 'desc'

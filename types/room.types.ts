@@ -17,7 +17,7 @@ export interface StartQuizResponse {
 
 export interface SubmitAnswerPayload {
   questionIndex: number;
-  selectedOption: string;
+  selectedOption: number | null;
   point: number;
   answeredAt: string;
 }

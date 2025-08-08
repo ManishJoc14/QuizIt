@@ -8,9 +8,9 @@ export interface User {
 
 export interface ProfileMetaData {
     quizzes: number;
-    played: number;
-    players: number;
-    rank: number;
+    // played: number;
+    // players: number;
+    // rank: number;
     followers: number;
     following: number;
 }

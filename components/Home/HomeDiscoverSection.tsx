@@ -1,6 +1,6 @@
 import { View, Text, ScrollView } from "react-native";
 
-import { Link } from "expo-router";
+import { router } from "expo-router";
 
 import getRandomPersonsImage, { getRandomImage } from "@/utils/functions/getRandomImage";
 import { QuizCard } from "@/components/Home/HomeQuizCard";
@@ -39,10 +39,9 @@ export function DiscoverSection() {
                 <Text className="text-2xl tracking-wider font-semibold text-gray-900 dark:text-white">
                     Discover
                 </Text>
-                <Link href="/discover" asChild>
-                    <Button title='View all' variant="link" className="no-underline"
-                        rightIcon={<IconSymbol size={28} name="chevron.right" color={theme === 'dark' ? "#93c5fd" : "#60a5fa"} />} />
-                </Link>
+                <Button title='View all' variant="link" className="no-underline"
+                    onPress={() => router.push('/discover')}
+                    rightIcon={<IconSymbol size={28} name="chevron.right" color={theme === 'dark' ? "#93c5fd" : "#60a5fa"} />} />
             </View>
 
             {/* Scrollable Quiz Cards */}

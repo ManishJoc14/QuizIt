@@ -1,22 +1,38 @@
 import React, { useState } from 'react';
 import { View, Text, ScrollView } from 'react-native';
 
-import { AuthorAvatar, UserAvatar } from '@/components/ui/AuthorAvatar';
 import { Button } from '@/components/ui/Button';
-import { useGetInviteUserListQuery } from '@/services/featureApi';
 import { UserToInvite } from '@/types/feature.types';
 import getRandomPersonsImage from '@/utils/functions/getRandomImage';
+import { InviteUserAvatar, InviteUserAvatarDetailed } from '@/components/ui/AuthorAvatar';
+import { useGetInviteUserListQuery, useInviteFriendMutation } from '@/services/featureApi';
 
-export function InviteFriends({ quizId }: { quizId: string }) {
+export function InviteFriends({ quizId, roomCode, joinedUsers }: { quizId: string, roomCode: string, joinedUsers: string[] }) {
     const { data: users } = useGetInviteUserListQuery();
+    const [inviteFriend] = useInviteFriendMutation();
     const [invitedUsers, setInvitedUsers] = useState<UserToInvite[]>([]);
 
     const isUserInvited = (userId: string) =>
         invitedUsers.some((u) => String(u.userId) === userId);
 
-    const handleInvite = (user: UserToInvite) => {
+    const isUserJoined = (username: string) =>
+        joinedUsers.includes(username);
+
+    const handleInvite = async (user: UserToInvite) => {
         if (!isUserInvited(String(user.userId))) {
             setInvitedUsers((prev) => [...prev, user]);
+            try {
+                await inviteFriend({
+                    roomCode,
+                    values: {
+                        quizId,
+                        invitedToId: String(user.userId),
+                    },
+                }).unwrap();
+            }
+            catch (error) {
+                console.error('Failed to invite user:', error);
+            }
         }
     };
 
@@ -52,11 +68,12 @@ export function InviteFriends({ quizId }: { quizId: string }) {
                 className="py-6 border-b border-gray-200 dark:border-gray-800"
             >
                 {invitedUsers.map((user, index) => (
-                    <AuthorAvatar
+                    <InviteUserAvatar
                         key={index}
                         id={user.userId}
                         name={user.username}
                         avatar={user.image ? user.image : getRandomPersonsImage()}
+                        isUserJoined={isUserJoined(user.username)}
                     />
                 ))}
             </ScrollView>
@@ -85,14 +102,15 @@ export function InviteFriends({ quizId }: { quizId: string }) {
                             key={index}
                             className="flex-row items-center justify-between py-4 border-b border-gray-200 dark:border-gray-800"
                         >
-                            <UserAvatar
+                            <InviteUserAvatarDetailed
                                 id={user.userId}
                                 name={user.username}
                                 username={user.username}
-                                image={user.image ? user.image : getRandomPersonsImage()}
+                                avatar={user.image ? user.image : getRandomPersonsImage()}
+                                isUserJoined={isUserJoined(user.username)}
                             />
                             <Button
-                                title={invited ? 'Invited' : 'Invite'}
+                                title={isUserJoined(user.username) ? 'Joined' : invited ? 'Invited' : 'Invite'}
                                 variant={invited ? 'outline' : 'solid'}
                                 radius="full"
                                 onPress={() => handleInvite(user)}

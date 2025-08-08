@@ -1,8 +1,9 @@
 import { useRouter, useLocalSearchParams, Href } from 'expo-router';
 
+import Toast from 'react-native-toast-message';
+
 import { VerifyEmailRequest } from '@/types/auth.types';
 import { useVerifyEmailMutation } from '@/services/authApi';
-import Toast from 'react-native-toast-message';
 
 export function useVerifyEmail() {
     const [verifyEmail, { isLoading, error }] = useVerifyEmailMutation();

@@ -41,7 +41,7 @@ export function LibraryQuizCard({
                     />
                     <Text numberOfLines={1} className="text-sm text-gray-500 dark:text-gray-300 max-w-[60px]">{quiz.author}</Text>
                     <Text className="text-sm text-gray-500 mx-2">•</Text>
-                    <Text className="text-sm text-gray-500">{getRelativeTime(quiz.date)}</Text>
+                    <Text className="text-sm text-gray-500">{getRelativeTime(quiz.createdAt || quiz.date)}</Text>
                     <Text className="text-sm text-gray-500 mx-2">•</Text>
                     <Text className="text-sm text-gray-500">{quiz.count}Qns</Text>
                 </View>

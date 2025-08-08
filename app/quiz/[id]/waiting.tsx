@@ -13,12 +13,13 @@ import { useStartQuizMutation } from '@/services/roomApi';
 import { useWaitingScreen } from '@/hooks/room/useWaitingScreen';
 
 export default function WaitingScreen() {
-    const { id, roomCode: roomCodeParam } = useLocalSearchParams();
+    const { id, roomCode: roomCodeParam, roomHost: roomHostParam } = useLocalSearchParams();
     const [startQuiz] = useStartQuizMutation();
 
     const quizId = Array.isArray(id) ? id[0] : id;
     const code = Array.isArray(roomCodeParam) ? roomCodeParam[0] : roomCodeParam;
-    const { joinedUsers, isLoading, error, isHost, connected, roomCode: ROOMCODE, quizTitle } = useWaitingScreen(Number(quizId), code);
+    const host = Array.isArray(roomHostParam) ? roomHostParam[0] : roomHostParam;
+    const { joinedUsers, quizTitle, isLoading, error, isHost, connected, roomCode: ROOMCODE } = useWaitingScreen({ id: Number(quizId), roomCode: code, roomHost: host });
 
     const players = joinedUsers.map((username, index) => ({
         id: index.toString(),

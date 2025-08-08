@@ -7,11 +7,11 @@ import { useRouter } from 'expo-router';
 import getRandomPersonsImage from '@/utils/functions/getRandomImage'
 import { Button } from '@/components/ui/Button'
 import { UserAvatar } from '@/components/ui/AuthorAvatar';
-import { useFollowUserMutation } from '@/services/featureApi';
+import { useFavoriteQuizMutation, useFollowUserMutation, useUnFavoriteQuizMutation } from '@/services/featureApi';
 
-export function QuizAuthor({ id, userId, name, username, image, isThisMe, isFollowed = false }: {
+export function QuizAuthor({ id, quizCreatorId, name, username, image, isThisMe, isFollowed = false }: {
     id: number,
-    userId: number,
+    quizCreatorId: number,
     name: string,
     username: string,
     image?: string,
@@ -20,6 +20,8 @@ export function QuizAuthor({ id, userId, name, username, image, isThisMe, isFoll
 }) {
     const router = useRouter();
     const [followUser] = useFollowUserMutation();
+    const [favoriteQuiz] = useFavoriteQuizMutation();
+    const [unFavoriteQuiz] = useUnFavoriteQuizMutation();
 
     const handleEditClick = () => {
         router.push({
@@ -30,10 +32,28 @@ export function QuizAuthor({ id, userId, name, username, image, isThisMe, isFoll
 
     const handleFollowClick = async () => {
         try {
-            await followUser({ followedToId: String(userId) }).unwrap();
+            await followUser({ followedToId: String(quizCreatorId) }).unwrap();
         }
         catch (error) {
             console.error('Failed to follow user:', error);
+        }
+    }
+
+    const handleFavoriteClick = async () => {
+        try {
+            await favoriteQuiz({ quizId: id }).unwrap();
+        }
+        catch (error) {
+            console.error('Failed to favorite quiz:', error);
+        }
+    }
+
+    const handleUnFavoriteClick = async () => {
+        try {
+            await unFavoriteQuiz({ quizId: id }).unwrap();
+        }
+        catch (error) {
+            console.error('Failed to unfavorite quiz:', error);
         }
     }
 

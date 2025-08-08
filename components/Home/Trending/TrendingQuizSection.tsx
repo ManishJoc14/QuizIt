@@ -1,29 +1,51 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
+import { Text, View } from 'react-native';
+
+import { IOrder } from '@/components/Library/types';
 import { LibraryFilters } from '@/components/Library/LibraryFilters';
 import { LibraryList } from '@/components/Library/LibraryList';
-import { getRandomImage } from '@/utils/functions/getRandomImage';
-import { ILibraryQuiz, IOrder } from '@/components/Library/types';
+import { useLazyGetMyQuizzesQuery } from '@/services/quizApi';
 
-const quizzes: ILibraryQuiz[] = new Array(8).fill(null).map((_, i) => ({
-    id: i,
-    title: 'Get Smarter With these productivity...',
-    description: 'Description about the quiz',
-    image: getRandomImage(),
-    author: 'Manish Joshi',
-    plays: 20,
-    date: 'Today',
-    count: 16,
-}));
 
 export function TrendingQuizSection() {
-    const [activeFilter, setActiveFilter] = useState('Newest');
+    const [activeFilter, setActiveFilter] = useState('newest');
     const [ordering, setOrdering] = useState<IOrder>('asc');
+    const [getQuizzes, { isLoading, data: quizzes }] = useLazyGetMyQuizzesQuery();
+
+    useEffect(() => {
+        if (activeFilter || ordering) {
+            getQuizzes({ filter: activeFilter, order: ordering });
+        }
+    }, [activeFilter, ordering, getQuizzes]);
+
+    if (isLoading) {
+        return (
+            <View className="flex-1 items-center justify-center">
+                <Text>Loading...</Text>
+            </View>
+        );
+    }
 
     return (
         <>
-            <LibraryFilters activeFilter={activeFilter} ordering={ordering} onOrderingChange={setOrdering} onChange={setActiveFilter} total={quizzes.length} />
-            <LibraryList data={quizzes} />
+            {
+                !quizzes || quizzes?.data?.length === 0 ? (
+                    <View className="flex-1 items-center justify-center">
+                        <Text>No quizzes found</Text>
+                    </View>
+                ) : (
+                    <>
+                        <LibraryFilters
+                            activeFilter={activeFilter}
+                            ordering={ordering}
+                            onOrderingChange={setOrdering}
+                            onChange={setActiveFilter}
+                            total={quizzes?.data?.length ?? 0}
+                        />
+                        <LibraryList data={[...quizzes.data].sort((a, b) => a.plays - b.plays) ?? []} />
+                    </>
+                )}
         </>
     );
 }

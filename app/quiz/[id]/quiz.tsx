@@ -21,6 +21,7 @@ export default function QuizScreen() {
         currentIndex,
         totalQuestions,
         selectedIndex,
+        correctIndex,
         isAnswered,
         isTimeout,
         setTimeTaken,
@@ -37,8 +38,6 @@ export default function QuizScreen() {
     if (error) return <View><Text>Error loading quiz.</Text></View>;
 
     const { question, options, points, duration } = currentQuestion;
-
-    const correctIndex = currentQuestion.correctOption;
 
     const isOptionCorrect = (selected: number | null, correct: number) =>
         selected !== null && selected === correct;
@@ -59,7 +58,7 @@ export default function QuizScreen() {
 
             {isAnswered && (
                 <QuizFeedback
-                    isCorrect={isOptionCorrect(selectedIndex, correctIndex)}
+                    isCorrect={isOptionCorrect(selectedIndex, correctIndex ?? -1)}
                     isTimeout={isTimeout}
                     points={points}
                 />
@@ -69,7 +68,7 @@ export default function QuizScreen() {
                 question={question}
                 options={options}
                 points={points}
-                correctIndex={correctIndex}
+                correctIndex={correctIndex ?? -1}
                 selectedIndex={selectedIndex}
                 isAnswered={isAnswered}
                 onSelect={handleSelect}

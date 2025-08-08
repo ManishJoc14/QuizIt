@@ -3,15 +3,17 @@ import { useEffect } from "react";
 import { useRouter } from "expo-router";
 
 import { useGetQuizByIdQuery } from "@/services/quizApi";
-import { useGetRoomCodeQuery } from "@/services/roomApi";
 import { useSocket } from "@/context/WebSocketContext";
-import { getToken } from "@/utils/libs/secureStorage";
 import { useAppSelector } from "@/utils/libs/reduxHooks";
+import { getToken } from "@/utils/libs/secureStorage";
+import { useJoinRoomMutation } from "@/services/roomApi";
 
-export function useWaitingScreen(id: number, roomCodeParam?: string) {
+export function useWaitingScreen({ id, roomCode, roomHost }: { id: number, roomCode: string, roomHost?: string }) {
     const router = useRouter();
 
     const { user } = useAppSelector((state) => state.auth);
+
+    const [joinRoom] = useJoinRoomMutation();
 
     // Get joined users 
     const { quizStarted, joinedUsers, connected, connectToRoom } = useSocket();
@@ -19,68 +21,58 @@ export function useWaitingScreen(id: number, roomCodeParam?: string) {
     // Get quiz data
     const { data: quizData, isLoading: isQuizLoading, isError: errorInQuiz } = useGetQuizByIdQuery(Number(id), { skip: !id });
 
-    // Get room code
-    const {
-        data: roomData,
-        isLoading: roomCodeLoadingFromApi,
-        isError: roomCodeErrorFromApi,
-    } = useGetRoomCodeQuery({ quizId: String(id) }, { skip: !id || !!roomCodeParam });
-
-    // Local variables to allow reassignment
-    let isRoomCodeLoading = roomCodeLoadingFromApi;
-    let errorInRoomCode = roomCodeErrorFromApi;
-
     // Connect to WebSocket
     useEffect(() => {
         const tryConnect = async () => {
-            let code = roomCodeParam ?? roomData?.roomCode;
+            let code = roomCode;
             if (code) {
                 const token = await getToken("accessToken");
                 if (token) {
-                    connectToRoom(code, token);
+                    await joinRoom({ roomCode: code }).unwrap();
+                    if (!connected) {
+                        connectToRoom(code, token);
+                    }
                 }
             }
         };
-
         tryConnect();
-    }, [roomData, roomCodeParam, connectToRoom]);
+    }, [roomCode, connectToRoom, connected, joinRoom]);
 
     // Handle quiz started
     useEffect(() => {
-        const isHost = user?.username === roomData?.roomHost;
-        const code = roomCodeParam ? roomCodeParam : roomData?.roomCode
+        // const isHost = user?.username === roomHost;
         if (!quizStarted) return;
 
         // console.log("--------------------------/n")
-        // console.log({ quizData, isHost, id, roomCodeParam, roomData });
+        // console.log({ quizData, isHost, id, roomCode, roomData });
         // console.log("--------------------------/n")
 
-        if (isHost) {
-            // console.log("Host is starting the quiz");
-            router.push({
-                pathname: `/quiz/[id]/host`,
-                params: { id: String(id), roomCode: code },
-            });
-        } else {
-            router.push({
-                pathname: `/quiz/[id]/quiz`,
-                params: { id: String(id), roomCode: code },
-            });
-        }
-    }, [quizStarted, router, id, roomData, roomCodeParam, quizData, user]);
+        // if (isHost) {
+        //     // console.log("Host is starting the quiz");
+        //     router.push({
+        //         pathname: `/quiz/[id]/host`,
+        //         params: { id: String(id), roomCode },
+        //     });
+        // } else {
+        //     router.push({
+        //         pathname: `/quiz/[id]/quiz`,
+        //         params: { id: String(id), roomCode },
+        //     });
+        // }
 
-    if (roomCodeParam) {
-        isRoomCodeLoading = false;
-        errorInRoomCode = false;
-    }
+        router.push({
+            pathname: `/quiz/[id]/quiz`,
+            params: { id: String(id), roomCode },
+        });
+    }, [quizStarted, router, id, roomCode, quizData, user, roomHost]);
 
     return {
         joinedUsers,
         quizTitle: quizData?.data?.title ?? 'Quiz Title',
-        isHost: user?.username === roomData?.roomHost,
-        roomCode: roomCodeParam ?? roomData?.roomCode ?? 'Loading...',
-        isLoading: isQuizLoading || isRoomCodeLoading,
-        error: errorInQuiz || errorInRoomCode,
+        isHost: user?.username === roomHost,
+        roomCode: roomCode ?? 'Loading...',
+        isLoading: isQuizLoading,
+        error: errorInQuiz,
         connected,
     }
 }

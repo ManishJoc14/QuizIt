@@ -1,22 +1,25 @@
 import { useEffect } from 'react';
 
-import { useRouter } from 'expo-router';
+import { Href, useLocalSearchParams, useRouter } from 'expo-router';
 
 import Toast from 'react-native-toast-message';
 
 import { SignInRequest } from '@/types/auth.types';
-import { getToken, saveToken } from '@/utils/libs/secureStorage';
-import { setCredentials } from '@/features/auth/authSlice';
 import { useAppDispatch } from '@/utils/libs/reduxHooks';
+import { setCredentials } from '@/features/auth/authSlice';
+import { getToken, saveToken } from '@/utils/libs/secureStorage';
 import { useLazyGetMeQuery, useSignInMutation } from '@/services/authApi';
+
 import { useRenewVerifyEmail } from './useRenewVerifyEmail';
 
 export function useSignIn() {
-    const [login, { isLoading, error }] = useSignInMutation();
+    const router = useRouter();
     const dispatch = useAppDispatch();
     const [getMe] = useLazyGetMeQuery();
+    const { next } = useLocalSearchParams();
     const { renewToken } = useRenewVerifyEmail();
-    const router = useRouter();
+    const nextPath = Array.isArray(next) ? next[0] : next;
+    const [login, { isLoading, error }] = useSignInMutation();
 
     // Auto login using access token
     useEffect(() => {
@@ -27,14 +30,18 @@ export function useSignIn() {
             try {
                 const res = await getMe().unwrap();
                 dispatch(setCredentials(res));
-                router.replace('/(tabs)');
+                if (nextPath) {
+                    router.replace(String(nextPath) as Href);
+                } else {
+                    router.replace('/(tabs)'); // fallback
+                }
             } catch (err) {
                 console.error('Auto login failed:', err);
             }
         };
 
         checkUserSession();
-    }, [dispatch, getMe, router]);
+    }, [dispatch, getMe, router, nextPath]);
 
     const signIn = async (data: SignInRequest) => {
         // console.log('Signing in with data:', data);
@@ -55,7 +62,7 @@ export function useSignIn() {
             console.error('Login failed:', err);
             if ((err as any)?.data?.detail?.includes('Please Verify Your Email')) {
                 // console.log('Email not verified, renewing verification token.');
-                await renewToken({email: data.email});
+                await renewToken({ email: data.email });
                 Toast.show({
                     type: 'info',
                     text1: 'Please verify your email',

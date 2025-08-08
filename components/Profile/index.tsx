@@ -9,22 +9,22 @@ import { ProfileQuizzes } from '@/components/Profile/ProfileQuizzes';
 
 type ProfileProps = {
     data: ProfileData;
-    isThisMe?: boolean; 
+    isThisMe?: boolean;
 };
 
-export default function Profile({ data }: ProfileProps) {
+export default function Profile({ data, isThisMe }: ProfileProps) {
     return (
         <View className="flex-1 bg-white dark:bg-gray-950 px-4 pt-safe-offset-5 pb-2">
-            <ProfileHeader  />
+            <ProfileHeader />
             <ScrollView
                 className="my-4"
                 showsVerticalScrollIndicator={false}
                 contentContainerStyle={{ paddingBottom: 100 }}
             >
                 <ProfileCoverImage />
-                <ProfileAuthor {...data.user} />
+                <ProfileAuthor {...data.user} isThisMe={isThisMe} />
                 <ProfileMeta {...data.meta} />
-                <ProfileQuizzes />
+                <ProfileQuizzes id={data.user.id} />
             </ScrollView>
         </View>
     );

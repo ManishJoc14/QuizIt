@@ -19,6 +19,7 @@ export type Question = {
     questionIndex: number;
 }
 
+
 export type QuizEditResponse = {
     userId: number;
     quizId: number;
@@ -50,4 +51,27 @@ export type CheckUserNamePayload = {
 };
 export type CheckUserNameResponse = {
     isUnique: boolean;
+};
+
+export interface GetUsersQuizzesQueryParams {
+    userId: number;
+    filter: string;
+    order: string;
+}
+type UserData = {
+    id: number;
+    username: string;
+    fullName: string;
+    photo: string;
+    quizzes: number;
+    follower: number;
+    following: number;
+    isFollowed: boolean;
+};
+
+export type UserProfileResponse = {
+    message: string;
+    data: {
+        userData: UserData;
+    };
 };

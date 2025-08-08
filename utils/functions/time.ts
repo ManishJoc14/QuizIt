@@ -6,3 +6,4 @@ dayjs.extend(relativeTime);
 export function getRelativeTime(dateString: string | Date): string {
     return dayjs(dateString).fromNow();
 }
+

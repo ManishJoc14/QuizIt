@@ -17,3 +17,18 @@ export interface InviteFriendPayload {
     quizId: string;
     invitedToId: string;
 };
+
+
+export interface TopAuthor {
+    id: number;
+    name: string;
+    username: string;
+    image: string;
+    isFollowed: boolean;
+    quizCount: number;
+}
+
+export interface TopAuthorListResponse {
+    message: string;
+    data: TopAuthor[]
+};

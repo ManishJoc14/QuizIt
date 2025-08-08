@@ -1,4 +1,4 @@
-import { FollowUserPayload, InviteUserListResponse, InviteFriendPayload } from '@/types/feature.types';
+import { FollowUserPayload, InviteUserListResponse, InviteFriendPayload, TopAuthorListResponse } from '@/types/feature.types';
 import { MutationSuccessResponse } from '@/types/shared.types';
 
 import { api } from './api';
@@ -11,6 +11,12 @@ export const roomApi = api.injectEndpoints({
                 method: 'GET',
             }),
             providesTags: ['InviteUserList'],
+        }),
+        getTopAuthorsList: builder.query<TopAuthorListResponse, void>({
+            query: () => ({
+                url: '/top-authors',
+                method: 'GET',
+            }),
         }),
 
         followUser: builder.mutation<MutationSuccessResponse, FollowUserPayload>({
@@ -30,6 +36,29 @@ export const roomApi = api.injectEndpoints({
             }),
             invalidatesTags: ['InviteUserList']
         }),
+
+        favoriteQuiz: builder.mutation<MutationSuccessResponse, { quizId: number }>({
+            query: ({ quizId }) => ({
+                url: `/favorite-quiz`,
+                method: 'POST',
+                data: { quizId },
+            }),
+        }),
+
+        unFavoriteQuiz: builder.mutation<MutationSuccessResponse, { quizId: number }>({
+            query: ({ quizId }) => ({
+                url: `/favorite-quiz/${quizId}`,
+                method: 'DELETE',
+            }),
+        }),
+
+        decryptOption: builder.query<{ decryptedAnswer: number }, { encryptedText: string }>({
+            query: ({ encryptedText }) => ({
+                url: '/quiz/decrypt',
+                method: 'POST',
+                data: { encryptedText },
+            }),
+        }),
     }),
 });
 
@@ -37,4 +66,8 @@ export const {
     useGetInviteUserListQuery,
     useFollowUserMutation,
     useInviteFriendMutation,
+    useGetTopAuthorsListQuery,
+    useFavoriteQuizMutation,
+    useUnFavoriteQuizMutation,
+    useLazyDecryptOptionQuery,
 } = roomApi;

@@ -30,7 +30,7 @@ export interface QuizzesResponse {
 
 export interface QuizResponse {
     message: string;
-    data: ILibraryQuiz & { isThisMe: boolean; userId: number; count: number; follower: number; following: number; isFollowed: boolean };
+    data: ILibraryQuiz & { isThisMe: boolean; quizCreatorId: number; count: number; follower: number; following: number; isFollowed: boolean };
 }
 
 export interface QuizQuestion {
@@ -46,9 +46,4 @@ export interface QuizQuestion {
 export interface QuizQuestionsResponse {
     message: string;
     data: QuizQuestion[];
-}
-
-export interface GetMyQuizzesQueryParams {
-    filter: string;
-    order: string;
 }

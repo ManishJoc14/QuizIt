@@ -1,21 +1,23 @@
 import React, { useEffect, useState } from 'react';
 
-import { LibraryFilters } from '@/components/Library/LibraryFilters';
-import { LibraryList } from '@/components/Library/LibraryList';
-import { useLazyGetMyQuizzesQuery } from '@/services/quizApi';
-import { IOrder } from '../Library/types';
 import { Text, View } from 'react-native';
 
-export function ProfileQuizzes() {
+import { LibraryFilters } from '@/components/Library/LibraryFilters';
+import { LibraryList } from '@/components/Library/LibraryList';
+import { useLazyGetUsersQuizzesQuery } from '@/services/userApi';
+
+import { IOrder } from '../Library/types';
+
+export function ProfileQuizzes({ id }: { id: number }) {
     const [activeFilter, setActiveFilter] = useState('newest');
     const [ordering, setOrdering] = useState<IOrder>('asc');
-    const [getQuizzes, { isLoading, data: quizzes }] = useLazyGetMyQuizzesQuery();
+    const [getQuizzes, { isLoading, data: quizzes }] = useLazyGetUsersQuizzesQuery();
 
     useEffect(() => {
         if (activeFilter || ordering) {
-            getQuizzes({ filter: activeFilter, order: ordering });
+            getQuizzes({ filter: activeFilter, order: ordering, userId: id });
         }
-    }, [activeFilter, ordering, getQuizzes]);
+    }, [activeFilter, ordering, getQuizzes, id]);
 
     if (isLoading) {
         return (

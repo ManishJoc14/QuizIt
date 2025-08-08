@@ -31,7 +31,7 @@ export default function ResultsScreen() {
         );
     }
 
-    // console.log(parsed)
+    console.log(parsed)
 
     return (
         <View className="flex-1 bg-violet-950 pt-safe-offset-4">

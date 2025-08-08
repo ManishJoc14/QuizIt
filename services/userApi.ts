@@ -1,7 +1,8 @@
-
-import { CheckUserNamePayload, CheckUserNameResponse, GetUserParams, GetUserResponse, QuizEditPayload, QuizEditResponse, UserEditPayload } from "@/types/user.types";
-import { api } from "./api";
+import { CheckUserNamePayload, CheckUserNameResponse, GetUserParams, GetUserResponse, GetUsersQuizzesQueryParams, QuizEditPayload, QuizEditResponse, UserEditPayload, UserProfileResponse } from "@/types/user.types";
 import { MutationSuccessResponse } from "@/types/shared.types";
+import { QuizzesResponse } from "@/types/quiz.types";
+
+import { api } from "./api";
 
 export const userApi = api.injectEndpoints({
     endpoints: (build) => ({
@@ -12,6 +13,13 @@ export const userApi = api.injectEndpoints({
                 params
             })
         }),
+        getUserProfile: build.query<UserProfileResponse, { userId: number }>({
+            query: ({ userId }) => ({
+                url: `/user/profile/${userId}`,
+                method: 'GET',
+                params: { userId }
+            })
+        }),
         getQuizForEdit: build.query<QuizEditResponse, number>({
             query: (id) => ({
                 url: `/user/me/${id}/edit`,
@@ -19,7 +27,6 @@ export const userApi = api.injectEndpoints({
             }),
             providesTags: ['Quiz'],
         }),
-
         updateQuiz: build.mutation<MutationSuccessResponse, { id: number, values: QuizEditPayload }>({
             query: ({ id, values }) => ({
                 url: `/user/me/${id}/edit`,
@@ -52,8 +59,16 @@ export const userApi = api.injectEndpoints({
                 params: { username }
             }),
         }),
+        getUsersQuizzes: build.query<QuizzesResponse, GetUsersQuizzesQueryParams>({
+            query: ({ userId, filter, order }) => ({
+                url: `/user/${userId}/quizzes`,
+                method: 'GET',
+                params: { filter, order },
+            }),
+            providesTags: ['Quiz'],
+        }),
     }),
     overrideExisting: true
 });
 
-export const { useGetUserQuery, useLazyGetUserQuery, useGetQuizForEditQuery, useDeteleQuizMutation, useUpdateQuizMutation, useUpdateUserMutation, useLazyCheckUsernameQuery } = userApi;
+export const { useGetUserQuery, useGetUserProfileQuery, useLazyGetUserQuery, useGetQuizForEditQuery, useDeteleQuizMutation, useUpdateQuizMutation, useUpdateUserMutation, useLazyCheckUsernameQuery, useLazyGetUsersQuizzesQuery } = userApi;

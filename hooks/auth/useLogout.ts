@@ -5,12 +5,10 @@ import { useDispatch } from 'react-redux';
 
 import { deleteToken, getToken } from '@/utils/libs/secureStorage';
 import { logout } from '@/features/auth/authSlice';
-import { useLazyLogoutGoogleSigninQuery } from '@/services/authApi';
 
 export function useLogout() {
     const dispatch = useDispatch();
     const router = useRouter();
-    const [logoutGoogleSignin] = useLazyLogoutGoogleSigninQuery();
 
     return async () => {
         try {
@@ -20,8 +18,9 @@ export function useLogout() {
 
             const isGoogleSignIn = await getToken('isGoogleSignIn');
             if (isGoogleSignIn === 'true') {
-                await logoutGoogleSignin().unwrap();
                 await deleteToken('isGoogleSignIn');
+                const url = 'https://quizit-backend-bamz.onrender.com/auth/logout/google';
+                router.replace(url);
             }
             router.replace('/(auth)/signin');
         } catch (error) {

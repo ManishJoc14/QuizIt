@@ -7,5 +7,4 @@ export const noAuthRoutes = [
     '/auth/forgot-password',
     '/auth/forgot-password-token',
     '/auth/reset-password',
-    '/auth/logout/google'
 ];

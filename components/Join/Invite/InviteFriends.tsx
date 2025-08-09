@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
+
 import { View, Text, ScrollView } from 'react-native';
 
 import { Button } from '@/components/ui/Button';
-import { UserToInvite } from '@/types/feature.types';
 import getRandomPersonsImage from '@/utils/functions/getRandomImage';
 import { InviteUserAvatar, InviteUserAvatarDetailed } from '@/components/ui/AuthorAvatar';
-import { useGetInviteUserListQuery, useInviteFriendMutation } from '@/services/featureApi';
+import { InviteUserListResponse, UserToInvite } from '@/types/feature.types';
+import { useInviteFriendMutation } from '@/services/featureApi';
 
-export function InviteFriends({ quizId, roomCode, joinedUsers }: { quizId: string, roomCode: string, joinedUsers: string[] }) {
-    const { data: users } = useGetInviteUserListQuery();
+export function InviteFriends({ quizId, roomCode, joinedUsers, users }: { quizId: string, roomCode: string, joinedUsers: string[], users: InviteUserListResponse }) {
     const [inviteFriend] = useInviteFriendMutation();
     const [invitedUsers, setInvitedUsers] = useState<UserToInvite[]>([]);
 

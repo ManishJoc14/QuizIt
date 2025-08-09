@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 
 import { getToken } from "@/utils/libs/secureStorage";
-import { useGetRoomCodeQuery, useJoinRoomMutation } from "@/services/roomApi";
 import { useSocket } from "@/context/WebSocketContext";
+import { useGetRoomCodeQuery, useJoinRoomMutation } from "@/services/roomApi";
 
 export function useInviteScreen(id: number) {
     const { connectToRoom, connected, joinedUsers } = useSocket();
@@ -31,7 +31,7 @@ export function useInviteScreen(id: number) {
             }
         };
         tryConnect();
-    }, [roomData, , connectToRoom, connected, joinRoom]);
+    }, [roomData?.roomCode, connectToRoom, connected, joinRoom]);
 
     return {
         roomCode: roomData?.roomCode ?? 'Loading...',

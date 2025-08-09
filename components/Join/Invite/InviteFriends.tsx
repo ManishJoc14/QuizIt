@@ -8,7 +8,7 @@ import { InviteUserAvatar, InviteUserAvatarDetailed } from '@/components/ui/Auth
 import { InviteUserListResponse, UserToInvite } from '@/types/feature.types';
 import { useInviteFriendMutation } from '@/services/featureApi';
 
-export function InviteFriends({ quizId, roomCode, joinedUsers, users }: { quizId: string, roomCode: string, joinedUsers: string[], users: InviteUserListResponse }) {
+export function InviteFriends({ quizId, roomCode, joinedUsers, users }: { quizId: string, roomCode: string, joinedUsers: string[], users: InviteUserListResponse | undefined }) {
     const [inviteFriend] = useInviteFriendMutation();
     const [invitedUsers, setInvitedUsers] = useState<UserToInvite[]>([]);
 

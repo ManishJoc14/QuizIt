@@ -24,6 +24,7 @@ export const roomApi = api.injectEndpoints({
         url: `/room/${roomCode}/join`,
         method: 'POST',
       }),
+      invalidatesTags: ['InviteUserList']
     }),
 
     startQuiz: builder.mutation<StartQuizResponse, { roomCode: string }>({

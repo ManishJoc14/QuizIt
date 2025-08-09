@@ -68,14 +68,14 @@ export default function SettingsScreen() {
     ];
 
     const otherSettings: SettingsItem[] = [
-        {
-            iconName: "bell",
-            title: "Notification",
-            onPress: () => navigateTo('/settings/notification'),
-            iconBgColor: "bg-yellow-100 dark:bg-yellow-700",
-            iconColorLight: "#CA8A04",
-            iconColorDark: "#FDE68A",
-        },
+        // {
+        //     iconName: "bell",
+        //     title: "Notification",
+        //     onPress: () => navigateTo('/settings/notification'),
+        //     iconBgColor: "bg-yellow-100 dark:bg-yellow-700",
+        //     iconColorLight: "#CA8A04",
+        //     iconColorDark: "#FDE68A",
+        // },
         {
             iconName: "envelope",
             title: "Feedback",

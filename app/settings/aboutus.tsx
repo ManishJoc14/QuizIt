@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { ScrollView, View } from 'react-native';
+import { ScrollView, Text, View } from 'react-native';
 
 import { AboutUsHeader } from '@/components/Profile/Settings/AboutUs/AboutUsHeader';
 import { AboutUsContent } from '@/components/Profile/Settings/AboutUs/AboutUsContent';
@@ -17,6 +17,9 @@ export default function AboutUsScreen() {
                     plays="300M"
                     players="60M"
                 />
+                <Text className="text-gray-400 text-center text-xs mt-5">
+                    Made by Dedicated Students from Thapathali Campus 🇳🇵
+                </Text>
             </ScrollView>
         </View>
     );

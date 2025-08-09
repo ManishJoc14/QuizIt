@@ -1,4 +1,4 @@
-import { FollowUserPayload, InviteUserListResponse, InviteFriendPayload, TopAuthorListResponse, UserSearchResponse } from '@/types/feature.types';
+import { FollowUserPayload, InviteUserListResponse, InviteFriendPayload, TopAuthorListResponse, UserSearchResponse, ContactPayload, FeedbackPayload, AboutUsResponse } from '@/types/feature.types';
 import { GetUsersQuizzesQueryParams } from '@/types/user.types';
 import { MutationSuccessResponse } from '@/types/shared.types';
 import { QuizzesResponse } from '@/types/quiz.types';
@@ -80,7 +80,7 @@ export const roomApi = api.injectEndpoints({
             invalidatesTags: ['QuizDetailed'],
         }),
 
-        decryptOption: builder.query<{ decryptedAnswer: number }, { encryptedText: string }>({
+        decryptOption: builder.mutation<{ decryptedAnswer: number }, { encryptedText: string }>({
             query: ({ encryptedText }) => ({
                 url: '/quiz/decrypt',
                 method: 'POST',
@@ -95,6 +95,27 @@ export const roomApi = api.injectEndpoints({
                 params: { search },
             }),
         }),
+
+        contactUs: builder.mutation<{ decryptedAnswer: number }, ContactPayload>({
+            query: (values) => ({
+                url: '/contact-us',
+                method: 'POST',
+                data: values,
+            }),
+        }),
+        feedback: builder.mutation<{ decryptedAnswer: number }, FeedbackPayload>({
+            query: (values) => ({
+                url: '/feedback',
+                method: 'POST',
+                data: values,
+            }),
+        }),
+        getAboutUs: builder.query<AboutUsResponse, void>({
+            query: () => ({
+                url: '/about-us',
+                method: 'GET',
+            }),
+        }),
     }),
 });
 
@@ -107,7 +128,11 @@ export const {
     useGetTopAuthorsListQuery,
     useFavoriteQuizMutation,
     useUnFavoriteQuizMutation,
-    useLazyDecryptOptionQuery,
+    useDecryptOptionMutation,
     useLazyGetFavouriteQuizzesListQuery,
     useLazySearchUsersQuery,
+    useContactUsMutation,
+    useFeedbackMutation,
+    useLazyGetAboutUsQuery,
+    useGetAboutUsQuery,
 } = roomApi;

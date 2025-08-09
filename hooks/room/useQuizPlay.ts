@@ -8,7 +8,7 @@ import { ResultItem } from "@/components/Library/types";
 import { useAppSelector } from "@/utils/libs/reduxHooks";
 import { useGetQuizQuestionsQuery } from "@/services/quizApi";
 import { useSubmitAnswerMutation } from "@/services/roomApi";
-import { useLazyDecryptOptionQuery } from "@/services/featureApi";
+import { useDecryptOptionMutation } from "@/services/featureApi";
 import { useSocket } from "@/context/WebSocketContext";
 
 interface UseQuizPlayParams {
@@ -20,7 +20,7 @@ export function useQuizPlay({ quizId, roomCode }: UseQuizPlayParams) {
     const { data: questionsData, isLoading, error } = useGetQuizQuestionsQuery(quizId);
     const { leaderboard } = useSocket();
     const [submitAnswer] = useSubmitAnswerMutation();
-    const [decryptOption] = useLazyDecryptOptionQuery();
+    const [decryptOption] = useDecryptOptionMutation();
 
     const questions: QuizQuestion[] = questionsData?.data ?? [];
     const { user } = useAppSelector((state) => state.auth);

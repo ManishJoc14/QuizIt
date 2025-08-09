@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, TextInput, ScrollView, Image } from 'react-native';
-import { Link } from 'expo-router';
+import { Link, router } from 'expo-router';
 import { useTheme } from '@/context/ThemeContext';
 import { IconSymbol } from '@/components/ui/IconSymbol';
 import { Button } from '@/components/ui/Button';
@@ -22,6 +22,15 @@ export default function SignInScreen() {
         const valid = email && password;
         setIsFormValid(Boolean(valid));
     }, [email, password]);
+
+    const handleGoogleSignIn = async () => {
+        try {
+            const url = 'https://quizit-backend-bamz.onrender.com/auth/login/google';
+            router.replace(url);
+        } catch (error) {
+            console.error('Google Sign-In error:', error);
+        }
+    };
 
     return (
         <View className="flex-1 pt-safe-offset-4 bg-gray-50 dark:bg-gray-900">
@@ -84,6 +93,7 @@ export default function SignInScreen() {
                         color="gray"
                         size="lg"
                         fullWidth
+                        onPress={handleGoogleSignIn}
                         leftIcon={<Image source={{ uri: 'https://www.google.com/favicon.ico' }} className="w-5 h-5 mr-2" />}
                         title="Continue with Google"
                     />

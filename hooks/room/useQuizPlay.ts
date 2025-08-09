@@ -9,6 +9,7 @@ import { useAppSelector } from "@/utils/libs/reduxHooks";
 import { useGetQuizQuestionsQuery } from "@/services/quizApi";
 import { useSubmitAnswerMutation } from "@/services/roomApi";
 import { useLazyDecryptOptionQuery } from "@/services/featureApi";
+import { useSocket } from "@/context/WebSocketContext";
 
 interface UseQuizPlayParams {
     quizId: number;
@@ -17,7 +18,7 @@ interface UseQuizPlayParams {
 
 export function useQuizPlay({ quizId, roomCode }: UseQuizPlayParams) {
     const { data: questionsData, isLoading, error } = useGetQuizQuestionsQuery(quizId);
-    // const { sendMessage } = useSocket();
+    const { leaderboard } = useSocket();
     const [submitAnswer] = useSubmitAnswerMutation();
     const [decryptOption] = useLazyDecryptOptionQuery();
 
@@ -164,5 +165,6 @@ export function useQuizPlay({ quizId, roomCode }: UseQuizPlayParams) {
         handleTimeout,
         isLoading,
         error,
+        leaderboard,
     };
 }

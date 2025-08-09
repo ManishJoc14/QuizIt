@@ -20,7 +20,8 @@ export const userApi = api.injectEndpoints({
                 url: `/user/profile/${userId}`,
                 method: 'GET',
                 params: { userId }
-            })
+            }),
+            providesTags: ['UserProfile'],
         }),
         getQuizForEdit: build.query<QuizEditResponse, number>({
             query: (id) => ({
@@ -87,8 +88,8 @@ export const userApi = api.injectEndpoints({
             invalidatesTags: ['User'],
         }),
 
-        deteleQuiz: build.mutation<MutationSuccessResponse, number>({
-            query: (id) => ({
+        deteleQuiz: build.mutation<MutationSuccessResponse, { id: number }>({
+            query: ({ id }) => ({
                 url: `/user/me/${id}/delete`,
                 method: 'DELETE',
             }),

@@ -90,6 +90,29 @@ export const authApi = api.injectEndpoints({
                 data: body,
             }),
         }),
+
+        // loginWithGoogle: build.mutation<SignInResponse, { idToken: string }>({
+        //     query: (body) => ({
+        //         url: '/auth/google-login',
+        //         method: 'POST',
+        //         data: body,
+        //     }),
+        //     invalidatesTags: ['User'],
+        // }),
+        // getGoogleSignin: build.query<SignInResponse, void>({
+        //     query: () => ({
+        //         url: '/auth/login/google',
+        //         method: 'GET',
+        //     }),
+        //     providesTags: ['User'],
+        // }),
+        logoutGoogleSignin: build.query<SignInResponse, void>({
+            query: () => ({
+                url: '/auth/logout/google',
+                method: 'GET',
+            }),
+            providesTags: ['User'],
+        }),
     }),
     overrideExisting: true
 });
@@ -103,5 +126,7 @@ export const {
     useForgetPasswordMutation,
     useVerifyForgetPasswordMutation,
     useResetPasswordMutation,
-    useLazyGetMeQuery
+    useLazyGetMeQuery,
+    // useLazyGetGoogleSigninQuery,
+    useLazyLogoutGoogleSigninQuery,
 } = authApi;

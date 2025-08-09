@@ -6,9 +6,11 @@ import Profile from '@/components/Profile';
 import getRandomPersonsImage from '@/utils/functions/getRandomImage';
 import { ProfileData } from '@/components/Profile/types';
 import { useGetUserProfileQuery } from '@/services/userApi';
+import { useAppSelector } from '@/utils/libs/reduxHooks';
 
 export default function UserProfilePage() {
     const { id } = useLocalSearchParams();
+    const { user: currentUser } = useAppSelector(state => state.auth);
 
     const userId = Array.isArray(id) ? id[0] : id;
 
@@ -47,5 +49,5 @@ export default function UserProfilePage() {
         },
     };
 
-    return <Profile data={response} isThisMe={false} />;
+    return <Profile data={response} isThisMe={currentUser?.username === userProfileRes.data.userData.username} />;
 }

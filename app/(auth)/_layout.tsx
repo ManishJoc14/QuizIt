@@ -22,6 +22,7 @@ export default function AuthLayout() {
                 <Stack.Screen name="forgetpassword" />
                 <Stack.Screen name="resetpassword" />
                 <Stack.Screen name="verify" />
+                <Stack.Screen name="redirect" />
 
             </Stack>
             <StatusBar style="auto" />

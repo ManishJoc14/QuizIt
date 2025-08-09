@@ -1,4 +1,4 @@
-import { FollowUserPayload, InviteUserListResponse, InviteFriendPayload, TopAuthorListResponse } from '@/types/feature.types';
+import { FollowUserPayload, InviteUserListResponse, InviteFriendPayload, TopAuthorListResponse, UserSearchResponse } from '@/types/feature.types';
 import { GetUsersQuizzesQueryParams } from '@/types/user.types';
 import { MutationSuccessResponse } from '@/types/shared.types';
 import { QuizzesResponse } from '@/types/quiz.types';
@@ -43,7 +43,7 @@ export const roomApi = api.injectEndpoints({
                 method: 'POST',
                 data: values,
             }),
-            invalidatesTags: ['QuizDetailed'],
+            invalidatesTags: ['QuizDetailed', 'UserProfile'],
         }),
         unFollowUser: builder.mutation<MutationSuccessResponse, FollowUserPayload>({
             query: (values) => ({
@@ -51,7 +51,7 @@ export const roomApi = api.injectEndpoints({
                 method: 'DELETE',
                 data: values,
             }),
-            invalidatesTags: ['QuizDetailed'],
+            invalidatesTags: ['QuizDetailed', 'UserProfile'],
         }),
 
         inviteFriend: builder.mutation<MutationSuccessResponse, { roomCode: string; values: InviteFriendPayload }>({
@@ -87,6 +87,14 @@ export const roomApi = api.injectEndpoints({
                 data: { encryptedText },
             }),
         }),
+
+        searchUsers: builder.query<UserSearchResponse, { search: string }>({
+            query: ({ search }) => ({
+                url: '/search-users',
+                method: 'GET',
+                params: { search },
+            }),
+        }),
     }),
 });
 
@@ -101,4 +109,5 @@ export const {
     useUnFavoriteQuizMutation,
     useLazyDecryptOptionQuery,
     useLazyGetFavouriteQuizzesListQuery,
+    useLazySearchUsersQuery,
 } = roomApi;

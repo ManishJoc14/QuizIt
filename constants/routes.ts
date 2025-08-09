@@ -6,5 +6,6 @@ export const noAuthRoutes = [
     '/auth/renew-verify-email-token',
     '/auth/forgot-password',
     '/auth/forgot-password-token',
-    '/auth/reset-password'
+    '/auth/reset-password',
+    '/auth/logout/google'
 ];

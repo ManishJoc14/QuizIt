@@ -7,7 +7,6 @@ import {
   TextInput,
   FlatList,
   useWindowDimensions,
-  Pressable,
 } from "react-native";
 import { Link, router } from "expo-router";
 import getRandomPersonsImage from "@/utils/functions/getRandomImage";
@@ -153,19 +152,19 @@ export function Header() {
 
         {/* Icons & Avatar */}
         <View className="flex-row items-center gap-2">
-          <Pressable onPress={() => router.push('/settings')}>
+          <Link href="/settings" asChild>
             <TouchableOpacity className="p-2 rounded-full bg-gray-100 dark:bg-gray-700 active:opacity-80">
               <IconSymbol size={22} name="gear" color="#6B7280" />
             </TouchableOpacity>
-          </Pressable>
-          <Pressable onPress={() => router.push('/profile')}>
+          </Link>
+          <Link href="/profile" asChild>
             <Image
               source={{ uri: user?.photo || user?.image || getRandomPersonsImage(150, 12) }}
               className="w-10 h-10 rounded-full border border-gray-200 dark:border-gray-700"
             />
-          </Pressable>
+          </Link>
         </View>
       </View>
-    </View>
+    </View >
   );
 }

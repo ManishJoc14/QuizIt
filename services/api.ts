@@ -127,5 +127,5 @@ export const api = createApi({
     reducerPath: 'api',
     baseQuery: axiosBaseQuery({ baseUrl: `${process.env.EXPO_PUBLIC_PROTOCOL}${process.env.EXPO_PUBLIC_BASEURL}` }),
     endpoints: () => ({}),
-    tagTypes: ['User', 'Quiz', 'FavouriteQuiz', 'InviteUserList', 'QuizDetailed', 'UserProfile'],
+    tagTypes: ['User', 'Auth', 'Quiz', 'FavouriteQuiz', 'InviteUserList', 'QuizDetailed', 'UserProfile'],
 });

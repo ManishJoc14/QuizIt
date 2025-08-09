@@ -40,7 +40,7 @@ export const authApi = api.injectEndpoints({
                 url: '/auth/me',
                 method: 'GET',
             }),
-            providesTags: ['User'],
+            providesTags: ['User', 'Auth'],
         }),
 
         refreshToken: build.mutation<RefreshTokenResponse, RefreshTokenRequestQuery>({

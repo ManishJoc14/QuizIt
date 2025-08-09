@@ -336,7 +336,7 @@ export default function ResultsScreen() {
                         </div>
                         <div class="stat">
                             <div class="stat-label">Rank</div>
-                            <div class="stat-value">#${parsed!.summary.rank}</div>
+                            <div class="stat-value">#${userRank}</div>
                         </div>
                         <div class="stat">
                             <div class="stat-label">Score</div>

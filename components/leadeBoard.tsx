@@ -42,22 +42,22 @@ export const LeaderboardStrip = ({ leaderboard }: {
     const sortedLeaderboard = [...leaderboard].sort((a, b) => a.rank - b.rank);
 
     return (
-        <View className="py-2 bg-gray-50 dark:bg-neutral-900">
+        <View className="py-2 bg-gray-50 dark:bg-gray-900 rounded-lg mt-4 mx-4">
             <ScrollView
                 horizontal
                 showsHorizontalScrollIndicator={false}
-                contentContainerStyle={{ paddingHorizontal: 8 }}
-                className="flex-row"
+                showsVerticalScrollIndicator={false}
+                contentContainerStyle={{ paddingHorizontal: 10, paddingVertical: 10, minWidth: 100, flexDirection: 'column' }}
             >
                 {sortedLeaderboard.map((player) => {
                     return (
                         <View
                             key={player.id}
-                            className="items-center mx-2 relative"
+                            className="items-center relative my-2"
                         >
                             {/* Rank badge */}
-                            <View className="absolute -top-1 -left-1 w-4 h-4 bg-blue-500 rounded-full items-center justify-center z-10">
-                                <Text className="text-[10px] font-bold text-white">
+                            <View className="absolute -top-1 left-[12px] w-5 h-5 bg-blue-500 rounded-full items-center justify-center z-10">
+                                <Text className="text-[12px] font-bold text-white">
                                     {player.rank}
                                 </Text>
                             </View>
@@ -65,7 +65,7 @@ export const LeaderboardStrip = ({ leaderboard }: {
                             {/* Player image */}
                             <Image
                                 source={{ uri: player.image }}
-                                className="w-10 h-10 rounded-full border-2 border-white dark:border-neutral-700 shadow-sm"
+                                className="w-14 h-14 rounded-full border-2 border-white dark:border-neutral-700 shadow-sm"
                                 resizeMode="cover"
                             />
 

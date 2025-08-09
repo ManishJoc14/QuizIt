@@ -50,21 +50,18 @@ export default function QuizScreen() {
 
     return (
         <View className="flex-1 bg-gray-50 dark:bg-black">
-            {/* Leaderboard above questions */}
-            <LeaderboardStrip leaderboard={leaderboard} />
+            {!isAnswered && (
+                <QuizHeader current={currentIndex + 1} total={totalQuestions} />
+            )}
 
+            {!isAnswered && (
+                <QuizTimer
+                    totalTime={duration}
+                    onComplete={handleTimeout}
+                    onTick={setTimeTaken}
+                />
+            )}
             <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
-                {!isAnswered && (
-                    <QuizHeader current={currentIndex + 1} total={totalQuestions} />
-                )}
-
-                {!isAnswered && (
-                    <QuizTimer
-                        totalTime={duration + 1000000}
-                        onComplete={handleTimeout}
-                        onTick={setTimeTaken}
-                    />
-                )}
 
                 {isAnswered && (
                     <QuizFeedback
@@ -74,15 +71,19 @@ export default function QuizScreen() {
                     />
                 )}
 
-                <QuizQuestion
-                    question={question}
-                    options={options}
-                    points={points}
-                    correctIndex={correctIndex ?? -1}
-                    selectedIndex={selectedIndex}
-                    isAnswered={isAnswered}
-                    onSelect={handleSelect}
-                />
+                <View className="flex-1 flex-row h-full justify-between gap-2 items-start">
+                    <QuizQuestion
+                        question={question}
+                        options={options}
+                        points={points}
+                        correctIndex={correctIndex ?? -1}
+                        selectedIndex={selectedIndex}
+                        isAnswered={isAnswered}
+                        onSelect={handleSelect}
+                    />
+                    {/* Leaderboard above questions */}
+                    <LeaderboardStrip leaderboard={leaderboard} />
+                </View>
             </ScrollView>
         </View>
     );

@@ -7,8 +7,9 @@ import getRandomPersonsImage from '@/utils/functions/getRandomImage';
 import { InviteUserAvatar, InviteUserAvatarDetailed } from '@/components/ui/AuthorAvatar';
 import { InviteUserListResponse, UserToInvite } from '@/types/feature.types';
 import { useInviteFriendMutation } from '@/services/featureApi';
+import { JoinedUser } from '@/context/WebSocketContext';
 
-export function InviteFriends({ quizId, roomCode, joinedUsers, users }: { quizId: string, roomCode: string, joinedUsers: string[], users: InviteUserListResponse | undefined }) {
+export function InviteFriends({ quizId, roomCode, joinedUsers, users }: { quizId: string, roomCode: string, joinedUsers: JoinedUser[], users: InviteUserListResponse | undefined }) {
     const [inviteFriend] = useInviteFriendMutation();
     const [invitedUsers, setInvitedUsers] = useState<UserToInvite[]>([]);
 
@@ -16,7 +17,7 @@ export function InviteFriends({ quizId, roomCode, joinedUsers, users }: { quizId
         invitedUsers.some((u) => String(u.userId) === userId);
 
     const isUserJoined = (username: string) =>
-        joinedUsers.includes(username);
+        joinedUsers.some((user) => user.username === username);
 
     const handleInvite = async (user: UserToInvite) => {
         if (!isUserInvited(String(user.userId))) {

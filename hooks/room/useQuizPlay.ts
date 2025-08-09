@@ -98,7 +98,7 @@ export function useQuizPlay({ quizId, roomCode }: UseQuizPlayParams) {
                         result: JSON.stringify({
                             summary: {
                                 name: user?.fullName,
-                                image: user?.photo || getRandomPersonsImage(),
+                                image: user?.photo || user?.image || getRandomPersonsImage(),
                                 totalPoints: newResults.reduce((sum, q) => sum + q.points, 0),
                                 rank: 4,
                             },
@@ -136,7 +136,7 @@ export function useQuizPlay({ quizId, roomCode }: UseQuizPlayParams) {
             setIsTimeout(false);
             setTimeout(() => {
                 finishQuestion({ usedTime: timeTaken, selected });
-            }, 1000);
+            }, 500);
         },
         [finishQuestion, isAnswered, timeTaken]
     );
@@ -148,7 +148,7 @@ export function useQuizPlay({ quizId, roomCode }: UseQuizPlayParams) {
         setIsTimeout(true);
         setTimeout(() => {
             finishQuestion({ usedTime: current?.duration ?? 0, selected: null })
-        }, 1000);
+        }, 500);
     }, [finishQuestion, isAnswered, current]);
 
     return {
@@ -156,7 +156,7 @@ export function useQuizPlay({ quizId, roomCode }: UseQuizPlayParams) {
         currentIndex,
         totalQuestions: questions.length,
         selectedIndex,
-        correctIndex : decryptedCorrectIndex,
+        correctIndex: decryptedCorrectIndex,
         isAnswered,
         isTimeout,
         timeTaken,

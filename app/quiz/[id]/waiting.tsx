@@ -8,7 +8,6 @@ import { Button } from '@/components/ui/Button';
 import { WaitingHeader } from '@/components/Join/Waiting/WaitingHeader';
 import { WaitingPlayers } from '@/components/Join/Waiting/WaitingPlayers';
 import { WaitingRoomCode } from '@/components/Join/Waiting/WaitingRoomCode';
-import { getRandomImage } from '@/utils/functions/getRandomImage';
 import { useStartQuizMutation } from '@/services/roomApi';
 import { useWaitingScreen } from '@/hooks/room/useWaitingScreen';
 
@@ -19,13 +18,7 @@ export default function WaitingScreen() {
     const quizId = Array.isArray(id) ? id[0] : id;
     const code = Array.isArray(roomCodeParam) ? roomCodeParam[0] : roomCodeParam;
     const host = Array.isArray(roomHostParam) ? roomHostParam[0] : roomHostParam;
-    const { joinedUsers, quizTitle, isLoading, error, isHost, connected, roomCode: ROOMCODE } = useWaitingScreen({ id: Number(quizId), roomCode: code, roomHost: host });
-
-    const players = joinedUsers.map((username, index) => ({
-        id: index.toString(),
-        name: username,
-        image: getRandomImage(800, 400),
-    }));
+    const { joinedUsers, quizTitle, isLoading, error, isHost, connected, roomCode: ROOMCODE, quizImage } = useWaitingScreen({ id: Number(quizId), roomCode: code, roomHost: host });
 
     if (isLoading) {
         return (
@@ -67,16 +60,16 @@ export default function WaitingScreen() {
                             <WaitingRoomCode
                                 roomCode={ROOMCODE}
                                 quizTitle={quizTitle}
-                                image={getRandomImage(800, 400)}
+                                image={quizImage}
                             />
 
                             <View className="mt-6 mb-2">
                                 <Text className="text-xl font-semibold text-gray-100 dark:text-gray-200 mb-4">
-                                    Players Joined ({players.length})
+                                    Players Joined ({joinedUsers.length})
                                 </Text>
                             </View>
 
-                            <WaitingPlayers players={players} />
+                            <WaitingPlayers players={joinedUsers} />
 
                             {/* Start button */}
                             {

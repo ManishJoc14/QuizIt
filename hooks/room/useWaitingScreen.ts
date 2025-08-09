@@ -7,6 +7,7 @@ import { useSocket } from "@/context/WebSocketContext";
 import { useAppSelector } from "@/utils/libs/reduxHooks";
 import { getToken } from "@/utils/libs/secureStorage";
 import { useJoinRoomMutation } from "@/services/roomApi";
+import { getRandomImage } from "@/utils/functions/getRandomImage";
 
 export function useWaitingScreen({ id, roomCode, roomHost }: { id: number, roomCode: string, roomHost?: string }) {
     const router = useRouter();
@@ -69,6 +70,7 @@ export function useWaitingScreen({ id, roomCode, roomHost }: { id: number, roomC
     return {
         joinedUsers,
         quizTitle: quizData?.data?.title ?? 'Quiz Title',
+        quizImage: quizData?.data?.coverPhoto ?? getRandomImage(800, 400),
         isHost: user?.username === roomHost,
         roomCode: roomCode ?? 'Loading...',
         isLoading: isQuizLoading,

@@ -64,14 +64,14 @@ export function QuizTimer({
   const { bg, fg, text } = getColorClass(timeLeft);
 
   return (
-    <View className="mx-6 my-4">
+    <View className="mx-6 mb-2">
       <View className={`h-6 w-full rounded-full overflow-hidden relative ${bg}`}>
         <Animated.View
           className={`absolute top-0 left-0 h-6 rounded-full ${fg}`}
           style={{ width: widthInterpolate }}
         />
         <Animated.Text
-          className={`absolute text-sm font-semibold ${text}`}
+          className={`absolute text-sm font-bold ${text}`}
           style={{
             top: '50%',
             transform: [{ translateY: -10 }],

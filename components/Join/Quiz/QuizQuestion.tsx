@@ -13,7 +13,7 @@ type Props = {
 
 export function QuizQuestion({ question, options, correctIndex, selectedIndex, onSelect, points, isAnswered }: Props) {
     return (
-        <View className="bg-white dark:bg-gray-900 rounded-xl p-6 m-4 shadow-md">
+        <View className="flex-1 bg-white dark:bg-gray-900 rounded-xl p-6 m-4 shadow-md">
             <View className="mb-4">
                 <View className="flex-row justify-between items-center">
                     <Text className="text-lg text-gray-500 dark:text-gray-300">

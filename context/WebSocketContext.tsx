@@ -8,6 +8,13 @@ import React, {
     useCallback,
 } from "react";
 
+
+export interface JoinedUser {
+    id: string;
+    username: string;
+    photo: string;
+}
+
 interface LeaderboardEntry {
     id: number;
     name: string;
@@ -19,7 +26,7 @@ interface LeaderboardEntry {
 interface SocketContextType {
     connected: boolean;
     quizStarted: boolean;
-    joinedUsers: string[];
+    joinedUsers: JoinedUser[];
     leaderboard: LeaderboardEntry[]
     messages: string[];
     sendMessage: (msg: string) => void;
@@ -44,7 +51,7 @@ interface SocketProviderProps {
 export const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
     const [connected, setConnected] = useState(false);
     const [quizStarted, setQuizStarted] = useState(false);
-    const [joinedUsers, setJoinedUsers] = useState<string[]>([]);
+    const [joinedUsers, setJoinedUsers] = useState<JoinedUser[]>([]);
     const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
     const [messages, setMessages] = useState<string[]>([]);
     const ws = useRef<WebSocket | null>(null);

@@ -2,8 +2,11 @@ import React from 'react'
 
 import { View, Text, Image } from 'react-native'
 
+import { JoinedUser } from '@/context/WebSocketContext';
+import getRandomPersonsImage from '@/utils/functions/getRandomImage';
+
 type WaitingPlayersProps = {
-    players: { name: string, image: string }[]
+    players: JoinedUser[]
 };
 
 export function WaitingPlayers({ players }: WaitingPlayersProps) {
@@ -27,14 +30,14 @@ export function WaitingPlayers({ players }: WaitingPlayersProps) {
                     }}
                 >
                     <Image
-                        source={{ uri: player.image }}
+                        source={{ uri: player.photo || getRandomPersonsImage(150,150) }}
                         style={{ width: 56, height: 56, borderRadius: 56 }}
                         resizeMode="cover"
                     />
                     <Text className="text-sm text-white text-center mt-1 max-w-20"
                         numberOfLines={1}
                         ellipsizeMode="tail">
-                        {player.name}
+                        {player.username}
                     </Text>
                 </View>
             ))}

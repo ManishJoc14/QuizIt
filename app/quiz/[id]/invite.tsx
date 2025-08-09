@@ -15,6 +15,8 @@ export default function InviteScreen() {
     const { roomCode, roomHost, joinedUsers } = useInviteScreen(Number(quizId));
     const { data: users } = useGetInviteUserListQuery();
 
+    console.log(joinedUsers, 'joinedUsers');
+
     return (
         <View className="flex-1 px-6 pt-safe-offset-4 bg-white dark:bg-gray-950">
             <InviteHeader />

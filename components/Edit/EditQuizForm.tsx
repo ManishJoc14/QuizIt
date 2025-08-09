@@ -13,11 +13,11 @@ import {
 import { Button } from '@/components/ui/Button';
 import { IconSymbol } from '@/components/ui/IconSymbol';
 import { Question } from '@/types/quiz.types';
+import { pickImage } from '@/utils/libs/pickImage';
 import { useTheme } from '@/context/ThemeContext';
 
 import { ResultQuestionCard } from '../Join/Result/ResultQuestionCard';
 import { TagSelection } from '../Create/CreateTagSelection';
-import { pickImage } from '@/utils/libs/pickImage';
 
 interface EditQuizFormProps {
     title: string;
@@ -85,7 +85,7 @@ export function EditQuizForm({
                 <View className="mb-4">
                     <Text className={`text-lg font-medium mb-2 ${labelTextColor}`}>Title</Text>
                     <TextInput
-                        className={`w-full p-3 rounded-xl text-lg ${inputBg} ${inputTextColor}`}
+                        className={`w-full outline-none p-3 rounded-xl text-lg ${inputBg} ${inputTextColor}`}
                         placeholder="Enter quiz title"
                         placeholderTextColor={inputPlaceholderColor}
                         value={title}
@@ -96,7 +96,7 @@ export function EditQuizForm({
                 <View className="mb-4">
                     <Text className={`text-lg font-medium mb-2 ${labelTextColor}`}>Description</Text>
                     <TextInput
-                        className={`w-full h-64 p-3 rounded-xl text-lg ${inputBg} ${inputTextColor}`}
+                        className={`w-full outline-none h-64 p-3 rounded-xl text-lg ${inputBg} ${inputTextColor}`}
                         placeholder="Enter quiz description"
                         placeholderTextColor={inputPlaceholderColor}
                         multiline

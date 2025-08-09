@@ -68,7 +68,7 @@ export default function VerifyScreen() {
                     <View className={`${inputBg} flex-row items-center px-4 py-2 mb-4 rounded-xl`}>
                         <IconSymbol name="key.fill" size={20} color={iconColor} />
                         <TextInput
-                            style={{ flex: 1, marginLeft: 12 }}
+                            style={{ flex: 1, marginLeft: 12, outline: 'none' }}
                             placeholder="Enter code"
                             placeholderTextColor={placeholderColor}
                             keyboardType="number-pad"
@@ -119,7 +119,8 @@ export default function VerifyScreen() {
                         <Button
                             variant="link"
                             color="primary"
-                            title="Sign In"
+                            title="SignIn"
+                            className="no-underline"
                             onPress={() => router.replace('/signin')}
                         />
                     </View>

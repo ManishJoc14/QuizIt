@@ -1,6 +1,7 @@
 import { Image, Text, TouchableOpacity, View } from "react-native";
 
 import { useRouter } from "expo-router";
+import { getCapitalizedName } from "@/utils/functions/formatter";
 
 
 interface QuizCardProps {
@@ -63,7 +64,7 @@ export function QuizCard({
                                 className="w-8 h-8 rounded-full mr-2"
                             />
                             <Text className="text-sm tracking-wide text-gray-600 dark:text-gray-400" numberOfLines={1}>
-                                {authorName}
+                                {getCapitalizedName(authorName)}
                             </Text>
                         </View>
                     </View>

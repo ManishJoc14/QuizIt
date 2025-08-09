@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'expo-router';
-import { Checkbox } from 'expo-checkbox';
+
 import { View, Text, TextInput, Image, ScrollView } from 'react-native';
+
+import { router } from 'expo-router';
 
 import { Button } from '@/components/ui/Button';
 import { IconSymbol } from '@/components/ui/IconSymbol';
+import { useIsUsernameUnique } from '@/hooks/user/useIsUsernameUnique';
 import { useSignUp } from '@/hooks/auth/useSignUp';
 import { useTheme } from '@/context/ThemeContext';
-import { useIsUsernameUnique } from '@/hooks/user/useIsUsernameUnique';
 
 export default function SignUpScreen() {
     const [fullName, setFullName] = useState('');
@@ -15,7 +16,7 @@ export default function SignUpScreen() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [isFormValid, setIsFormValid] = useState(false);
-    const [isChecked, setChecked] = useState(true);
+    // const [isChecked, setChecked] = useState(true);
     const { register, isLoading, error } = useSignUp();
     const { isUsernameUnique, isUsernameChecking } = useIsUsernameUnique({ username });
     const { theme } = useTheme();
@@ -26,7 +27,7 @@ export default function SignUpScreen() {
     const textColor = theme === 'dark' ? 'text-gray-100' : 'text-gray-800';
 
     const handleSignUp = () => {
-        if (!fullName || !username || !email || !password || !isChecked) return;
+        if (!fullName || !username || !email || !password) return;
         register({
             fullName,
             username,
@@ -37,9 +38,9 @@ export default function SignUpScreen() {
     };
 
     useEffect(() => {
-        const valid = fullName && username && email && password && isChecked;
+        const valid = fullName && username && email && password;
         setIsFormValid(Boolean(valid));
-    }, [fullName, username, email, password, isChecked]);
+    }, [fullName, username, email, password]);
 
 
     return (
@@ -57,7 +58,7 @@ export default function SignUpScreen() {
                     <View className={`${inputBg} flex-row items-center px-4 py-2 mb-4 rounded-xl`}>
                         <IconSymbol name="person.fill" size={20} color={iconColor} />
                         <TextInput
-                            style={{ flex: 1, marginLeft: 12 }}
+                            style={{ flex: 1, marginLeft: 12, outline: 'none' }}
                             placeholder="Full Name"
                             placeholderTextColor={placeholderColor}
                             value={fullName}
@@ -70,7 +71,7 @@ export default function SignUpScreen() {
                     <View className={`${inputBg} flex-row items-center px-4 py-2 mb-4 rounded-xl`}>
                         <IconSymbol name="person.fill" size={20} color={iconColor} />
                         <TextInput
-                            style={{ flex: 1, marginLeft: 12 }}
+                            style={{ flex: 1, marginLeft: 12, outline: 'none' }}
                             placeholder="Username"
                             placeholderTextColor={placeholderColor}
                             value={username}
@@ -90,7 +91,7 @@ export default function SignUpScreen() {
                     <View className={`${inputBg} flex-row items-center px-4 py-2 mb-4 rounded-xl`}>
                         <IconSymbol name="envelope" size={20} color={iconColor} />
                         <TextInput
-                            style={{ flex: 1, marginLeft: 12 }}
+                            style={{ flex: 1, marginLeft: 12, outline: 'none' }}
                             placeholder="Email"
                             placeholderTextColor={placeholderColor}
                             keyboardType="email-address"
@@ -105,7 +106,7 @@ export default function SignUpScreen() {
                     <View className={`${inputBg} flex-row items-center px-4 py-2 mb-6 rounded-xl`}>
                         <IconSymbol name="lock.fill" size={20} color={iconColor} />
                         <TextInput
-                            style={{ flex: 1, marginLeft: 12 }}
+                            style={{ flex: 1, marginLeft: 12, outline: 'none' }}
                             placeholder="Password"
                             placeholderTextColor={placeholderColor}
                             secureTextEntry
@@ -116,13 +117,13 @@ export default function SignUpScreen() {
                     </View>
 
                     {/* Terms */}
-                    <View className="flex-row items-center mb-6">
+                    {/* <View className="flex-row items-center mb-4">
                         <Checkbox value={isChecked} onValueChange={setChecked} className="mr-3" />
                         <Text className="text-sm text-gray-700 dark:text-gray-300">
                             I agree with{' '}
                             <Text className="text-blue-600 dark:text-blue-400">Terms and Conditions</Text>
                         </Text>
-                    </View>
+                    </View> */}
 
                     {error && (
                         <Text className="text-red-500 mb-2 text-sm">
@@ -139,7 +140,7 @@ export default function SignUpScreen() {
                         isLoading={isLoading || isUsernameChecking}
                     />
 
-                    <View className="flex-row items-center mt-8 mb-6">
+                    <View className="flex-row items-center my-6">
                         <View className="flex-1 h-px bg-gray-200 dark:bg-gray-600" />
                         <Text className="mx-3 text-sm text-gray-500 dark:text-gray-400">or continue with</Text>
                         <View className="flex-1 h-px bg-gray-200 dark:bg-gray-600" />
@@ -157,13 +158,14 @@ export default function SignUpScreen() {
                             />
                         }
                         title="Continue with Google"
+                        className='mb-2'
                     />
 
-                    <View className="flex-row items-center justify-center pt-10">
+                    <View className="flex-row items-center justify-center pt-6">
                         <Text className="text-sm text-gray-600 dark:text-gray-400">Already have an account? </Text>
-                        <Link href="/signin" asChild>
-                            <Button variant="link" color="primary" title="Sign in" />
-                        </Link>
+                        <Button variant="link" className='no-underline' color="primary" title="SignIn"
+                            onPress={() => router.push('/signin')}
+                        />
                     </View>
                 </View>
             </ScrollView>

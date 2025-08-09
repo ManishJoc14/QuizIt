@@ -36,7 +36,7 @@ export function ContactUsForm({ onSubmit }: ContactUsFormProps) {
                     <View className={`flex-row items-center p-3 rounded-xl ${inputBg}`}>
                         <IconSymbol name="person.fill" size={20} color={iconColor} />
                         <TextInput
-                            className={`flex-1 ml-3 text-base ${inputTextColor}`}
+                            className={`flex-1 outline-none ml-3 text-base ${inputTextColor}`}
                             placeholder="Enter your name"
                             placeholderTextColor={inputPlaceholderColor}
                             value={name}
@@ -46,7 +46,7 @@ export function ContactUsForm({ onSubmit }: ContactUsFormProps) {
                     <View className={`flex-row items-center p-3 rounded-xl ${inputBg}`}>
                         <IconSymbol name="envelope" size={20} color={iconColor} />
                         <TextInput
-                            className={`flex-1 ml-3 text-base ${inputTextColor}`}
+                            className={`flex-1 outline-none ml-3 text-base ${inputTextColor}`}
                             placeholder="your@gmail.com"
                             placeholderTextColor={inputPlaceholderColor}
                             value={email}
@@ -57,7 +57,7 @@ export function ContactUsForm({ onSubmit }: ContactUsFormProps) {
                     </View>
                     <View className={`p-3 rounded-xl ${inputBg}`}>
                         <TextInput
-                            className={`w-full h-32 text-base ${inputTextColor}`}
+                            className={`w-full outline-none h-32 text-base ${inputTextColor}`}
                             placeholder="Type your question"
                             placeholderTextColor={inputPlaceholderColor}
                             multiline

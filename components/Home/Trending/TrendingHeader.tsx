@@ -11,7 +11,7 @@ export function TrendingHeader() {
     const { theme } = useTheme();
     const router = useRouter();
     return (
-        <View className='flex-row items-center justify-between mb-6'>
+        <View className='flex-row items-center justify-between mb-6 mt-2'>
             <TouchableOpacity onPress={() => router.push('/')}>
                 <View className='flex-row items-center gap-2'>
                     <IconSymbol

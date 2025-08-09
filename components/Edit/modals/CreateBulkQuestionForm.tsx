@@ -50,7 +50,7 @@ export function BulkQuestionForm({ onSave, onCancel }: BulkQuestionFormProps) {
         >
             <Text className={`text-lg font-semibold mb-3 ${labelTextColor}`}>Questions (Paste as JSON array)</Text>
             <TextInput
-                className={`w-full h-60 p-3 rounded-xl text-lg ${inputBg} ${inputTextColor} mb-12`}
+                className={`w-full outline-none h-60 p-3 rounded-xl text-lg ${inputBg} ${inputTextColor} mb-12`}
                 placeholder={`[\n  {\n    "question": "Capital of Nepal?",\n    "options": ["Kathmandu", "Delhi", "Dhaka", "Lhasa"],\n    "correctOption": 0,\n    "points": 10,\n    "duration": 30\n  }\n]`}
                 placeholderTextColor={inputPlaceholderColor}
                 multiline

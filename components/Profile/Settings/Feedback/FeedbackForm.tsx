@@ -62,7 +62,7 @@ export function FeedbackForm({ onSubmit }: FeedbackFormProps) {
                 </View>
 
                 <TextInput
-                    className={`w-full h-32 p-3 rounded-xl text-base ${inputBg} ${inputTextColor}`}
+                    className={`w-full outline-none h-32 p-3 rounded-xl text-base ${inputBg} ${inputTextColor}`}
                     placeholder="Type your feedbacks"
                     placeholderTextColor={inputPlaceholderColor}
                     multiline

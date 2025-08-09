@@ -3,6 +3,7 @@ import { Text, Image, Pressable } from "react-native";
 import { Link } from "expo-router";
 
 import getRandomPersonsImage from "@/utils/functions/getRandomImage";
+import { getCapitalizedName } from "@/utils/functions/formatter";
 
 interface AuthorAvatarProps {
     id: number;
@@ -23,7 +24,7 @@ export function AuthorAvatar({ id, name, avatar, isUserJoined }: AuthorAvatarPro
                     numberOfLines={1}
                     ellipsizeMode="tail"
                 >
-                    {name}
+                    {getCapitalizedName(name || 'Anonymous')}
                 </Text>
             </Pressable>
         </Link>
@@ -47,7 +48,7 @@ export function UserAvatar({ id, name, username, image }: { id: number, name?: s
                         numberOfLines={1}
                         ellipsizeMode="tail"
                     >
-                        {name || 'Anonymous'}
+                        {getCapitalizedName(name || 'Anonymous')}
                     </Text>
                     <Text className="text-base tracking-wide text-gray-400 dark:text-gray-100">{username}</Text>
                 </Pressable>
@@ -68,7 +69,7 @@ export function InviteUserAvatarDetailed({ id, name, username, avatar, isUserJoi
                     numberOfLines={1}
                     ellipsizeMode="tail"
                 >
-                    {name || 'Anonymous'}
+                    {getCapitalizedName(name || 'Anonymous')}
                 </Text>
                 <Text className="text-base tracking-wide text-gray-400 dark:text-gray-100">{username}</Text>
             </Pressable>
@@ -84,7 +85,7 @@ export function InviteUserAvatar({ id, name, avatar, isUserJoined }: AuthorAvata
                 numberOfLines={1}
                 ellipsizeMode="tail"
             >
-                {name}
+                {getCapitalizedName(name || 'Anonymous')}
             </Text>
         </Pressable>
     );

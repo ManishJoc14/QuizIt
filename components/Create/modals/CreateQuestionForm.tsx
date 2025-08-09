@@ -9,7 +9,7 @@ import { useTheme } from '@/context/ThemeContext';
 
 interface QuestionFormProps {
     initialData?: Question; // for editing existing questions
-    onSave: (question: Question) => void;
+    onSave: (question: Omit<Question, 'questionIndex'>) => void;
     onCancel: () => void;
     onDelete?: (questionId: string | number) => void; // for deleting in edit mode
 }
@@ -42,7 +42,7 @@ export function QuestionForm({ initialData, onSave, onCancel, onDelete }: Questi
             alert('Please select a valid correct option.');
             return;
         }
-        const questionToSave: Question = {
+        const questionToSave: Omit<Question, 'questionIndex'> = {
             id: initialData?.id || 1,
             question: questionText,
             options: options.filter(opt => opt.trim() !== ''),
@@ -75,7 +75,7 @@ export function QuestionForm({ initialData, onSave, onCancel, onDelete }: Questi
             {/* Question */}
             <Text className={`text-lg font-semibold mb-3 ${labelTextColor}`}>Question</Text>
             <TextInput
-                className={`w-full h-24 p-3 rounded-xl text-base ${inputBg} ${inputTextColor} mb-4`}
+                className={`w-full outline-none h-24 p-3 rounded-xl text-base ${inputBg} ${inputTextColor} mb-4`}
                 placeholder="Type your question"
                 placeholderTextColor={inputPlaceholderColor}
                 multiline
@@ -97,7 +97,7 @@ export function QuestionForm({ initialData, onSave, onCancel, onDelete }: Questi
                             />
                         </Pressable>
                         <TextInput
-                            className={`flex-1 text-base ${inputTextColor}`}
+                            className={`flex-1 outline-none text-base ${inputTextColor}`}
                             placeholder={`Option ${i + 1}`}
                             placeholderTextColor={inputPlaceholderColor}
                             value={option}

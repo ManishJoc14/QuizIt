@@ -85,7 +85,7 @@ export function EditQuestionForm({
             {/* Question */}
             <Text className={`text-lg font-semibold mb-3 ${labelTextColor}`}>Question</Text>
             <TextInput
-                className={`w-full h-24 p-3 rounded-xl text-base ${inputBg} ${inputTextColor} mb-4`}
+                className={`w-full outline-none h-24 p-3 rounded-xl text-base ${inputBg} ${inputTextColor} mb-4`}
                 placeholder="Type your question"
                 placeholderTextColor={inputPlaceholderColor}
                 multiline
@@ -107,7 +107,7 @@ export function EditQuestionForm({
                             />
                         </Pressable>
                         <TextInput
-                            className={`flex-1 text-base ${inputTextColor}`}
+                            className={`flex-1 outline-none text-base ${inputTextColor}`}
                             placeholder={`Option ${i + 1}`}
                             placeholderTextColor={inputPlaceholderColor}
                             value={option}

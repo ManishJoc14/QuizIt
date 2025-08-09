@@ -35,7 +35,7 @@ export default function ForgotPasswordScreen() {
                     <View className={`${inputBg} flex-row items-center px-4 py-2 mb-4 rounded-xl`}>
                         <IconSymbol name="envelope" size={20} color={iconColor} />
                         <TextInput
-                            style={{ flex: 1, marginLeft: 12 }}
+                            style={{ flex: 1, marginLeft: 12, outline: 'none' }}
                             placeholder="Enter email"
                             placeholderTextColor={placeholderColor}
                             keyboardType="email-address"

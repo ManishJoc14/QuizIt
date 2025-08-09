@@ -71,7 +71,7 @@ export function PersonalInfoForm({
                 <View className={`flex-row items-center px-4 py-3 rounded-xl ${inputBg}`}>
                     <IconSymbol name="person.fill" size={20} color={iconColor} />
                     <TextInput
-                        className={`flex-1 ml-3 text-base ${inputTextColor}`}
+                        className={`flex-1 outline-none ml-3 text-base ${inputTextColor}`}
                         placeholder="Full Name"
                         placeholderTextColor={inputPlaceholderColor}
                         value={fullName}
@@ -83,7 +83,7 @@ export function PersonalInfoForm({
                 <View className={`flex-row items-center px-4 py-3 rounded-xl ${inputBg}`}>
                     <IconSymbol name="person.fill" size={20} color={iconColor} />
                     <TextInput
-                        className={`flex-1 ml-3 text-base ${inputTextColor}`}
+                        className={`flex-1 outline-none ml-3 text-base ${inputTextColor}`}
                         placeholder="Username"
                         placeholderTextColor={inputPlaceholderColor}
                         value={username}
@@ -98,7 +98,7 @@ export function PersonalInfoForm({
                 <View className={`flex-row items-center px-4 py-3 rounded-xl ${inputBg} opacity-60`}>
                     <IconSymbol name="envelope" size={20} color={iconColor} />
                     <TextInput
-                        className={`flex-1 ml-3 text-base ${inputTextColor}`}
+                        className={`flex-1 outline-none ml-3 text-base ${inputTextColor}`}
                         placeholder="Email"
                         placeholderTextColor={inputPlaceholderColor}
                         value={email}

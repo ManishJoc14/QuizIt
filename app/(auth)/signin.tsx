@@ -49,7 +49,7 @@ export default function SignInScreen() {
                             autoCapitalize="none"
                             value={email}
                             onChangeText={setEmail}
-                            className='dark:text-gray-100 text-gray-800'
+                            className='dark:text-gray-100 text-gray-800 outline-none'
                         />
                     </View>
 
@@ -62,14 +62,14 @@ export default function SignInScreen() {
                             secureTextEntry
                             value={password}
                             onChangeText={setPassword}
-                            className='dark:text-gray-100 text-gray-800'
+                            className='dark:text-gray-100 text-gray-800 outline-none'
                         />
                     </View>
 
                     {error && <Text className="text-red-500 mb-2 text-sm">Invalid credentials or server error.</Text>}
 
                     <View className="flex-row justify-end mb-1">
-                        <Link href="/forgetpassword" asChild>
+                        <Link href="/forgetpassword" className='no-underline' asChild>
                             <Button variant="link" color="primary" title="Forget password?" />
                         </Link>
                     </View>
@@ -96,13 +96,14 @@ export default function SignInScreen() {
                         onPress={handleGoogleSignIn}
                         leftIcon={<Image source={{ uri: 'https://www.google.com/favicon.ico' }} className="w-5 h-5 mr-2" />}
                         title="Continue with Google"
+                        className='mb-2'
                     />
 
                     <View className="flex-row items-center justify-center pt-10">
                         <Text className="text-sm text-gray-600 dark:text-gray-400">{"Don't"} have an account? </Text>
-                        <Link href="/signup" asChild>
-                            <Button variant="link" color="primary" title="Sign up" />
-                        </Link>
+                        <Button variant="link" className='no-underline' color="primary" title="SignUp"
+                            onPress={() => router.push('/signup')}
+                        />
                     </View>
                 </View>
             </ScrollView>

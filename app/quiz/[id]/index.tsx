@@ -41,13 +41,13 @@ export default function QuizDetailScreen() {
                             id={quiz.data.id}
                             quizCreatorId={quiz.data.quizCreatorId}
                             name={quiz.data.author}
-                            username={quiz.data.author}
+                            username={quiz.data.username}
                             image={quiz.data.image ? quiz.data.image : getRandomImage()}
                             isThisMe={quiz.data.isThisMe}
                             isFollowed={quiz.data.isFollowed}
                             isFavourite={quiz.data.isFavourite}
                         />
-                        <View className='w-full web:flex web:flex-row web:gap-4'>
+                        <View className='w-full web:flex web:lg:flex-row web:gap-4'>
                             <QuizMeta
                                 questions={quiz.data.count}
                                 played={quiz.data.plays}

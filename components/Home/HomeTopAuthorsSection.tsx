@@ -2,6 +2,7 @@ import { ScrollView, Text, View } from "react-native"
 
 import { router } from "expo-router"
 
+import { getCapitalizedName } from "@/utils/functions/formatter"
 import { useGetTopAuthorsListQuery } from "@/services/featureApi"
 import { useTheme } from "@/context/ThemeContext"
 
@@ -31,7 +32,7 @@ export function TopAuthorsSection() {
                 >
                     {authorsData?.data.map((author, index) => (
                         <AuthorAvatar key={index}
-                            id={author.id} name={author.name} avatar={author.image}
+                            id={author.id} name={getCapitalizedName(author.name)} avatar={author.image}
                         />
                     ))}
                 </ScrollView>

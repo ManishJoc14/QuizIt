@@ -88,8 +88,8 @@ export function QuizHeader({ isThisMe }: { isThisMe?: boolean }) {
     return (
         <View className='mb-6'>
             {/* Header Row */}
-            <View className="flex-row justify-between items-center">
-                <TouchableOpacity onPress={() => router.back()}>
+            <View className="flex-row justify-between items-center mt-2">
+                <TouchableOpacity onPress={() => router.push('/library')}>
                     <View className="flex-row items-center gap-2">
                         <IconSymbol
                             name="chevron.left"

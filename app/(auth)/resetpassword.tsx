@@ -31,7 +31,7 @@ export default function ResetPasswordScreen() {
                 secureTextEntry
                 placeholder="New Password"
                 placeholderTextColor="#9CA3AF"
-                className="w-full max-w-md px-4 py-4 mb-4 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white"
+                className="w-full outline-none max-w-md px-4 py-4 mb-4 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white"
                 value={password}
                 onChangeText={setPassword}
             />
@@ -40,7 +40,7 @@ export default function ResetPasswordScreen() {
                 secureTextEntry
                 placeholder="Confirm New Password"
                 placeholderTextColor="#9CA3AF"
-                className="w-full max-w-md px-4 py-4 mb-6 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white"
+                className="w-full outline-none max-w-md px-4 py-4 mb-6 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-white"
                 value={rePassword}
                 onChangeText={setRePassword}
             />

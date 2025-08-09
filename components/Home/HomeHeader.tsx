@@ -63,7 +63,7 @@ export function Header() {
 
       {/* Row: Search + Icons */}
       <View
-        className={`flex-row ${isMobile ? "w-full" : ""} align-center gap-3`}
+        className={`flex-row flex-wrap ${isMobile ? "w-full" : ""} align-center gap-3`}
         style={{ position: 'relative', zIndex: 1001 }}
       >
         {/* Search Bar Container */}
@@ -79,8 +79,8 @@ export function Header() {
             value={search}
             onChangeText={handleSearchChange}
             placeholder="Search users..."
-            className="bg-gray-100 web:w-64 dark:bg-gray-800 rounded-full px-4 py-2 text-gray-900 dark:text-white"
-            style={{ position: 'relative', zIndex: 1003 }}
+            className="bg-gray-100 outline-none web:w-64 dark:bg-gray-800 rounded-full px-4 py-2 text-gray-900 dark:text-white"
+            style={{ position: 'relative', zIndex: 1003, outline: 'none' }}
           />
 
           {/* Dropdown */}
@@ -152,18 +152,13 @@ export function Header() {
 
         {/* Icons & Avatar */}
         <View className="flex-row items-center gap-2">
-          <TouchableOpacity className="p-2 rounded-full bg-gray-100 dark:bg-gray-700 active:opacity-80">
-            <IconSymbol size={22} name="bell" color="#6B7280" />
-          </TouchableOpacity>
-
           <Link href="/settings" asChild>
             <TouchableOpacity className="p-2 rounded-full bg-gray-100 dark:bg-gray-700 active:opacity-80">
               <IconSymbol size={22} name="gear" color="#6B7280" />
             </TouchableOpacity>
           </Link>
-
           <Image
-            source={{ uri: user?.photo || getRandomPersonsImage(150, 12) }}
+            source={{ uri: user?.photo || user?.image || getRandomPersonsImage(150, 12) }}
             className="w-10 h-10 rounded-full border border-gray-200 dark:border-gray-700"
           />
         </View>

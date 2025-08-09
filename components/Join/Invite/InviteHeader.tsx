@@ -11,7 +11,7 @@ export function InviteHeader() {
     const { theme } = useTheme();
     const router = useRouter();
     return (
-        <View className='flex-row items-center justify-between mb-6'>
+        <View className='flex-row items-center justify-between mb-6 mt-2'>
             <TouchableOpacity onPress={() => router.push('/')}>
                 <View className='flex-row items-center gap-2'>
                     <IconSymbol
@@ -24,7 +24,7 @@ export function InviteHeader() {
                     </Text>
                 </View>
             </TouchableOpacity>
-            <View>
+            {/* <View>
                 <TouchableOpacity>
                     <IconSymbol
                         name="magnifyingglass"
@@ -32,8 +32,7 @@ export function InviteHeader() {
                         color={theme === 'dark' ? '#6B7280' : '#111827'}
                     />
                 </TouchableOpacity>
-            </View>
-
+            </View> */}
         </View>
     );
 }

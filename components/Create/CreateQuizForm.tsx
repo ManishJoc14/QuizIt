@@ -80,7 +80,7 @@ export function CreateQuizForm({
                 <View className="mb-4">
                     <Text className={`text-lg font-medium mb-2 ${labelTextColor}`}>Title</Text>
                     <TextInput
-                        className={`w-full p-3 rounded-xl text-lg ${inputBg} ${inputTextColor}`}
+                        className={`w-full outline-none p-3 rounded-xl text-lg ${inputBg} ${inputTextColor}`}
                         placeholder="Enter quiz title"
                         placeholderTextColor={inputPlaceholderColor}
                         value={title}
@@ -91,7 +91,7 @@ export function CreateQuizForm({
                 <View className="mb-4">
                     <Text className={`text-lg font-medium mb-2 ${labelTextColor}`}>Description</Text>
                     <TextInput
-                        className={`w-full h-64 p-3 rounded-xl text-lg ${inputBg} ${inputTextColor}`}
+                        className={`w-full outline-none h-64 p-3 rounded-xl text-lg ${inputBg} ${inputTextColor}`}
                         placeholder="Enter quiz description"
                         placeholderTextColor={inputPlaceholderColor}
                         multiline

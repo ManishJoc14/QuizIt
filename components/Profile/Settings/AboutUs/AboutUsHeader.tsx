@@ -12,7 +12,7 @@ export function AboutUsHeader() {
     const iconColor = theme === 'dark' ? '#F9FAFB' : '#111827';
 
     return (
-        <View className="px-4 mb-6 pt-safe-offset-4">
+        <View className="px-4 mb-6 pt-safe-offset-4 mt-2">
             <Link href="/settings" asChild>
                 <TouchableOpacity className='flex-row items-center'>
                     <IconSymbol name="chevron.left" size={28} color={iconColor} />

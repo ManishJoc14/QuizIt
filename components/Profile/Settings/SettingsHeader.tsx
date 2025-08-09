@@ -10,7 +10,7 @@ import { useTheme } from '@/context/ThemeContext';
 export function SettingsHeader() {
     const { theme } = useTheme();
     return (
-        <View className="px-4 mb-6 pt-safe-offset-4">
+        <View className="px-4 mb-6 pt-safe-offset-4 mt-2">
             <Link href="/" asChild>
                 <TouchableOpacity className='flex-row items-center'>
                     <IconSymbol name="chevron.left" size={28}

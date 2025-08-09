@@ -82,12 +82,12 @@ export function QuizAuthor({ id, quizCreatorId, isFavourite, name, username, ima
     }
 
     return (
-        <View className="flex-row items-center justify-between mb-8" >
+        <View className="flex-row flex-wrap items-center justify-between gap-4 mb-8" >
             <UserAvatar name={name}
                 id={id}
                 username={username}
                 image={image ? image : getRandomPersonsImage()} />
-            <View className="flex-row justify-end items-center gap-4">
+            <View className="flex-row mx-auto sm:mx-0 justify-center items-center gap-4">
                 {(!isThisMe ? isFavouriteState ?
                     <Pressable onPress={handleUnFavoriteClick}>
                         <IconSymbol name="heart.fill" size={28} color="red" />

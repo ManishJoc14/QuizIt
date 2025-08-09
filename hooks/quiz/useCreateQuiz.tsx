@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { Alert } from 'react-native';
 import { useRouter } from 'expo-router';
 import Toast from 'react-native-toast-message';
 import uuid from 'react-native-uuid';
@@ -89,15 +88,29 @@ export function useCreateQuiz() {
         };
     }) => {
         if (!data.title.trim()) {
-            Alert.alert('Validation Error', 'Quiz title is required.');
+            Toast.show({
+                type: 'error',
+                text1: 'Validation Error',
+                text2: 'Title is required.',
+            });
             return;
         }
+
         if (data.questions.length === 0) {
-            Alert.alert('Validation Error', 'Please add at least one question.');
+            Toast.show({
+                type: 'error',
+                text1: 'Validation Error',
+                text2: 'Please add at least one question.',
+            });
             return;
         }
+
         if (data.tags.length === 0) {
-            Alert.alert('Validation Error', 'Please select at least one tag.');
+            Toast.show({
+                type: 'error',
+                text1: 'Validation Error',
+                text2: 'Please select at least one tag.',
+            });
             return;
         }
 

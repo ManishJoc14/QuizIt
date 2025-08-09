@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Pressable, ScrollView, Alert } from 'react-native';
+import { View, Text, TextInput, Pressable, ScrollView } from 'react-native';
+import Toast from 'react-native-toast-message';
 import { Button } from '@/components/ui/Button';
 import { IconSymbol } from '@/components/ui/IconSymbol';
 import { Question } from '@/types/quiz.types';
@@ -38,15 +39,27 @@ export function EditQuestionForm({
 
     const handleSave = () => {
         if (!questionText.trim() || options.some(opt => !opt.trim())) {
-            Alert.alert('Validation Error', 'Please fill in all question and option fields.');
+            Toast.show({
+                type: 'error',
+                text1: 'Validation Error',
+                text2: 'Please fill in all question and option fields.',
+            });
             return;
         }
         if (points <= 0 || duration <= 0) {
-            Alert.alert('Validation Error', 'Points and duration must be positive numbers.');
+            Toast.show({
+                type: 'error',
+                text1: 'Validation Error',
+                text2: 'Points and duration must be positive numbers.',
+            });
             return;
         }
         if (correctOption >= options.length || correctOption < 0) {
-            Alert.alert('Validation Error', 'Please select a valid correct option.');
+            Toast.show({
+                type: 'error',
+                text1: 'Validation Error',
+                text2: 'Please select a valid correct option.',
+            });
             return;
         }
 

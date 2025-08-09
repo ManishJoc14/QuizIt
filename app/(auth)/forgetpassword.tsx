@@ -1,20 +1,31 @@
 import React, { useState } from 'react';
 
-import { View, Text, TextInput, ScrollView, Alert } from 'react-native';
+import { View, Text, TextInput, ScrollView } from 'react-native';
+
 import { Link } from 'expo-router';
 
+import Toast from 'react-native-toast-message';
+
 import { Button } from '@/components/ui/Button';
-import { useForgotPassword } from '@/hooks/auth/useForgetPassword';
 import { IconSymbol } from '@/components/ui/IconSymbol';
+import { useForgotPassword } from '@/hooks/auth/useForgetPassword';
 import { useTheme } from '@/context/ThemeContext';
 
 export default function ForgotPasswordScreen() {
     const [email, setEmail] = useState('');
     const { requestReset, isLoading, error } = useForgotPassword();
     const { theme } = useTheme();
-    
+
     const handleSend = async () => {
-        if (!email) return Alert.alert('Error', 'Please enter your email.');
+        if (!email) {
+            Toast.show({
+                type: 'error',
+                text1: 'Error',
+                text2: 'Please enter your email.',
+                position: 'bottom',
+            });
+            return;
+        }
         await requestReset(email);
     };
 
@@ -22,10 +33,12 @@ export default function ForgotPasswordScreen() {
     const iconColor = theme === 'dark' ? '#9CA3AF' : '#6B7280';
     const placeholderColor = theme === 'dark' ? '#e5e7eb' : '#374151';
 
-
     return (
         <View className="flex-1 bg-gray-50 dark:bg-gray-900 pt-safe-offset-8">
-            <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', alignItems: 'center' }} className="px-6">
+            <ScrollView
+                contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', alignItems: 'center' }}
+                className="px-6"
+            >
                 <View className="w-full max-w-lg border p-8 rounded-3xl border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800">
                     <Text className="mb-2 text-3xl font-bold text-gray-900 dark:text-white">Forgot Password?</Text>
                     <Text className="mb-8 text-base text-gray-600 dark:text-gray-400">
@@ -63,6 +76,7 @@ export default function ForgotPasswordScreen() {
                     </View>
                 </View>
             </ScrollView>
+            <Toast />
         </View>
     );
 }

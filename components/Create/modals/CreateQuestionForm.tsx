@@ -1,17 +1,18 @@
 import React, { useState } from 'react';
-
-import { View, Text, TextInput, Pressable, ScrollView, Alert } from 'react-native';
+import { View, Text, TextInput, Pressable, ScrollView } from 'react-native';
+import Toast from 'react-native-toast-message';
 
 import { Button } from '@/components/ui/Button';
 import { IconSymbol } from '@/components/ui/IconSymbol';
 import { Question } from '@/types/quiz.types';
 import { useTheme } from '@/context/ThemeContext';
+import { ConfirmationModal } from '@/components/ConfirmModal';
 
 interface QuestionFormProps {
-    initialData?: Question; // for editing existing questions
+    initialData?: Question; // for editing questions
     onSave: (question: Omit<Question, 'questionIndex'>) => void;
     onCancel: () => void;
-    onDelete?: (questionId: string | number) => void; // for deleting in edit mode
+    onDelete?: (questionId: string | number) => void; // for deleting
 }
 
 export function QuestionForm({ initialData, onSave, onCancel, onDelete }: QuestionFormProps) {
@@ -22,6 +23,7 @@ export function QuestionForm({ initialData, onSave, onCancel, onDelete }: Questi
     const [correctOption, setCorrectOption] = useState<number>(initialData?.correctOption ?? 0);
     const [points, setPoints] = useState(initialData?.points || 10);
     const [duration, setDuration] = useState(initialData?.duration || 30);
+    const [showConfirmModal, setShowConfirmModal] = useState(false);
 
     const inputBg = theme === 'dark' ? 'bg-gray-700' : 'bg-gray-100';
     const inputTextColor = theme === 'dark' ? 'text-gray-100' : 'text-gray-800';
@@ -31,15 +33,27 @@ export function QuestionForm({ initialData, onSave, onCancel, onDelete }: Questi
 
     const handleSave = () => {
         if (!questionText.trim() || options.some(opt => !opt.trim())) {
-            alert('Please fill in all question and option fields.');
+            Toast.show({
+                type: 'error',
+                text1: 'Validation Error',
+                text2: 'Please fill in all question and option fields.',
+            });
             return;
         }
         if (points <= 0 || duration <= 0) {
-            alert('Points and duration must be positive numbers.');
+            Toast.show({
+                type: 'error',
+                text1: 'Validation Error',
+                text2: 'Points and duration must be positive numbers.',
+            });
             return;
         }
         if (correctOption >= options.length || correctOption < 0) {
-            alert('Please select a valid correct option.');
+            Toast.show({
+                type: 'error',
+                text1: 'Validation Error',
+                text2: 'Please select a valid correct option.',
+            });
             return;
         }
         const questionToSave: Omit<Question, 'questionIndex'> = {
@@ -53,134 +67,143 @@ export function QuestionForm({ initialData, onSave, onCancel, onDelete }: Questi
         onSave(questionToSave);
     };
 
+    // Show modal on delete button pressed
     const handleDelete = () => {
-        if (initialData?.id && onDelete) {
-            Alert.alert(
-                "Delete Question",
-                "Are you sure you want to delete this question?",
-                [
-                    { text: "Cancel", style: "cancel" },
-                    { text: "Delete", onPress: () => initialData.id !== undefined && onDelete(initialData.id), style: "destructive" }
-                ],
-                { cancelable: true }
-            );
-        }
+        setShowConfirmModal(true);
     };
 
     return (
-        <ScrollView
-            contentContainerStyle={{ paddingBottom: 80 }}
-            showsVerticalScrollIndicator={false}
-        >
-            {/* Question */}
-            <Text className={`text-lg font-semibold mb-3 ${labelTextColor}`}>Question</Text>
-            <TextInput
-                className={`w-full outline-none h-24 p-3 rounded-xl text-base ${inputBg} ${inputTextColor} mb-4`}
-                placeholder="Type your question"
-                placeholderTextColor={inputPlaceholderColor}
-                multiline
-                textAlignVertical="top"
-                value={questionText}
-                onChangeText={setQuestionText}
-            />
+        <>
+            <ScrollView
+                contentContainerStyle={{ paddingBottom: 80 }}
+                showsVerticalScrollIndicator={false}
+            >
+                {/* Question */}
+                <Text className={`text-lg font-semibold mb-3 ${labelTextColor}`}>Question</Text>
+                <TextInput
+                    className={`w-full outline-none h-24 p-3 rounded-xl text-base ${inputBg} ${inputTextColor} mb-4`}
+                    placeholder="Type your question"
+                    placeholderTextColor={inputPlaceholderColor}
+                    multiline
+                    textAlignVertical="top"
+                    value={questionText}
+                    onChangeText={setQuestionText}
+                />
 
-            {/* Options */}
-            <Text className={`text-lg font-semibold mb-4 ${labelTextColor}`}>Options</Text>
-            <View className="gap-3 mb-10">
-                {options.map((option, i) => (
-                    <View key={i} className={`flex-row items-center p-3 rounded-xl ${inputBg}`}>
-                        <Pressable onPress={() => setCorrectOption(i)} className="mr-3">
-                            <IconSymbol
-                                name={i === correctOption ? 'checkmark.circle' : 'circle'}
-                                size={24}
-                                color={i === correctOption ? '#10B981' : iconColor}
+                {/* Options */}
+                <Text className={`text-lg font-semibold mb-4 ${labelTextColor}`}>Options</Text>
+                <View className="gap-3 mb-10">
+                    {options.map((option, i) => (
+                        <View key={i} className={`flex-row items-center p-3 rounded-xl ${inputBg}`}>
+                            <Pressable onPress={() => setCorrectOption(i)} className="mr-3">
+                                <IconSymbol
+                                    name={i === correctOption ? 'checkmark.circle' : 'circle'}
+                                    size={24}
+                                    color={i === correctOption ? '#10B981' : iconColor}
+                                />
+                            </Pressable>
+                            <TextInput
+                                className={`flex-1 outline-none text-base ${inputTextColor}`}
+                                placeholder={`Option ${i + 1}`}
+                                placeholderTextColor={inputPlaceholderColor}
+                                value={option}
+                                onChangeText={(text) => {
+                                    const newOptions = [...options];
+                                    newOptions[i] = text;
+                                    setOptions(newOptions);
+                                }}
                             />
+                        </View>
+                    ))}
+                </View>
+
+                {/* Points and duration */}
+                <View className="flex-row justify-between mb-12">
+                    <View className="flex-row items-center">
+                        <Text className={`text-lg font-semibold ${labelTextColor} mr-2`}>Points:</Text>
+                        <Pressable onPress={() => setPoints(Math.max(1, points - 1))} className="p-2 rounded-full bg-gray-200 dark:bg-gray-600">
+                            <IconSymbol name="minus" size={20} color={iconColor} />
                         </Pressable>
-                        <TextInput
-                            className={`flex-1 outline-none text-base ${inputTextColor}`}
-                            placeholder={`Option ${i + 1}`}
-                            placeholderTextColor={inputPlaceholderColor}
-                            value={option}
-                            onChangeText={(text) => {
-                                const newOptions = [...options];
-                                newOptions[i] = text;
-                                setOptions(newOptions);
-                            }}
-                        />
+                        <Text className={`text-lg font-semibold ${inputTextColor} mx-2`}>{points}</Text>
+                        <Pressable onPress={() => setPoints(points + 1)} className="p-2 rounded-full bg-gray-200 dark:bg-gray-600">
+                            <IconSymbol name="plus" size={20} color={iconColor} />
+                        </Pressable>
                     </View>
-                ))}
-            </View>
-
-            {/* Points and duration */}
-            <View className="flex-row justify-between mb-12">
-                <View className="flex-row items-center">
-                    <Text className={`text-lg font-semibold ${labelTextColor} mr-2`}>Points:</Text>
-                    <Pressable onPress={() => setPoints(Math.max(1, points - 1))} className="p-2 rounded-full bg-gray-200 dark:bg-gray-600">
-                        <IconSymbol name="minus" size={20} color={iconColor} />
-                    </Pressable>
-                    <Text className={`text-lg font-semibold ${inputTextColor} mx-2`}>{points}</Text>
-                    <Pressable onPress={() => setPoints(points + 1)} className="p-2 rounded-full bg-gray-200 dark:bg-gray-600">
-                        <IconSymbol name="plus" size={20} color={iconColor} />
-                    </Pressable>
+                    <View className="flex-row items-center">
+                        <Text className={`text-lg font-semibold ${labelTextColor} mr-2`}>Time (s):</Text>
+                        <Pressable onPress={() => setDuration(Math.max(5, duration - 5))} className="p-2 rounded-full bg-gray-200 dark:bg-gray-600">
+                            <IconSymbol name="minus" size={20} color={iconColor} />
+                        </Pressable>
+                        <Text className={`text-lg font-semibold ${inputTextColor} mx-2`}>{duration}</Text>
+                        <Pressable onPress={() => setDuration(duration + 5)} className="p-2 rounded-full bg-gray-200 dark:bg-gray-600">
+                            <IconSymbol name="plus" size={20} color={iconColor} />
+                        </Pressable>
+                    </View>
                 </View>
-                <View className="flex-row items-center">
-                    <Text className={`text-lg font-semibold ${labelTextColor} mr-2`}>Time (s):</Text>
-                    <Pressable onPress={() => setDuration(Math.max(5, duration - 5))} className="p-2 rounded-full bg-gray-200 dark:bg-gray-600">
-                        <IconSymbol name="minus" size={20} color={iconColor} />
-                    </Pressable>
-                    <Text className={`text-lg font-semibold ${inputTextColor} mx-2`}>{duration}</Text>
-                    <Pressable onPress={() => setDuration(duration + 5)} className="p-2 rounded-full bg-gray-200 dark:bg-gray-600">
-                        <IconSymbol name="plus" size={20} color={iconColor} />
-                    </Pressable>
-                </View>
-            </View>
 
-            {/* Buttons */}
-            <View className="gap-3">
-                <View className="flex-row justify-around gap-3">
-                    {initialData && onDelete && (
+                {/* Buttons */}
+                <View className="gap-3">
+                    <View className="flex-row justify-around gap-3">
+                        {initialData && onDelete && (
+                            <Button
+                                title="Delete"
+                                onPress={handleDelete}
+                                variant="outline"
+                                color="danger"
+                                size="lg"
+                                fullWidth
+                            />
+                        )}
                         <Button
-                            title="Delete"
-                            onPress={handleDelete}
+                            title="Cancel"
+                            onPress={onCancel}
                             variant="outline"
-                            color="danger"
+                            color="gray"
                             size="lg"
                             fullWidth
                         />
-                    )}
-                    <Button
-                        title="Cancel"
-                        onPress={onCancel}
-                        variant="outline"
-                        color="gray"
-                        size="lg"
-                        fullWidth
-                    />
-                    {!initialData && (
-                        <Button
-                            title="Add Question"
-                            onPress={handleSave}
-                            variant="solid"
-                            color="primary"
-                            size="lg"
-                            fullWidth
-                        />
+                        {!initialData && (
+                            <Button
+                                title="Add Question"
+                                onPress={handleSave}
+                                variant="solid"
+                                color="primary"
+                                size="lg"
+                                fullWidth
+                            />
+                        )}
+                    </View>
+
+                    {initialData && (
+                        <View className="mt-2">
+                            <Button
+                                title="Save Changes"
+                                onPress={handleSave}
+                                variant="solid"
+                                color="primary"
+                                size="lg"
+                                fullWidth
+                            />
+                        </View>
                     )}
                 </View>
+            </ScrollView>
 
-                {initialData && (
-                    <View className="mt-2">
-                        <Button
-                            title="Save Changes"
-                            onPress={handleSave}
-                            variant="solid"
-                            color="primary"
-                            size="lg"
-                            fullWidth
-                        />
-                    </View>
-                )}
-            </View>
-        </ScrollView>
+            {/* Confirmation Modal for delete */}
+            <ConfirmationModal
+                isVisible={showConfirmModal}
+                title="Delete Question"
+                message="Are you sure you want to delete this question? This action cannot be undone."
+                onCancel={() => setShowConfirmModal(false)}
+                onConfirm={() => {
+                    if (initialData && initialData.id !== undefined && typeof onDelete === 'function') {
+                        onDelete(initialData.id);
+                    }
+                    setShowConfirmModal(false);
+                }}
+                confirmText="Delete"
+                cancelText="Cancel"
+            />
+        </>
     );
 }

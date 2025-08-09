@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, ScrollView, Alert } from 'react-native';
+import { View, Text, TextInput, ScrollView } from 'react-native';
+import Toast from 'react-native-toast-message';
 import { Button } from '@/components/ui/Button';
 import { useTheme } from '@/context/ThemeContext';
 import { Question } from '@/types/quiz.types';
@@ -21,8 +22,23 @@ export function BulkQuestionForm({ onSave, onCancel }: BulkQuestionFormProps) {
     const handleSave = () => {
         try {
             const parsedQuestions: Partial<Question>[] = JSON.parse(jsonInput);
-            if (!Array.isArray(parsedQuestions) || parsedQuestions.some(q => !q.question || !Array.isArray(q.options) || typeof q.correctOption !== 'number' || typeof q.points !== 'number' || typeof q.duration !== 'number')) {
-                Alert.alert('Invalid JSON', 'Please ensure the JSON array contains valid question objects with "question", "options", "correctOption", "points", and "duration".');
+
+            if (
+                !Array.isArray(parsedQuestions) ||
+                parsedQuestions.some(
+                    (q) =>
+                        !q.question ||
+                        !Array.isArray(q.options) ||
+                        typeof q.correctOption !== 'number' ||
+                        typeof q.points !== 'number' ||
+                        typeof q.duration !== 'number'
+                )
+            ) {
+                Toast.show({
+                    type: 'error',
+                    text1: 'Invalid JSON',
+                    text2: 'Please ensure each object has "question", "options", "correctOption", "points", and "duration".',
+                });
                 return;
             }
 
@@ -37,8 +53,18 @@ export function BulkQuestionForm({ onSave, onCancel }: BulkQuestionFormProps) {
 
             onSave(questions);
             setJsonInput('');
+
+            Toast.show({
+                type: 'success',
+                text1: 'Questions Added',
+                text2: `${questions.length} questions added successfully.`,
+            });
         } catch (error) {
-            Alert.alert('Invalid JSON', 'The input is not a valid JSON format. Please check your syntax.');
+            Toast.show({
+                type: 'error',
+                text1: 'Invalid JSON',
+                text2: 'The input is not a valid JSON format. Please check your syntax.',
+            });
             console.error('Bulk add error:', error);
         }
     };
@@ -48,7 +74,9 @@ export function BulkQuestionForm({ onSave, onCancel }: BulkQuestionFormProps) {
             contentContainerStyle={{ paddingBottom: 80 }}
             showsVerticalScrollIndicator={false}
         >
-            <Text className={`text-lg font-semibold mb-3 ${labelTextColor}`}>Questions (Paste as JSON array)</Text>
+            <Text className={`text-lg font-semibold mb-3 ${labelTextColor}`}>
+                Questions (Paste as JSON array)
+            </Text>
             <TextInput
                 className={`w-full outline-none h-60 p-3 rounded-xl text-lg ${inputBg} ${inputTextColor} mb-12`}
                 placeholder={`[\n  {\n    "question": "Capital of Nepal?",\n    "options": ["Kathmandu", "Delhi", "Dhaka", "Lhasa"],\n    "correctOption": 0,\n    "points": 10,\n    "duration": 30\n  }\n]`}
@@ -59,8 +87,22 @@ export function BulkQuestionForm({ onSave, onCancel }: BulkQuestionFormProps) {
                 onChangeText={setJsonInput}
             />
             <View className="flex-row justify-around gap-3">
-                <Button title="Cancel" onPress={onCancel} variant="outline" color="danger" size="lg" fullWidth />
-                <Button title="Add Questions" onPress={handleSave} variant="solid" color="primary" size="lg" fullWidth />
+                <Button
+                    title="Cancel"
+                    onPress={onCancel}
+                    variant="outline"
+                    color="danger"
+                    size="lg"
+                    fullWidth
+                />
+                <Button
+                    title="Add Questions"
+                    onPress={handleSave}
+                    variant="solid"
+                    color="primary"
+                    size="lg"
+                    fullWidth
+                />
             </View>
         </ScrollView>
     );

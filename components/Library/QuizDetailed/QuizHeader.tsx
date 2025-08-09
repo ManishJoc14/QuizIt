@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+
 import {
     View,
     Text,
@@ -6,17 +7,20 @@ import {
     Modal,
     Pressable,
 } from 'react-native';
-import * as Haptics from 'expo-haptics';
+
 import { useLocalSearchParams, useRouter } from 'expo-router';
 
-import { useTheme } from '@/context/ThemeContext';
-import { IconSymbol, IconSymbolName } from '@/components/ui/IconSymbol';
+import * as Haptics from 'expo-haptics';
 import Toast from 'react-native-toast-message';
+
 import { ConfirmationModal } from '@/components/ConfirmModal';
+import { IconSymbol, IconSymbolName } from '@/components/ui/IconSymbol';
 import { useDeteleQuizMutation } from '@/services/userApi';
+import { useTheme } from '@/context/ThemeContext';
 
 export function QuizHeader({ isThisMe }: { isThisMe?: boolean }) {
     const router = useRouter();
+
     const { theme } = useTheme();
     const { id } = useLocalSearchParams();
     const quizId = Array.isArray(id) ? id[0] : id;
@@ -85,11 +89,19 @@ export function QuizHeader({ isThisMe }: { isThisMe?: boolean }) {
         },
     ];
 
+    const handleGoBack = () => {
+        if (router.canGoBack()) {
+            router.back();
+        } else {
+            router.push('/library');
+        }
+    };
+
     return (
         <View className='mb-6'>
             {/* Header Row */}
             <View className="flex-row justify-between items-center mt-2">
-                <TouchableOpacity onPress={() => router.push('/library')}>
+                <TouchableOpacity onPress={handleGoBack}>
                     <View className="flex-row items-center gap-2">
                         <IconSymbol
                             name="chevron.left"

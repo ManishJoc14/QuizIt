@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Alert } from 'react-native';
+import { View, Text, TextInput } from 'react-native';
+import Toast from 'react-native-toast-message';
 
 import { Button } from '@/components/ui/Button';
 import { useResetPassword } from '@/hooks/auth/useResetPassword';
 
 export default function ResetPasswordScreen() {
-
     const [password, setPassword] = useState('');
     const [rePassword, setRePassword] = useState('');
 
@@ -13,13 +13,22 @@ export default function ResetPasswordScreen() {
 
     const handleReset = async () => {
         if (!password || !rePassword) {
-            Alert.alert('Error', 'Please fill both password fields.');
+            Toast.show({
+                type: 'error',
+                text1: 'Error',
+                text2: 'Please fill both password fields.',
+            });
             return;
         }
         if (password !== rePassword) {
-            Alert.alert('Error', 'Passwords do not match.');
+            Toast.show({
+                type: 'error',
+                text1: 'Error',
+                text2: 'Passwords do not match.',
+            });
             return;
         }
+
         await reset(password, rePassword);
     };
 
@@ -35,7 +44,7 @@ export default function ResetPasswordScreen() {
                 value={password}
                 onChangeText={setPassword}
             />
-            
+
             <TextInput
                 secureTextEntry
                 placeholder="Confirm New Password"
@@ -58,6 +67,9 @@ export default function ResetPasswordScreen() {
                 isDisabled={isLoading || !password || !rePassword}
                 onPress={handleReset}
             />
+
+            {/* Toast container */}
+            <Toast />
         </View>
     );
 }

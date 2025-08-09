@@ -10,6 +10,7 @@ import { ResultSummary } from '@/components/Join/Result/ResultSummary';
 import { ResultQuestionCard } from '@/components/Join/Result/ResultQuestionCard';
 import { Button } from '@/components/ui/Button';
 import { ResultData } from '@/components/Join/types';
+import Toast from 'react-native-toast-message';
 
 export default function ResultsScreen() {
     const { result, rank } = useLocalSearchParams();
@@ -378,11 +379,11 @@ export default function ResultsScreen() {
                         newWindow.print();
                     }, 500);
                 } else {
-                    Alert.alert(
-                        'Popup Blocked',
-                        'Please allow popups for this site to download the PDF.',
-                        [{ text: 'OK' }]
-                    );
+                    Toast.show({
+                        type: 'error',
+                        text1: 'Popup Blocked',
+                        text2: 'Please allow popups for this site to download the PDF.',
+                    });
                 }
             } else {
                 // For mobile devices (iOS/Android)
@@ -415,21 +416,21 @@ export default function ResultsScreen() {
                             from: uri,
                             to: newPath,
                         });
-                        Alert.alert(
-                            'PDF Generated',
-                            `Quiz results saved to: Documents/${fileName}`,
-                            [{ text: 'OK' }]
-                        );
+                        Toast.show({
+                            type: 'success',
+                            text1: 'PDF Generated',
+                            text2: `Quiz results saved to: Documents/${fileName}`,
+                        });
                     }
                 }
             }
         } catch (error) {
             console.error('Error generating PDF:', error);
-            Alert.alert(
-                'Error',
-                'Failed to generate PDF. Please try again.',
-                [{ text: 'OK' }]
-            );
+            Toast.show({
+                type: 'error',
+                text1: 'Error',
+                text2: 'Failed to generate PDF. Please try again.',
+            });
         }
     };
 

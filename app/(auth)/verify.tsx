@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, ScrollView, Alert } from 'react-native';
+import { View, Text, TextInput, ScrollView } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
+import Toast from 'react-native-toast-message';
 
 import { Button } from '@/components/ui/Button';
 import { IconSymbol } from '@/components/ui/IconSymbol';
@@ -31,7 +32,11 @@ export default function VerifyScreen() {
 
     const handleVerify = async () => {
         if (!code || code.length !== 6) {
-            Alert.alert('Error', 'Please enter a valid 6-digit code.');
+            Toast.show({
+                type: 'error',
+                text1: 'Error',
+                text2: 'Please enter a valid 6-digit code.',
+            });
             return;
         }
 
@@ -40,11 +45,14 @@ export default function VerifyScreen() {
 
     const handleResend = async () => {
         if (!email) {
-            Alert.alert('Error', 'Missing email.');
+            Toast.show({
+                type: 'error',
+                text1: 'Error',
+                text2: 'Missing email.',
+            });
             return;
         }
 
-        // console.log('Resending verification token...');
         await resendEmail.renewToken({ email: email as string });
     };
 
@@ -126,6 +134,9 @@ export default function VerifyScreen() {
                     </View>
                 </View>
             </ScrollView>
+
+            {/* Toast container */}
+            <Toast />
         </View>
     );
 }

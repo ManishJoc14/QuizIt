@@ -5,13 +5,15 @@ import Toast from 'react-native-toast-message';
 import getRandomPersonsImage from '@/utils/functions/getRandomImage';
 import { PersonalInfoForm } from '@/components/Profile/Settings/PersonalInfo/PersonalInfoForm';
 import { PersonalInfoHeader } from '@/components/Profile/Settings/PersonalInfo/PersonalInfoHeader';
-import { useAppSelector } from '@/utils/libs/reduxHooks';
+import { useAppDispatch, useAppSelector } from '@/utils/libs/reduxHooks';
 import { useIsUsernameUnique } from '@/hooks/user/useIsUsernameUnique';
 import { useUpdateUserMutation } from '@/services/userApi';
+import { updateUserState } from '@/features/auth/authSlice';
 
 export default function PersonalInfoScreen() {
     const { user } = useAppSelector(state => state.auth);
     const [updateUser] = useUpdateUserMutation();
+    const dispatch = useAppDispatch();
 
     // Separate state for file (for upload) and uri (for preview)
     const [imageFile, setImageFile] = useState<File | null>(null);
@@ -46,6 +48,7 @@ export default function PersonalInfoScreen() {
 
         try {
             await updateUser({ values }).unwrap();
+            dispatch(updateUserState({ ...values, image: imageUri, photo: imageUri }));
             Toast.show({
                 type: 'success',
                 text1: 'Profile updated successfully',

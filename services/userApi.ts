@@ -85,7 +85,7 @@ export const userApi = api.injectEndpoints({
                     meta: { contentType: 'multipart' },
                 };
             },
-            invalidatesTags: ['User', 'Auth'],
+            invalidatesTags: ['User', 'Auth', 'UserProfile'],
         }),
 
         deteleQuiz: build.mutation<MutationSuccessResponse, { id: number }>({

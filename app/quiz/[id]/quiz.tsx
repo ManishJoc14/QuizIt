@@ -73,7 +73,7 @@ export default function QuizScreen() {
 
             {!isAnswered && (
                 <QuizTimer
-                    totalTime={duration + 100000}
+                    totalTime={duration}
                     onComplete={handleTimeout}
                     onTick={setTimeTaken}
                 />

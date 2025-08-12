@@ -81,6 +81,7 @@ export default function WaitingScreen() {
                                     accessibilityLabel="Start Quiz"
                                     accessibilityRole="button"
                                     onPress={handleStartQuiz}
+                                    isDisabled={!connected || !quizId}
                                 />
                             }
                         </>

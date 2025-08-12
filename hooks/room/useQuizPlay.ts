@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, useMemo } from "react";
 
 import { router } from "expo-router";
 
@@ -165,6 +165,6 @@ export function useQuizPlay({ quizId, roomCode }: UseQuizPlayParams) {
         handleTimeout,
         isLoading,
         error,
-        leaderboard,
+        leaderboard
     };
 }

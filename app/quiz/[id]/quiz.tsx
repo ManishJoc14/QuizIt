@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, ScrollView } from "react-native";
+import { View, Text, ScrollView, useWindowDimensions } from "react-native";
 import { useLocalSearchParams } from "expo-router";
 import { QuizFeedback } from "@/components/Join/Quiz/QuizFeedback";
 import { QuizHeader } from "@/components/Join/Quiz/QuizHeader";
@@ -13,8 +13,11 @@ export default function QuizScreen() {
         id: string;
         roomCode: string;
     }>();
-
     const code = Array.isArray(roomCode) ? roomCode[0] : roomCode;
+
+    const { width } = useWindowDimensions();
+    const isLargeScreen = width >= 768;
+    const LEADERBOARD_HEIGHT = 130; // adjust if you want a different mobile bar height
 
     const {
         currentQuestion,
@@ -36,42 +39,53 @@ export default function QuizScreen() {
     });
 
     if (isLoading || !currentQuestion) return null;
-    if (error)
-        return (
-            <View>
-                <Text>Error loading quiz.</Text>
-            </View>
-        );
+    if (error) return (
+        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+            <Text>Error loading quiz.</Text>
+        </View>
+    );
 
     const { question, options, points, duration } = currentQuestion;
-
     const isOptionCorrect = (selected: number | null, correct: number) =>
         selected !== null && selected === correct;
 
     return (
-        <View className="flex-1 bg-gray-50 dark:bg-black">
-            {!isAnswered && (
+        <View
+            style={{
+                flex: 1,
+                flexDirection: isLargeScreen ? "row" : "column",
+                position: "relative",
+            }}
+        >
+            {/* Main quiz column */}
+            <View style={{ flex: 1 }}>
+                <ScrollView
+                    contentContainerStyle={{
+                        padding: 16,
+                        paddingTop: 0,
+                        paddingBottom: isLargeScreen ? 24 : LEADERBOARD_HEIGHT + 16, 
+                    }}
+                    showsVerticalScrollIndicator={false}
+                >
+                    {!isAnswered && (
                 <QuizHeader current={currentIndex + 1} total={totalQuestions} />
             )}
 
             {!isAnswered && (
                 <QuizTimer
-                    totalTime={duration}
+                    totalTime={duration + 100000}
                     onComplete={handleTimeout}
                     onTick={setTimeTaken}
                 />
             )}
-            <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
 
-                {isAnswered && (
-                    <QuizFeedback
-                        isCorrect={isOptionCorrect(selectedIndex, correctIndex ?? -1)}
-                        isTimeout={isTimeout}
-                        points={points}
-                    />
-                )}
-
-                <View className="flex-1 flex-row h-full justify-between gap-2 items-start">
+            {isAnswered && (
+                <QuizFeedback
+                    isCorrect={isOptionCorrect(selectedIndex, correctIndex ?? -1)}
+                    isTimeout={isTimeout}
+                    points={points}
+                />
+            )}
                     <QuizQuestion
                         question={question}
                         options={options}
@@ -81,10 +95,34 @@ export default function QuizScreen() {
                         isAnswered={isAnswered}
                         onSelect={handleSelect}
                     />
-                    {/* Leaderboard above questions */}
-                    <LeaderboardStrip leaderboard={leaderboard} />
+                </ScrollView>
+            </View>
+
+            {/* LARGE SCREEN: right sidebar */}
+            {isLargeScreen && (
+                <View
+                    style={{
+                        width: 220,
+                        paddingLeft: 16,
+                    }}
+                >
+                    <LeaderboardStrip leaderboard={leaderboard} layout="vertical" />
                 </View>
-            </ScrollView>
+            )}
+
+            {/* MOBILE: fixed bottom compact leaderboard */}
+            {!isLargeScreen && (
+                <View
+                    style={{
+                        position: "absolute",
+                        left: 0,
+                        right: 0,
+                        bottom: 50,
+                        height: LEADERBOARD_HEIGHT,                    }}
+                >
+                    <LeaderboardStrip leaderboard={leaderboard} layout="compact" />
+                </View>
+            )}
         </View>
     );
 }

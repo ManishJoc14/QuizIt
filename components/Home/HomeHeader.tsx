@@ -94,15 +94,7 @@ export function Header() {
                   left: 0,
                   right: 0,
                   zIndex: 1004,
-                  elevation: 10, // For Android
                   maxHeight: 280,
-                  shadowColor: '#000',
-                  shadowOffset: {
-                    width: 0,
-                    height: 2,
-                  },
-                  shadowOpacity: 0.25,
-                  shadowRadius: 3.84,
                 }}
                 className="bg-white dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-700"
               >
